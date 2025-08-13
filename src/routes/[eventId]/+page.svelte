@@ -4,6 +4,7 @@
 	import type { PageData } from './$types';
 	import { navigationStore, navigationActions } from '$lib/stores';
 	import WelcomeScreen from '$lib/screens/WelcomeScreen.svelte';
+	import CheckinForm from '$lib/screens/CheckinForm.svelte';
 	
 	let { data }: { data: PageData } = $props();
 	
@@ -29,11 +30,11 @@
 		error={navigationState.error}
 	/>
 {:else if navigationState.currentScreen === 'checkin'}
-	<!-- TODO: Add CheckinForm component -->
-	<div class="placeholder">
-		<h2>Check-in Form (Coming Soon)</h2>
-		<p>Event: {event?.title}</p>
-	</div>
+	<CheckinForm 
+		{event} 
+		isLoading={navigationState.isLoading}
+		error={navigationState.error}
+	/>
 {:else if navigationState.currentScreen === 'confirmation'}
 	<!-- TODO: Add ConfirmationScreen component -->
 	<div class="placeholder">
