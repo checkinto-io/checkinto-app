@@ -1,36 +1,18 @@
 import { createClient } from '@supabase/supabase-js';
 import { env } from './env.js';
+import type {
+	Event,
+	Attendee,
+	EventAttendee,
+	AttendeeInput,
+	CheckInResponse,
+	CheckInFormData,
+	FormErrors
+} from './types.js';
+import { VALIDATION_RULES } from './types.js';
 
 // Initialize Supabase client
 export const supabase = createClient(env.SUPABASE_URL, env.SUPABASE_ANON_KEY);
-
-// Database types
-export interface Event {
-	id: string;
-	url_id: string;
-	title: string;
-	welcome_message: string;
-	checked_in_message: string;
-	active: boolean;
-	created_at: string;
-	updated_at: string;
-}
-
-export interface Attendee {
-	id: string;
-	first_name: string;
-	last_name: string;
-	email: string;
-	interesting_fact: string;
-	created_at: string;
-	updated_at: string;
-}
-
-export interface EventAttendee {
-	event_id: string;
-	attendee_id: string;
-	created_at: string;
-}
 
 // Database service functions
 export class DatabaseService {
@@ -56,7 +38,7 @@ export class DatabaseService {
 	/**
 	 * Create or update attendee (upsert)
 	 */
-	static async upsertAttendee(attendeeData: Omit<Attendee, 'id' | 'created_at' | 'updated_at'>): Promise<Attendee | null> {
+	static async upsertAttendee(attendeeData: AttendeeInput): Promise<Attendee | null> {
 		const { data, error } = await supabase
 			.from('attendee')
 			.upsert(attendeeData, { 
@@ -101,8 +83,8 @@ export class DatabaseService {
 	 */
 	static async checkInAttendee(
 		eventId: string, 
-		attendeeData: Omit<Attendee, 'id' | 'created_at' | 'updated_at'>
-	): Promise<{ success: boolean; attendee?: Attendee }> {
+		attendeeData: AttendeeInput
+	): Promise<CheckInResponse> {
 		// First, upsert the attendee
 		const attendee = await this.upsertAttendee(attendeeData);
 		
@@ -117,6 +99,45 @@ export class DatabaseService {
 			success: linked, 
 			attendee: linked ? attendee : undefined 
 		};
+	}
+
+	/**
+	 * Validate check-in form data
+	 */
+	static validateCheckInForm(formData: CheckInFormData): FormErrors {
+		const errors: FormErrors = {};
+
+		// First name validation
+		if (!formData.first_name.trim()) {
+			errors.first_name = 'First name is required';
+		} else if (formData.first_name.length > VALIDATION_RULES.FIRST_NAME_MAX_LENGTH) {
+			errors.first_name = `First name must be ${VALIDATION_RULES.FIRST_NAME_MAX_LENGTH} characters or less`;
+		}
+
+		// Last name validation
+		if (!formData.last_name.trim()) {
+			errors.last_name = 'Last name is required';
+		} else if (formData.last_name.length > VALIDATION_RULES.LAST_NAME_MAX_LENGTH) {
+			errors.last_name = `Last name must be ${VALIDATION_RULES.LAST_NAME_MAX_LENGTH} characters or less`;
+		}
+
+		// Email validation
+		if (!formData.email.trim()) {
+			errors.email = 'Email is required';
+		} else if (formData.email.length > VALIDATION_RULES.EMAIL_MAX_LENGTH) {
+			errors.email = `Email must be ${VALIDATION_RULES.EMAIL_MAX_LENGTH} characters or less`;
+		} else if (!/^[^\s@]+@[^\s@]+\.[^\s@]+$/.test(formData.email)) {
+			errors.email = 'Please enter a valid email address';
+		}
+
+		// Interesting fact validation
+		if (!formData.interesting_fact.trim()) {
+			errors.interesting_fact = 'Interesting fact is required';
+		} else if (formData.interesting_fact.length > VALIDATION_RULES.INTERESTING_FACT_MAX_LENGTH) {
+			errors.interesting_fact = `Interesting fact must be ${VALIDATION_RULES.INTERESTING_FACT_MAX_LENGTH} characters or less`;
+		}
+
+		return errors;
 	}
 
 	/**

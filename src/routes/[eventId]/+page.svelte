@@ -1,10 +1,16 @@
 <!-- Meetup Check-In Event Page -->
 <script lang="ts">
 	import type { PageData } from './$types';
+	import type { Event as MeetupEvent } from '$lib/types.js';
 	
 	export let data: PageData;
 	
 	$: event = data.event;
+	
+	function handleCheckIn(): void {
+		// TODO: Navigate to check-in form
+		console.log('Check-in clicked for event:', event.id);
+	}
 </script>
 
 <svelte:head>
@@ -17,7 +23,7 @@
 		<h1 class="title">{event.title}</h1>
 		<p class="welcome-message">{event.welcome_message}</p>
 		
-		<button class="check-in-btn" type="button">
+		<button class="check-in-btn" type="button" on:click={handleCheckIn}>
 			Check In
 		</button>
 	</div>

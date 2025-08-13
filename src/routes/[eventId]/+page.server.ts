@@ -1,11 +1,12 @@
 import type { PageServerLoad } from './$types';
 import { DatabaseService } from '$lib/database.js';
+import type { EventPageData } from '$lib/types.js';
 import { error } from '@sveltejs/kit';
 
-export const load: PageServerLoad = async ({ params }) => {
+export const load: PageServerLoad<EventPageData> = async ({ params }) => {
 	const eventId = params.eventId;
 	
-	if (!eventId) {
+	if (!eventId || typeof eventId !== 'string') {
 		throw error(404, 'Event not found');
 	}
 
@@ -18,5 +19,5 @@ export const load: PageServerLoad = async ({ params }) => {
 
 	return {
 		event
-	};
+	} satisfies EventPageData;
 };
