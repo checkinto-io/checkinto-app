@@ -18,15 +18,15 @@ This document lists features and enhancements derived from the plan. It is a liv
 | B003 | Multi-language Support | Support for multiple languages in UI | Low | 🔴 Not Started |
 | B004 | Enhanced Security | Rate limiting, CAPTCHA, content moderation | Medium | 🔴 Not Started |
 
-## v0.1.0-foundation - 🔴 Not Started
+## v0.1.0-foundation - 🟢 Completed
 Initial project setup and basic infrastructure to establish development environment and core architecture.
 
 | ID  | Feature                 | Description                              | Priority | Status |
 |-----|-------------------------|------------------------------------------|----------|--------|
-| F001 | Project Setup | Initialize SvelteKit project with TypeScript | High | 🔴 Not Started |
-| F002 | Database Schema | Create Supabase tables and relationships | High | 🔴 Not Started |
-| F003 | Basic Routing | Implement dynamic routing for event URLs | High | 🔴 Not Started |
-| F004 | Development Environment | Configure dev tools, linting, formatting | Medium | 🔴 Not Started |
+| F001 | Project Setup | Initialize SvelteKit project with TypeScript | High | 🟢 Completed |
+| F002 | Database Schema | Create Supabase tables and relationships | High | 🟢 Completed |
+| F003 | Basic Routing | Implement dynamic routing for event URLs | High | 🟢 Completed |
+| F004 | Development Environment | Configure dev tools, linting, formatting | Medium | 🟢 Completed |
 
 ## v0.2.0-core-ui - 🔴 Not Started
 Build all three main user interface screens with basic functionality and mobile-responsive design.
