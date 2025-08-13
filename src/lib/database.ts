@@ -3,7 +3,6 @@ import { env } from './env.js';
 import type {
 	Event,
 	Attendee,
-	EventAttendee,
 	AttendeeInput,
 	CheckInResponse,
 	CheckInFormData,
@@ -145,7 +144,7 @@ export class DatabaseService {
 	 */
 	static async testConnection(): Promise<boolean> {
 		try {
-			const { data, error } = await supabase
+			const { error } = await supabase
 				.from('event')
 				.select('count')
 				.limit(1);

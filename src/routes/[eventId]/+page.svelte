@@ -1,7 +1,6 @@
 <!-- Meetup Check-In Event Page -->
 <script lang="ts">
 	import type { PageData } from './$types';
-	import type { Event as MeetupEvent } from '$lib/types.js';
 	
 	export let data: PageData;
 	
