@@ -5,6 +5,7 @@
 	import { navigationStore, navigationActions } from '$lib/stores';
 	import WelcomeScreen from '$lib/screens/WelcomeScreen.svelte';
 	import CheckinForm from '$lib/screens/CheckinForm.svelte';
+	import ConfirmationScreen from '$lib/screens/ConfirmationScreen.svelte';
 	
 	let { data }: { data: PageData } = $props();
 	
@@ -36,33 +37,10 @@
 		error={navigationState.error}
 	/>
 {:else if navigationState.currentScreen === 'confirmation'}
-	<!-- TODO: Add ConfirmationScreen component -->
-	<div class="placeholder">
-		<h2>Confirmation Screen (Coming Soon)</h2>
-		<p>Event: {event?.title}</p>
-	</div>
+	<ConfirmationScreen 
+		{event} 
+		isLoading={navigationState.isLoading}
+		error={navigationState.error}
+	/>
 {/if}
 
-<style>
-	.placeholder {
-		min-height: 100vh;
-		display: flex;
-		flex-direction: column;
-		justify-content: center;
-		align-items: center;
-		padding: 2rem;
-		background: linear-gradient(135deg, #667eea 0%, #764ba2 100%);
-		color: white;
-		text-align: center;
-	}
-
-	.placeholder h2 {
-		font-size: 2rem;
-		margin-bottom: 1rem;
-	}
-
-	.placeholder p {
-		font-size: 1.2rem;
-		opacity: 0.9;
-	}
-</style>
