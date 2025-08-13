@@ -32,12 +32,12 @@ This document outlines all the tasks to work on to delivery this particular vers
 
 | ID  | Task             | Description                             | Dependencies | Status | Assigned To |
 |-----|------------------|-----------------------------------------|-------------|-----------|------------|
-| T011 | Create Supabase Project | Setup new Supabase project and get credentials | None | 🔴 Not Started  | USER |
-| T012 | Create Event Table | Define event table with required fields | T011 | 🔴 Not Started  | AGENT |
-| T013 | Create Attendee Table | Define attendee table with required fields | T011 | 🔴 Not Started  | AGENT |
-| T014 | Create Event_Attendee Table | Define junction table for many-to-many relationship | T012, T013 | 🔴 Not Started  | AGENT |
-| T015 | Configure Database Security | Setup RLS policies and permissions | T012, T013, T014 | 🔴 Not Started  | AGENT |
-| T016 | Test Database Connection | Verify connection from local development | T015, T009 | 🔴 Not Started  | AGENT |
+| T011 | Create Supabase Project | Setup new Supabase project and get credentials | None | 🟢 Completed  | USER |
+| T012 | Create Event Table | Define event table with required fields | T011 | 🟢 Completed  | AGENT |
+| T013 | Create Attendee Table | Define attendee table with required fields | T011 | 🟢 Completed  | AGENT |
+| T014 | Create Event_Attendee Table | Define junction table for many-to-many relationship | T012, T013 | 🟢 Completed  | AGENT |
+| T015 | Configure Database Security | Setup RLS policies and permissions | T012, T013, T014 | 🟢 Completed  | AGENT |
+| T016 | Test Database Connection | Verify connection from local development | T015, T009 | 🟢 Completed  | AGENT |
 
 ## Phase 4: Basic Routing
 
