@@ -1,0 +1,98 @@
+@import "tailwindcss";
+
+/* Custom mobile-first styles */
+@layer base {
+  html {
+    font-size: 16px;
+  }
+  
+  body {
+    font-family: system-ui, -apple-system, sans-serif;
+    line-height: 1.6;
+  }
+  
+  /* Ensure minimum touch target size */
+  button, a, input, textarea {
+    min-height: 44px;
+  }
+}
+
+@layer components {
+  /* Button base styles */
+  .btn-base {
+    font-weight: 600;
+    border-radius: 0.5rem;
+    transition: all 0.2s;
+    border: none;
+    cursor: pointer;
+    display: inline-flex;
+    align-items: center;
+    justify-content: center;
+    text-decoration: none;
+  }
+  
+  .btn-base:focus {
+    outline: none;
+    box-shadow: 0 0 0 2px rgba(59, 130, 246, 0.5);
+  }
+  
+  .btn-base:disabled {
+    opacity: 0.5;
+    cursor: not-allowed;
+  }
+  
+  /* Button variants */
+  .btn-primary {
+    background-color: #3b82f6;
+    color: white;
+  }
+  
+  .btn-primary:hover:not(:disabled) {
+    background-color: #2563eb;
+  }
+  
+  .btn-secondary {
+    background-color: #e5e7eb;
+    color: #374151;
+  }
+  
+  .btn-secondary:hover:not(:disabled) {
+    background-color: #d1d5db;
+  }
+  
+  /* Button sizes */
+  .btn-small {
+    padding: 0.5rem 1rem;
+    font-size: 0.875rem;
+    min-height: 36px;
+  }
+  
+  .btn-medium {
+    padding: 0.75rem 1.5rem;
+    font-size: 1rem;
+    min-height: 44px;
+  }
+  
+  .btn-large {
+    padding: 1rem 2rem;
+    font-size: 1.125rem;
+    min-height: 52px;
+  }
+
+  /* Input field styles */
+  .input-field {
+    width: 100%;
+    padding: 0.75rem 1rem;
+    border: 1px solid #d1d5db;
+    border-radius: 0.5rem;
+    font-size: 1rem;
+    min-height: 44px;
+    transition: border-color 0.2s, box-shadow 0.2s;
+  }
+  
+  .input-field:focus {
+    outline: none;
+    border-color: #3b82f6;
+    box-shadow: 0 0 0 2px rgba(59, 130, 246, 0.2);
+  }
+}

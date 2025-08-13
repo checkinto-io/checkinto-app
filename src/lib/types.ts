@@ -10,6 +10,9 @@ export interface Event {
 	updated_at: string;
 }
 
+// Type alias for component compatibility
+export type MeetupEvent = Event;
+
 export interface Attendee {
 	id: string;
 	first_name: string;
