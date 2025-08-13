@@ -26,7 +26,8 @@ export const navigationActions = {
 			...state,
 			eventId,
 			currentScreen: 'welcome',
-			error: null
+			error: null,
+			isLoading: false
 		}));
 	},
 
@@ -35,7 +36,8 @@ export const navigationActions = {
 		navigationStore.update(state => ({
 			...state,
 			currentScreen: screen,
-			error: null
+			error: null,
+			isLoading: false
 		}));
 	},
 

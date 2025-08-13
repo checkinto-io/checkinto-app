@@ -1,6 +1,6 @@
 <script lang="ts">
 	import { Button } from '$lib/components';
-	import { navigationActions } from '$lib/stores';
+	import { navigationActions, formActions } from '$lib/stores';
 	import type { MeetupEvent } from '$lib/types';
 
 	interface Props {
@@ -12,6 +12,7 @@
 	let { event, isLoading = false, error = null }: Props = $props();
 
 	const handleNewCheckIn = () => {
+		formActions.reset();
 		navigationActions.goToScreen('welcome');
 	};
 </script>

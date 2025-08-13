@@ -1,6 +1,7 @@
 <script lang="ts">
+	import { onMount } from 'svelte';
 	import { Button } from '$lib/components';
-	import { navigationActions } from '$lib/stores';
+	import { navigationActions, formActions } from '$lib/stores';
 	import type { MeetupEvent } from '$lib/types';
 
 	interface Props {
@@ -10,6 +11,11 @@
 	}
 
 	let { event, isLoading = false, error = null }: Props = $props();
+
+	// Reset form when arriving at welcome screen
+	onMount(() => {
+		formActions.reset();
+	});
 
 	const handleCheckIn = () => {
 		navigationActions.startCheckin();

@@ -59,6 +59,7 @@
 	};
 
 	const handleBack = () => {
+		formActions.reset();
 		navigationActions.goToScreen('welcome');
 	};
 </script>
