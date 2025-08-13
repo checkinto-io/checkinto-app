@@ -28,16 +28,16 @@ Initial project setup and basic infrastructure to establish development environm
 | F003 | Basic Routing | Implement dynamic routing for event URLs | High | 🟢 Completed |
 | F004 | Development Environment | Configure dev tools, linting, formatting | Medium | 🟢 Completed |
 
-## v0.2.0-core-ui - 🔴 Not Started
+## v0.2.0-core-ui - 🟢 Completed
 Build all three main user interface screens with basic functionality and mobile-responsive design.
 
 | ID  | Feature                 | Description                              | Priority | Status |
 |-----|-------------------------|------------------------------------------|----------|--------|
-| F005 | Welcome Screen | Event welcome page with check-in button | High | 🔴 Not Started |
-| F006 | Check-in Form | Attendee information form with validation | High | 🔴 Not Started |
-| F007 | Confirmation Screen | Success page with venue information | High | 🔴 Not Started |
-| F008 | Mobile Responsive Design | Optimize UI for mobile devices | High | 🔴 Not Started |
-| F009 | Basic Styling | Implement Tailwind CSS styling system | Medium | 🔴 Not Started |
+| F005 | Welcome Screen | Event welcome page with check-in button | High | 🟢 Completed |
+| F006 | Check-in Form | Attendee information form with validation | High | 🟢 Completed |
+| F007 | Confirmation Screen | Success page with venue information | High | 🟢 Completed |
+| F008 | Mobile Responsive Design | Optimize UI for mobile devices | High | 🟢 Completed |
+| F009 | Basic Styling | Implement Tailwind CSS styling system | Medium | 🟢 Completed |
 
 ## v0.3.0-integration - 🔴 Not Started
 Connect frontend to backend services and implement data persistence with proper error handling.

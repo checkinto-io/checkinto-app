@@ -10,7 +10,7 @@
 		error?: string | null;
 	}
 
-	let { event, isLoading = false, error = null }: Props = $props();
+	let { event, error = null }: Props = $props();
 	
 	let formState = $derived($formStore);
 
@@ -76,8 +76,8 @@
 	{:else if event}
 		<div class="form-container">
 			<header class="form-header">
-				<button class="back-button" onclick={handleBack} type="button">
-					<svg width="20" height="20" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2">
+				<button class="back-button" onclick={handleBack} type="button" aria-label="Go back to welcome screen">
+					<svg width="20" height="20" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" aria-hidden="true">
 						<path d="m15 18-6-6 6-6"/>
 					</svg>
 					Back
@@ -93,10 +93,11 @@
 							id="firstName"
 							label="First Name"
 							type="text"
+							autocomplete="given-name"
 							required
 							bind:value={formState.data.firstName}
 							error={formState.validation.firstName}
-							oninput={(value) => handleFieldChange('firstName', value)}
+							oninput={(value: string) => handleFieldChange('firstName', value)}
 							disabled={formState.isSubmitting}
 						/>
 
@@ -104,10 +105,11 @@
 							id="lastName"
 							label="Last Name"
 							type="text"
+							autocomplete="family-name"
 							required
 							bind:value={formState.data.lastName}
 							error={formState.validation.lastName}
-							oninput={(value) => handleFieldChange('lastName', value)}
+							oninput={(value: string) => handleFieldChange('lastName', value)}
 							disabled={formState.isSubmitting}
 						/>
 
@@ -115,10 +117,11 @@
 							id="email"
 							label="Email Address"
 							type="email"
+							autocomplete="email"
 							required
 							bind:value={formState.data.email}
 							error={formState.validation.email}
-							oninput={(value) => handleFieldChange('email', value)}
+							oninput={(value: string) => handleFieldChange('email', value)}
 							disabled={formState.isSubmitting}
 						/>
 
@@ -130,7 +133,7 @@
 							rows={3}
 							bind:value={formState.data.interestingFact}
 							error={formState.validation.interestingFact}
-							oninput={(value) => handleFieldChange('interestingFact', value)}
+							oninput={(value: string) => handleFieldChange('interestingFact', value)}
 							disabled={formState.isSubmitting}
 						/>
 					</div>

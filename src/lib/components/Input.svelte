@@ -8,9 +8,10 @@
 		required?: boolean;
 		disabled?: boolean;
 		error?: string;
+		autocomplete?: string;
 		class?: string;
-		onchange?: (value: string) => void;
-		oninput?: (value: string) => void;
+		onchange?: (_value: string) => void;
+		oninput?: (_value: string) => void;
 	}
 
 	let {
@@ -22,6 +23,7 @@
 		required = false,
 		disabled = false,
 		error = '',
+		autocomplete,
 		class: className = '',
 		onchange,
 		oninput
@@ -59,6 +61,7 @@
 		class="input-field {error ? 'border-red-500 focus:ring-red-500 focus:border-red-500' : ''}"
 		aria-invalid={error ? 'true' : 'false'}
 		aria-describedby={error ? `${id}-error` : undefined}
+		autocomplete={autocomplete as any}
 	/>
 	
 	{#if error}

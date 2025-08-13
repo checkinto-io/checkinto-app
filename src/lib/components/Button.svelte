@@ -9,6 +9,8 @@
 		loading?: boolean;
 		type?: 'button' | 'submit' | 'reset';
 		class?: string;
+		ariaLabel?: string;
+		ariaDescribedBy?: string;
 		onclick?: () => void;
 		children: any;
 	}
@@ -20,6 +22,8 @@
 		loading = false,
 		type = 'button',
 		class: className = '',
+		ariaLabel,
+		ariaDescribedBy,
 		onclick,
 		children
 	}: Props = $props();
@@ -45,6 +49,9 @@
 	class={classes}
 	{disabled}
 	onclick={onclick}
+	aria-label={ariaLabel}
+	aria-describedby={ariaDescribedBy}
+	aria-busy={loading}
 >
 	{#if loading}
 		<svg class="animate-spin -ml-1 mr-3 h-5 w-5 text-current inline" xmlns="http://www.w3.org/2000/svg" fill="none" viewBox="0 0 24 24">

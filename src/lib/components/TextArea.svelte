@@ -10,8 +10,8 @@
 		maxlength?: number;
 		rows?: number;
 		class?: string;
-		onchange?: (value: string) => void;
-		oninput?: (value: string) => void;
+		onchange?: (_value: string) => void;
+		oninput?: (_value: string) => void;
 	}
 
 	let {
