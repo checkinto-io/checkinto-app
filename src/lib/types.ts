@@ -1,13 +1,55 @@
 // Database Types
+export interface Meetup {
+	id: string;
+	name: string;
+	description: string;
+	learn_more_link: string | null;
+	logo: string | null;
+	created_at: string;
+	updated_at: string;
+}
+
+export interface Venue {
+	id: string;
+	name: string;
+	description: string;
+	learn_more_link: string | null;
+	wifi_access: string | null;
+	restroom_details: string | null;
+	food_details: string | null;
+	created_at: string;
+	updated_at: string;
+}
+
+export interface Presenter {
+	id: string;
+	first_name: string;
+	last_name: string;
+	email: string;
+	learn_more_link: string | null;
+	about_presenter: string | null;
+	profile_photo: string | null;
+	created_at: string;
+	updated_at: string;
+}
+
 export interface Event {
 	id: string;
 	url_id: string;
 	title: string;
 	welcome_message: string;
-	checked_in_message: string;
+	about_presentation: string | null;
+	about_working_session: string | null;
+	presenter_id: string;
+	meetup_id: string;
+	venue_id: string;
 	active: boolean;
 	created_at: string;
 	updated_at: string;
+	// Related data (populated via JOIN queries)
+	meetup?: Meetup;
+	venue?: Venue;
+	presenter?: Presenter;
 }
 
 // Type alias for component compatibility
@@ -46,12 +88,18 @@ export interface CheckInResponse {
 }
 
 // Database Input Types (for creating records)
-export type EventInput = Omit<Event, 'id' | 'created_at' | 'updated_at'>;
+export type MeetupInput = Omit<Meetup, 'id' | 'created_at' | 'updated_at'>;
+export type VenueInput = Omit<Venue, 'id' | 'created_at' | 'updated_at'>;
+export type PresenterInput = Omit<Presenter, 'id' | 'created_at' | 'updated_at'>;
+export type EventInput = Omit<Event, 'id' | 'created_at' | 'updated_at' | 'meetup' | 'venue' | 'presenter'>;
 export type AttendeeInput = Omit<Attendee, 'id' | 'created_at' | 'updated_at'>;
 export type EventAttendeeInput = Omit<EventAttendee, 'created_at'>;
 
 // Update Types (for updating records)
-export type EventUpdate = Partial<Omit<Event, 'id' | 'created_at' | 'updated_at'>>;
+export type MeetupUpdate = Partial<Omit<Meetup, 'id' | 'created_at' | 'updated_at'>>;
+export type VenueUpdate = Partial<Omit<Venue, 'id' | 'created_at' | 'updated_at'>>;
+export type PresenterUpdate = Partial<Omit<Presenter, 'id' | 'created_at' | 'updated_at'>>;
+export type EventUpdate = Partial<Omit<Event, 'id' | 'created_at' | 'updated_at' | 'meetup' | 'venue' | 'presenter'>>;
 export type AttendeeUpdate = Partial<Omit<Attendee, 'id' | 'created_at' | 'updated_at'>>;
 
 // Form Validation Types
@@ -106,6 +154,37 @@ export const VALIDATION_RULES = {
 } as const;
 
 // Type Guards
+export function isMeetup(obj: unknown): obj is Meetup {
+	return (
+		typeof obj === 'object' &&
+		obj !== null &&
+		typeof (obj as Meetup).id === 'string' &&
+		typeof (obj as Meetup).name === 'string' &&
+		typeof (obj as Meetup).description === 'string'
+	);
+}
+
+export function isVenue(obj: unknown): obj is Venue {
+	return (
+		typeof obj === 'object' &&
+		obj !== null &&
+		typeof (obj as Venue).id === 'string' &&
+		typeof (obj as Venue).name === 'string' &&
+		typeof (obj as Venue).description === 'string'
+	);
+}
+
+export function isPresenter(obj: unknown): obj is Presenter {
+	return (
+		typeof obj === 'object' &&
+		obj !== null &&
+		typeof (obj as Presenter).id === 'string' &&
+		typeof (obj as Presenter).first_name === 'string' &&
+		typeof (obj as Presenter).last_name === 'string' &&
+		typeof (obj as Presenter).email === 'string'
+	);
+}
+
 export function isEvent(obj: unknown): obj is Event {
 	return (
 		typeof obj === 'object' &&
@@ -114,7 +193,9 @@ export function isEvent(obj: unknown): obj is Event {
 		typeof (obj as Event).url_id === 'string' &&
 		typeof (obj as Event).title === 'string' &&
 		typeof (obj as Event).welcome_message === 'string' &&
-		typeof (obj as Event).checked_in_message === 'string' &&
+		typeof (obj as Event).presenter_id === 'string' &&
+		typeof (obj as Event).meetup_id === 'string' &&
+		typeof (obj as Event).venue_id === 'string' &&
 		typeof (obj as Event).active === 'boolean'
 	);
 }

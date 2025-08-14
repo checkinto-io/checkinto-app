@@ -22,26 +22,26 @@ This document outlines all the tasks to work on to delivery this particular vers
 
 | ID  | Task             | Description                             | Dependencies | Status | Assigned To |
 |-----|------------------|-----------------------------------------|-------------|----------|--------|
-| T005 | Create Image Directories | Create /static/images/meetup/ and /static/images/presenters/ folders | None | 🔴 Not Started | AGENT |
-| T006 | Move Existing Logo | Move meetup-logo.png from /static/images/ to /static/images/meetup/ | T005 | 🔴 Not Started | AGENT |
+| T005 | Create Image Directories | Create /static/images/meetup/ and /static/images/presenters/ folders | None | 🟢 Completed | AGENT |
+| T006 | Move Existing Logo | Move meetup-logo.png from /static/images/ to /static/images/meetup/ | T005 | 🟢 Completed | AGENT |
 
 
 ## Phase 3: TypeScript Interface Updates
 
 | ID  | Task             | Description                             | Dependencies | Status | Assigned To |
 |-----|------------------|-----------------------------------------|-------------|----------|--------|
-| T007 | Create New Type Interfaces | Add Meetup, Venue, Presenter interfaces to types.ts | None | 🔴 Not Started | AGENT |
-| T008 | Update Event Interface | Modify Event interface to include new fields and remove checked_in_message | T007 | 🔴 Not Started | AGENT |
-| T009 | Update Type Guards | Update isEvent function and other type guards for new schema | T008 | 🔴 Not Started | AGENT |
+| T007 | Create New Type Interfaces | Add Meetup, Venue, Presenter interfaces to types.ts | None | 🟢 Completed | AGENT |
+| T008 | Update Event Interface | Modify Event interface to include new fields and remove checked_in_message | T007 | 🟢 Completed | AGENT |
+| T009 | Update Type Guards | Update isEvent function and other type guards for new schema | T008 | 🟢 Completed | AGENT |
 
 
 ## Phase 4: Database Service Updates
 
 | ID  | Task             | Description                             | Dependencies | Status | Assigned To |
 |-----|------------------|-----------------------------------------|-------------|----------|--------|
-| T010 | Update Database Queries | Modify Supabase queries to use JOIN for fetching related data | T004, T009 | 🔴 Not Started | AGENT |
-| T011 | Implement Logo Validation | Add logic to check if logo file exists before displaying | T010 | 🔴 Not Started | AGENT |
-| T012 | Update Error Handling | Ensure error handling works with new schema and relationships | T011 | 🔴 Not Started | AGENT |
+| T010 | Update Database Queries | Modify Supabase queries to use JOIN for fetching related data | T004, T009 | 🟢 Completed | AGENT |
+| T011 | Implement Logo Validation | Add logic to check if logo file exists before displaying | T010 | 🟢 Completed | AGENT |
+| T012 | Update Error Handling | Ensure error handling works with new schema and relationships | T011 | 🟢 Completed | AGENT |
 
 
 ## Phase 5: UI Component Updates

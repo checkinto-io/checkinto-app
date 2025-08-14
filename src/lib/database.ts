@@ -2,6 +2,9 @@ import { createClient } from '@supabase/supabase-js';
 import { env } from './env.js';
 import type {
 	Event,
+	Meetup,
+	Venue,
+	Presenter,
 	Attendee,
 	AttendeeInput,
 	CheckInResponse,
@@ -16,22 +19,49 @@ export const supabase = createClient(env.SUPABASE_URL, env.SUPABASE_ANON_KEY);
 // Database service functions
 export class DatabaseService {
 	/**
-	 * Get event by URL ID
+	 * Get event by URL ID with related data
 	 */
 	static async getEventByUrlId(urlId: string): Promise<Event | null> {
-		const { data, error } = await supabase
-			.from('event')
-			.select('*')
-			.eq('url_id', urlId)
-			.eq('active', true)
-			.single();
+		try {
+			const { data, error } = await supabase
+				.from('event')
+				.select(`
+					*,
+					meetup:meetup_id (*),
+					venue:venue_id (*),
+					presenter:presenter_id (*)
+				`)
+				.eq('url_id', urlId)
+				.eq('active', true)
+				.single();
 
-		if (error) {
-			console.error('Error fetching event:', error);
+			if (error) {
+				// Handle specific error cases
+				if (error.code === 'PGRST116') {
+					console.warn(`Event not found or inactive: ${urlId}`);
+				} else if (error.message?.includes('foreign key')) {
+					console.error(`Foreign key constraint issue for event: ${urlId}`, error);
+				} else {
+					console.error('Error fetching event:', error);
+				}
+				return null;
+			}
+
+			// Validate that required relationships exist
+			if (!data.meetup || !data.venue || !data.presenter) {
+				console.error(`Event ${urlId} is missing required relationships:`, {
+					hasMeetup: !!data.meetup,
+					hasVenue: !!data.venue,
+					hasPresenter: !!data.presenter
+				});
+				return null;
+			}
+
+			return data;
+		} catch (err) {
+			console.error('Unexpected error in getEventByUrlId:', err);
 			return null;
 		}
-
-		return data;
 	}
 
 	/**
@@ -199,6 +229,65 @@ export class DatabaseService {
 		} catch (err) {
 			console.error('Database connection test failed:', err);
 			return false;
+		}
+	}
+
+	/**
+	 * Check if a logo file exists
+	 */
+	static async logoExists(filename: string, type: 'meetup' | 'presenter'): Promise<boolean> {
+		if (!filename) return false;
+		
+		try {
+			const path = `/images/${type}/${filename}`;
+			const response = await fetch(path, { method: 'HEAD' });
+			return response.ok;
+		} catch {
+			return false;
+		}
+	}
+
+	/**
+	 * Get logo path if file exists, otherwise return null
+	 */
+	static async getLogoPath(filename: string | null, type: 'meetup' | 'presenter'): Promise<string | null> {
+		if (!filename) return null;
+		
+		const exists = await this.logoExists(filename, type);
+		return exists ? `/images/${type}/${filename}` : null;
+	}
+
+	/**
+	 * Get event with validated logo paths
+	 */
+	static async getEventWithValidatedLogos(urlId: string): Promise<Event | null> {
+		try {
+			const event = await this.getEventByUrlId(urlId);
+			if (!event) return null;
+
+			// Validate meetup logo if it exists
+			if (event.meetup?.logo) {
+				const logoPath = await this.getLogoPath(event.meetup.logo, 'meetup');
+				if (!logoPath) {
+					console.warn(`Meetup logo file not found: ${event.meetup.logo}`);
+				}
+				event.meetup.logo = logoPath ? event.meetup.logo : null;
+			}
+
+			// Validate presenter profile photo if it exists  
+			if (event.presenter?.profile_photo) {
+				const photoPath = await this.getLogoPath(event.presenter.profile_photo, 'presenter');
+				if (!photoPath) {
+					console.warn(`Presenter profile photo not found: ${event.presenter.profile_photo}`);
+				}
+				event.presenter.profile_photo = photoPath ? event.presenter.profile_photo : null;
+			}
+
+			return event;
+		} catch (err) {
+			console.error('Error validating event logos:', err);
+			// Return event without logo validation if validation fails
+			return await this.getEventByUrlId(urlId);
 		}
 	}
 }
