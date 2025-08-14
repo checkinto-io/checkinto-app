@@ -86,12 +86,9 @@
 	{:else if event}
 		<div class="form-container">
 			<header class="form-header">
-				<button class="back-button" onclick={handleBack} type="button" aria-label="Go back to welcome screen">
-					<svg width="20" height="20" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" aria-hidden="true">
-						<path d="m15 18-6-6 6-6"/>
-					</svg>
-					Back
-				</button>
+				<div class="logo-container">
+					<img src="/images/meetup-logo.png" alt="Meetup Logo" class="meetup-logo" />
+				</div>
 				<h1 class="form-title">Check In</h1>
 				<p class="event-name">{event.title}</p>
 			</header>
@@ -146,9 +143,7 @@
 							oninput={(value: string) => handleFieldChange('interestingFact', value)}
 							disabled={formState.isSubmitting}
 						/>
-					</div>
 
-					<div class="form-actions">
 						<Button
 							type="submit"
 							variant="primary"
@@ -191,26 +186,21 @@
 	.form-header {
 		color: white;
 		margin-bottom: 2rem;
-		position: relative;
+		text-align: center;
 	}
 
-	.back-button {
+	.logo-container {
 		display: flex;
-		align-items: center;
-		gap: 0.5rem;
-		background: none;
-		border: none;
-		color: white;
-		font-size: 1rem;
-		cursor: pointer;
-		padding: 0.5rem;
-		margin: -0.5rem;
-		margin-bottom: 1rem;
-		transition: opacity 0.2s;
+		justify-content: center;
+		margin-bottom: 1.5rem;
 	}
 
-	.back-button:hover {
-		opacity: 0.8;
+	.meetup-logo {
+		width: 80%;
+		max-width: 400px;
+		height: auto;
+		border-radius: 10px;
+		box-shadow: 0 4px 12px rgba(0, 0, 0, 0.2);
 	}
 
 	.form-title {
@@ -239,22 +229,15 @@
 		box-shadow: 0 10px 25px rgba(0, 0, 0, 0.1);
 		display: flex;
 		flex-direction: column;
-		gap: 2rem;
-		flex: 1;
+		width: 100%;
+		max-width: 500px;
+		margin: 0 auto;
 	}
 
 	.form-fields {
 		display: flex;
 		flex-direction: column;
 		gap: 1.5rem;
-		flex: 1;
-	}
-
-	.form-actions {
-		display: flex;
-		justify-content: center;
-		padding-top: 1rem;
-		border-top: 1px solid #e5e7eb;
 	}
 
 	/* Error state */
