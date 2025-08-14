@@ -86,6 +86,17 @@ Implement persistent state management for the confirmation page to maintain chec
 | F036 | Button Action Updates | Update "Check In Another Person" to clear persistent state | Medium | 🟢 Completed |
 | F037 | Cross-Session Persistence | Ensure confirmation state survives browser refresh and restart | High | 🟢 Completed |
 
+## v0.7.0-add-meetup-host-combine-people - 🔴 Not Started
+Refactor talent management system and add meetup host functionality with enhanced role display.
+
+| ID  | Feature                 | Description                              | Priority | Status |
+|-----|-------------------------|------------------------------------------|----------|--------|
+| F038 | Database Schema Refactoring | Rename presenter→talent table and update field names | High | 🔴 Not Started |
+| F039 | Meetup Host Integration | Add required meetup_host_id field and UI display | High | 🔴 Not Started |
+| F040 | Enhanced Role Display | Three-section talent display with improved labeling | High | 🔴 Not Started |
+| F041 | Database Migration | Safe migration script for schema changes with data preservation | High | 🔴 Not Started |
+| F042 | TypeScript Refactoring | Update all interfaces and types to reflect new talent structure | Medium | 🔴 Not Started |
+
 ## v1.0.0-deployment - 🔴 Not Started
 Production deployment with custom domain configuration and final testing validation.
 

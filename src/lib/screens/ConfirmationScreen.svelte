@@ -93,7 +93,27 @@
 						</div>
 					</div>
 
-					<!-- Presenter -->
+					<!-- Hosted By -->
+					{#if event.meetup_host}
+						<div class="info-item">
+							<div class="info-icon">
+								<svg width="20" height="20" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2">
+									<path d="M20 21v-2a4 4 0 0 0-4-4H8a4 4 0 0 0-4 4v2"/>
+									<circle cx="12" cy="7" r="4"/>
+								</svg>
+							</div>
+							<div class="info-content">
+								<h4>Hosted By</h4>
+								{#if event.meetup_host.learn_more_link}
+									<p><a href={event.meetup_host.learn_more_link} target="_blank" rel="noopener noreferrer">{event.meetup_host.first_name} {event.meetup_host.last_name}</a></p>
+								{:else}
+									<p>{event.meetup_host.first_name} {event.meetup_host.last_name}</p>
+								{/if}
+							</div>
+						</div>
+					{/if}
+
+					<!-- Presented By -->
 					{#if event.presenter}
 						<div class="info-item">
 							<div class="info-icon">
@@ -103,7 +123,7 @@
 								</svg>
 							</div>
 							<div class="info-content">
-								<h4>Presenter</h4>
+								<h4>Presented By</h4>
 								{#if event.presenter.learn_more_link}
 									<p><a href={event.presenter.learn_more_link} target="_blank" rel="noopener noreferrer">{event.presenter.first_name} {event.presenter.last_name}</a></p>
 								{:else}
@@ -113,8 +133,8 @@
 						</div>
 					{/if}
 
-					<!-- Workshop Host -->
-					{#if event.workshop_host}
+					<!-- Workshop Lead By -->
+					{#if event.workshop_lead}
 						<div class="info-item">
 							<div class="info-icon">
 								<svg width="20" height="20" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2">
@@ -123,11 +143,11 @@
 								</svg>
 							</div>
 							<div class="info-content">
-								<h4>Workshop Host</h4>
-								{#if event.workshop_host.learn_more_link}
-									<p><a href={event.workshop_host.learn_more_link} target="_blank" rel="noopener noreferrer">{event.workshop_host.first_name} {event.workshop_host.last_name}</a></p>
+								<h4>Workshop Lead By</h4>
+								{#if event.workshop_lead.learn_more_link}
+									<p><a href={event.workshop_lead.learn_more_link} target="_blank" rel="noopener noreferrer">{event.workshop_lead.first_name} {event.workshop_lead.last_name}</a></p>
 								{:else}
-									<p>{event.workshop_host.first_name} {event.workshop_host.last_name}</p>
+									<p>{event.workshop_lead.first_name} {event.workshop_lead.last_name}</p>
 								{/if}
 							</div>
 						</div>

@@ -21,7 +21,7 @@ export interface Venue {
 	updated_at: string;
 }
 
-export interface Presenter {
+export interface Talent {
 	id: string;
 	first_name: string;
 	last_name: string;
@@ -43,15 +43,17 @@ export interface Event {
 	presenter_id: string;
 	meetup_id: string;
 	venue_id: string;
-	workshop_host_id: string;
+	workshop_lead_id: string;
+	meetup_host_id: string;
 	active: boolean;
 	created_at: string;
 	updated_at: string;
 	// Related data (populated via JOIN queries)
 	meetup?: Meetup;
 	venue?: Venue;
-	presenter?: Presenter;
-	workshop_host?: Presenter;
+	presenter?: Talent;
+	workshop_lead?: Talent;
+	meetup_host?: Talent;
 }
 
 // Type alias for component compatibility
