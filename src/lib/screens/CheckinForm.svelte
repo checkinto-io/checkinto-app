@@ -15,7 +15,9 @@
 	let formState = $derived($formStore);
 
 	const handleFieldChange = (field: 'firstName' | 'lastName' | 'email' | 'interestingFact', value: string) => {
-		formActions.updateField(field, value);
+		// Pass eventId for email uniqueness checking
+		const eventId = field === 'email' && event ? event.id : undefined;
+		formActions.updateField(field, value, eventId);
 	};
 
 	const handleSubmit = async () => {
@@ -42,13 +44,21 @@
 			const result = await DatabaseService.checkInAttendee(event.id, attendeeData);
 			
 			if (result.success) {
+				// Show appropriate success message based on whether attendee was already registered
+				if (result.isExistingAttendee) {
+					console.log('Attendee information updated for existing registration');
+				} else {
+					console.log('New attendee successfully checked in');
+				}
+				
 				// Reset form and navigate to confirmation
 				formActions.reset();
 				navigationActions.completeCheckin();
 			} else {
-				// Handle submission error
-				console.error('Check-in failed');
-				navigationActions.setError('Failed to complete check-in. Please try again.');
+				// Handle submission error with specific error message
+				const errorMessage = result.error || 'Failed to complete check-in. Please try again.';
+				console.error('Check-in failed:', errorMessage);
+				navigationActions.setError(errorMessage);
 			}
 		} catch (err) {
 			console.error('Form submission error:', err);

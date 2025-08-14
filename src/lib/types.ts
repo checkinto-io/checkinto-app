@@ -42,6 +42,7 @@ export interface CheckInResponse {
 	success: boolean;
 	attendee?: Attendee;
 	error?: string;
+	isExistingAttendee?: boolean;
 }
 
 // Database Input Types (for creating records)

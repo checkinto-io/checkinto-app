@@ -84,20 +84,42 @@ export class DatabaseService {
 		eventId: string, 
 		attendeeData: AttendeeInput
 	): Promise<CheckInResponse> {
-		// First, upsert the attendee
-		const attendee = await this.upsertAttendee(attendeeData);
-		
-		if (!attendee) {
-			return { success: false };
-		}
+		try {
+			// Check if attendee is already registered for this event
+			const isAlreadyRegistered = await this.isEmailRegisteredForEvent(eventId, attendeeData.email);
+			
+			// First, upsert the attendee
+			const attendee = await this.upsertAttendee(attendeeData);
+			
+			if (!attendee) {
+				return { 
+					success: false, 
+					error: 'Failed to save attendee information'
+				};
+			}
 
-		// Then link to event
-		const linked = await this.linkAttendeeToEvent(eventId, attendee.id);
-		
-		return { 
-			success: linked, 
-			attendee: linked ? attendee : undefined 
-		};
+			// Then link to event
+			const linked = await this.linkAttendeeToEvent(eventId, attendee.id);
+			
+			if (!linked) {
+				return { 
+					success: false, 
+					error: 'Failed to complete check-in process'
+				};
+			}
+			
+			return { 
+				success: true, 
+				attendee,
+				isExistingAttendee: isAlreadyRegistered
+			};
+		} catch (error) {
+			console.error('Error in checkInAttendee:', error);
+			return { 
+				success: false, 
+				error: 'An unexpected error occurred during check-in'
+			};
+		}
 	}
 
 	/**
@@ -137,6 +159,30 @@ export class DatabaseService {
 		}
 
 		return errors;
+	}
+
+	/**
+	 * Check if email is already registered for this event
+	 */
+	static async isEmailRegisteredForEvent(eventId: string, email: string): Promise<boolean> {
+		try {
+			const { data, error } = await supabase
+				.from('event_attendee')
+				.select('attendee!inner(email)')
+				.eq('event_id', eventId)
+				.eq('attendee.email', email)
+				.limit(1);
+
+			if (error) {
+				console.error('Error checking email registration:', error);
+				return false; // Assume not registered on error to allow submission
+			}
+
+			return data && data.length > 0;
+		} catch (err) {
+			console.error('Error in email registration check:', err);
+			return false; // Assume not registered on error to allow submission
+		}
 	}
 
 	/**

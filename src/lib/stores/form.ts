@@ -1,4 +1,5 @@
 import { writable } from 'svelte/store';
+import { DatabaseService } from '$lib/database.js';
 
 export interface AttendeeData {
 	firstName: string;
@@ -63,10 +64,31 @@ const validateInterestingFact = (fact: string): string => {
 	return '';
 };
 
+// Debounced email uniqueness check
+let emailCheckTimeout: ReturnType<typeof setTimeout>;
+const debounceEmailCheck = (eventId: string, email: string, callback: (error: string) => void) => {
+	clearTimeout(emailCheckTimeout);
+	emailCheckTimeout = setTimeout(async () => {
+		if (email.trim() && validateEmail(email) === '') {
+			try {
+				const isRegistered = await DatabaseService.isEmailRegisteredForEvent(eventId, email);
+				if (isRegistered) {
+					callback('This email is already registered for this event');
+				} else {
+					callback('');
+				}
+			} catch {
+				// Don't show error to user, just allow submission to proceed
+				callback('');
+			}
+		}
+	}, 500);
+};
+
 // Form actions
 export const formActions = {
 	// Update a single field
-	updateField: (field: keyof AttendeeData, value: string) => {
+	updateField: (field: keyof AttendeeData, value: string, eventId?: string) => {
 		formStore.update(state => {
 			const newData = { ...state.data, [field]: value };
 			const newValidation = { ...state.validation };
@@ -81,6 +103,23 @@ export const formActions = {
 					break;
 				case 'email':
 					newValidation.email = validateEmail(value);
+					// Check email uniqueness if eventId provided and basic validation passes
+					if (eventId && newValidation.email === '') {
+						debounceEmailCheck(eventId, value, (error) => {
+							formStore.update(currentState => ({
+								...currentState,
+								validation: {
+									...currentState.validation,
+									email: error
+								},
+								isValid: error === '' && Object.values({
+									...currentState.validation,
+									email: error
+								}).every(err => err === '') &&
+								Object.values(currentState.data).every(val => val.trim() !== '')
+							}));
+						});
+					}
 					break;
 				case 'interestingFact':
 					newValidation.interestingFact = validateInterestingFact(value);

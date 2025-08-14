@@ -10,7 +10,9 @@
 		error?: string;
 		autocomplete?: string;
 		class?: string;
+		// eslint-disable-next-line no-unused-vars
 		onchange?: (_value: string) => void;
+		// eslint-disable-next-line no-unused-vars
 		oninput?: (_value: string) => void;
 	}
 
