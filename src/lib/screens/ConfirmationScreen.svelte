@@ -20,6 +20,12 @@
 		formActions.reset();
 		navigationActions.reset(); // This now clears localStorage and resets to initial state
 	};
+
+	// Helper function to convert newlines to <br> tags
+	const formatLineBreaks = (text: string | null | undefined): string => {
+		if (!text) return '';
+		return text.replace(/\n/g, '<br />');
+	};
 </script>
 
 <div class="confirmation-screen">
@@ -55,28 +61,6 @@
 
 			<main class="confirmation-main">
 				<div class="event-info-grid">
-					<!-- Meetup -->
-					{#if event.meetup}
-						<div class="info-item">
-							<div class="info-icon">
-								<svg width="20" height="20" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2">
-									<path d="M16 21v-2a4 4 0 0 0-4-4H6a4 4 0 0 0-4 4v2"/>
-									<circle cx="9" cy="7" r="4"/>
-									<path d="M22 21v-2a4 4 0 0 0-3-3.87"/>
-									<path d="M16 3.13a4 4 0 0 1 0 7.75"/>
-								</svg>
-							</div>
-							<div class="info-content">
-								<h4>Meetup</h4>
-								{#if event.meetup.learn_more_link}
-									<p><a href={event.meetup.learn_more_link} target="_blank" rel="noopener noreferrer">{event.meetup.name}</a></p>
-								{:else}
-									<p>{event.meetup.name}</p>
-								{/if}
-							</div>
-						</div>
-					{/if}
-
 					<!-- Event -->
 					<div class="info-item">
 						<div class="info-icon">
@@ -89,65 +73,62 @@
 						</div>
 						<div class="info-content">
 							<h4>Event</h4>
-							<p>{event.title}</p>
+							{#if event.meetup}
+								<p class="meetup-link">
+									{#if event.meetup.learn_more_link}
+										<a href={event.meetup.learn_more_link} target="_blank" rel="noopener noreferrer">{event.meetup.name}</a>
+									{:else}
+										{event.meetup.name}
+									{/if}
+								</p>
+							{/if}
+							<p>{@html formatLineBreaks(event.title)}</p>
 						</div>
 					</div>
 
-					<!-- Hosted By -->
-					{#if event.meetup_host}
+					<!-- Combined Talent Section -->
+					{#if event.meetup_host || event.presenter || event.workshop_lead}
 						<div class="info-item">
 							<div class="info-icon">
 								<svg width="20" height="20" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2">
-									<path d="M20 21v-2a4 4 0 0 0-4-4H8a4 4 0 0 0-4 4v2"/>
-									<circle cx="12" cy="7" r="4"/>
+									<path d="M16 21v-2a4 4 0 0 0-4-4H6a4 4 0 0 0-4 4v2"/>
+									<circle cx="9" cy="7" r="4"/>
+									<path d="M22 21v-2a4 4 0 0 0-3-3.87"/>
+									<path d="M16 3.13a4 4 0 0 1 0 7.75"/>
 								</svg>
 							</div>
 							<div class="info-content">
-								<h4>Hosted By</h4>
-								{#if event.meetup_host.learn_more_link}
-									<p><a href={event.meetup_host.learn_more_link} target="_blank" rel="noopener noreferrer">{event.meetup_host.first_name} {event.meetup_host.last_name}</a></p>
-								{:else}
-									<p>{event.meetup_host.first_name} {event.meetup_host.last_name}</p>
+								{#if event.meetup_host}
+									<div class="talent-section">
+										<h4>Hosted By</h4>
+										{#if event.meetup_host.learn_more_link}
+											<p><a href={event.meetup_host.learn_more_link} target="_blank" rel="noopener noreferrer">{event.meetup_host.first_name} {event.meetup_host.last_name}</a></p>
+										{:else}
+											<p>{event.meetup_host.first_name} {event.meetup_host.last_name}</p>
+										{/if}
+									</div>
 								{/if}
-							</div>
-						</div>
-					{/if}
-
-					<!-- Presented By -->
-					{#if event.presenter}
-						<div class="info-item">
-							<div class="info-icon">
-								<svg width="20" height="20" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2">
-									<path d="M20 21v-2a4 4 0 0 0-4-4H8a4 4 0 0 0-4 4v2"/>
-									<circle cx="12" cy="7" r="4"/>
-								</svg>
-							</div>
-							<div class="info-content">
-								<h4>Presented By</h4>
-								{#if event.presenter.learn_more_link}
-									<p><a href={event.presenter.learn_more_link} target="_blank" rel="noopener noreferrer">{event.presenter.first_name} {event.presenter.last_name}</a></p>
-								{:else}
-									<p>{event.presenter.first_name} {event.presenter.last_name}</p>
+								
+								{#if event.presenter}
+									<div class="talent-section">
+										<h4>Presented By</h4>
+										{#if event.presenter.learn_more_link}
+											<p><a href={event.presenter.learn_more_link} target="_blank" rel="noopener noreferrer">{event.presenter.first_name} {event.presenter.last_name}</a></p>
+										{:else}
+											<p>{event.presenter.first_name} {event.presenter.last_name}</p>
+										{/if}
+									</div>
 								{/if}
-							</div>
-						</div>
-					{/if}
-
-					<!-- Workshop Lead By -->
-					{#if event.workshop_lead}
-						<div class="info-item">
-							<div class="info-icon">
-								<svg width="20" height="20" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2">
-									<path d="M20 21v-2a4 4 0 0 0-4-4H8a4 4 0 0 0-4 4v2"/>
-									<circle cx="12" cy="7" r="4"/>
-								</svg>
-							</div>
-							<div class="info-content">
-								<h4>Workshop By</h4>
-								{#if event.workshop_lead.learn_more_link}
-									<p><a href={event.workshop_lead.learn_more_link} target="_blank" rel="noopener noreferrer">{event.workshop_lead.first_name} {event.workshop_lead.last_name}</a></p>
-								{:else}
-									<p>{event.workshop_lead.first_name} {event.workshop_lead.last_name}</p>
+								
+								{#if event.workshop_lead}
+									<div class="talent-section">
+										<h4>Workshop By</h4>
+										{#if event.workshop_lead.learn_more_link}
+											<p><a href={event.workshop_lead.learn_more_link} target="_blank" rel="noopener noreferrer">{event.workshop_lead.first_name} {event.workshop_lead.last_name}</a></p>
+										{:else}
+											<p>{event.workshop_lead.first_name} {event.workshop_lead.last_name}</p>
+										{/if}
+									</div>
 								{/if}
 							</div>
 						</div>
@@ -180,7 +161,7 @@
 								{:else}
 									<p class="venue-name">{event.venue.name}</p>
 								{/if}
-								<p class="venue-description">{event.venue.description}</p>
+								<p class="venue-description">{@html formatLineBreaks(event.venue.description)}</p>
 							</div>
 						</div>
 					{/if}
@@ -197,7 +178,7 @@
 							</div>
 							<div class="info-content">
 								<h4>WiFi Access</h4>
-								<p>{event.venue.wifi_access}</p>
+								<p>{@html formatLineBreaks(event.venue.wifi_access)}</p>
 							</div>
 						</div>
 					{/if}
@@ -221,7 +202,7 @@
 							</div>
 							<div class="info-content">
 								<h4>Restrooms</h4>
-								<p>{event.venue.restroom_details}</p>
+								<p>{@html formatLineBreaks(event.venue.restroom_details)}</p>
 							</div>
 						</div>
 					{/if}
@@ -240,14 +221,14 @@
 							</div>
 							<div class="info-content">
 								<h4>Refreshments</h4>
-								<p>{event.venue.food_details}</p>
+								<p>{@html formatLineBreaks(event.venue.food_details)}</p>
 							</div>
 						</div>
 					{/if}
 				</div>
 
 				<div class="check-in-another">
-					<Button variant="secondary" onclick={handleCheckInAnother}>
+					<Button variant="primary" onclick={handleCheckInAnother}>
 						Check In Another Person
 					</Button>
 				</div>
@@ -390,8 +371,26 @@
 		color: #047857;
 	}
 
+	.meetup-link {
+		font-weight: 600;
+		margin-bottom: 0.25rem;
+	}
+
+	.talent-section {
+		margin-bottom: 1rem;
+	}
+
+	.talent-section:last-child {
+		margin-bottom: 0;
+	}
+
+	.talent-section h4 {
+		margin-bottom: 0.25rem;
+	}
+
 	.check-in-another {
 		margin-top: 2rem;
+		margin-bottom: 2rem;
 		text-align: center;
 	}
 

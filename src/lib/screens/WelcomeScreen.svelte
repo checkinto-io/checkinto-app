@@ -20,6 +20,12 @@
 	const handleCheckIn = () => {
 		navigationActions.startCheckin();
 	};
+
+	// Helper function to convert newlines to <br> tags
+	const formatLineBreaks = (text: string | null | undefined): string => {
+		if (!text) return '';
+		return text.replace(/\n/g, '<br />');
+	};
 </script>
 
 <div class="welcome-screen">
@@ -41,12 +47,12 @@
 						<img src="/images/meetup/{event.meetup.logo}" alt={event.meetup.name} class="meetup-logo" />
 					</div>
 				{/if}
-				<h1 class="event-title">{event.title}</h1>
+				<h1 class="event-title">{@html formatLineBreaks(event.title)}</h1>
 			</header>
 
 			<main class="welcome-main">
 				<div class="welcome-message">
-					<p>{event.welcome_message}</p>
+					<p>{@html formatLineBreaks(event.welcome_message)}</p>
 				</div>
 
 				<div class="check-in-action">
