@@ -135,7 +135,7 @@
 <style>
 	.confirmation-screen {
 		min-height: 100vh;
-		background: linear-gradient(135deg, #10b981 0%, #059669 100%);
+		background: linear-gradient(135deg, #20c05b 0%, #16a34a 100%);
 		padding: 1rem;
 		display: flex;
 		flex-direction: column;
@@ -203,7 +203,7 @@
 	}
 
 	.venue-info {
-		background: white;
+		background: #e2e2e2;
 		color: #374151;
 		border-radius: 1rem;
 		padding: 2rem;

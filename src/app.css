@@ -43,21 +43,27 @@
   
   /* Button variants */
   .btn-primary {
-    background-color: #3b82f6;
-    color: white;
+    background-color: #e2e2e2;
+    color: #065f46;
+    box-shadow: 0 4px 12px rgba(0, 0, 0, 0.15);
   }
   
   .btn-primary:hover:not(:disabled) {
-    background-color: #2563eb;
+    background-color: #d6d6d6;
+    box-shadow: 0 6px 16px rgba(0, 0, 0, 0.2);
+    transform: translateY(-1px);
   }
   
   .btn-secondary {
-    background-color: #e5e7eb;
-    color: #374151;
+    background-color: rgba(226, 226, 226, 0.2);
+    color: #e2e2e2;
+    border: 1px solid rgba(226, 226, 226, 0.3);
+    backdrop-filter: blur(10px);
   }
   
   .btn-secondary:hover:not(:disabled) {
-    background-color: #d1d5db;
+    background-color: rgba(226, 226, 226, 0.3);
+    border-color: rgba(226, 226, 226, 0.4);
   }
   
   /* Button sizes */

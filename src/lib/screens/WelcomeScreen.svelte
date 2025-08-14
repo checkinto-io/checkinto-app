@@ -36,6 +36,9 @@
 	{:else if event}
 		<div class="welcome-content">
 			<header class="welcome-header">
+				<div class="logo-container">
+					<img src="/images/meetup-logo.png" alt="Meetup Logo" class="meetup-logo" />
+				</div>
 				<h1 class="event-title">{event.title}</h1>
 			</header>
 
@@ -71,7 +74,7 @@
 		justify-content: center;
 		align-items: center;
 		padding: 1rem;
-		background: linear-gradient(135deg, #667eea 0%, #764ba2 100%);
+		background: linear-gradient(135deg, #20c05b 0%, #16a34a 100%);
 		color: white;
 		text-align: center;
 	}
@@ -84,6 +87,20 @@
 
 	.welcome-header {
 		margin-bottom: 2rem;
+	}
+
+	.logo-container {
+		display: flex;
+		justify-content: center;
+		margin-bottom: 1.5rem;
+	}
+
+	.meetup-logo {
+		width: 80%;
+		max-width: 400px;
+		height: auto;
+		border-radius: 10px;
+		box-shadow: 0 4px 12px rgba(0, 0, 0, 0.2);
 	}
 
 	.event-title {

@@ -173,7 +173,7 @@
 <style>
 	.checkin-form-screen {
 		min-height: 100vh;
-		background: linear-gradient(135deg, #667eea 0%, #764ba2 100%);
+		background: linear-gradient(135deg, #20c05b 0%, #16a34a 100%);
 		padding: 1rem;
 		display: flex;
 		flex-direction: column;
@@ -233,7 +233,7 @@
 	}
 
 	.checkin-form {
-		background: white;
+		background: #e2e2e2;
 		border-radius: 1rem;
 		padding: 2rem;
 		box-shadow: 0 10px 25px rgba(0, 0, 0, 0.1);
