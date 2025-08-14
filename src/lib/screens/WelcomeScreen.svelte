@@ -71,17 +71,18 @@
 		min-height: 100vh;
 		display: flex;
 		flex-direction: column;
-		justify-content: center;
+		justify-content: flex-start;
 		align-items: center;
-		padding: 1rem;
+		padding: 15px;
 		background: linear-gradient(135deg, #20c05b 0%, #16a34a 100%);
 		color: white;
 		text-align: center;
+		box-sizing: border-box;
 	}
 
 	.welcome-content {
 		width: 100%;
-		max-width: 480px;
+		max-width: 500px;
 		margin: 0 auto;
 	}
 
@@ -96,8 +97,7 @@
 	}
 
 	.meetup-logo {
-		width: 80%;
-		max-width: 400px;
+		width: 100%;
 		height: auto;
 		border-radius: 10px;
 		box-shadow: 0 4px 12px rgba(0, 0, 0, 0.2);

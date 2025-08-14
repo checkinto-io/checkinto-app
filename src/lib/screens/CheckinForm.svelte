@@ -89,8 +89,8 @@
 				<div class="logo-container">
 					<img src="/images/meetup-logo.png" alt="Meetup Logo" class="meetup-logo" />
 				</div>
-				<h1 class="form-title">Check In</h1>
-				<p class="event-name">{event.title}</p>
+				<h1 class="form-title">Checking Into</h1>
+				<p class="event-name">"{event.title}"</p>
 			</header>
 
 			<main class="form-main">
@@ -169,9 +169,10 @@
 	.checkin-form-screen {
 		min-height: 100vh;
 		background: linear-gradient(135deg, #20c05b 0%, #16a34a 100%);
-		padding: 1rem;
+		padding: 15px;
 		display: flex;
 		flex-direction: column;
+		box-sizing: border-box;
 	}
 
 	.form-container {
@@ -181,6 +182,7 @@
 		display: flex;
 		flex-direction: column;
 		flex: 1;
+		padding-top: 0;
 	}
 
 	.form-header {
@@ -196,8 +198,8 @@
 	}
 
 	.meetup-logo {
-		width: 80%;
-		max-width: 400px;
+		width: 100%;
+		max-width: 500px;
 		height: auto;
 		border-radius: 10px;
 		box-shadow: 0 4px 12px rgba(0, 0, 0, 0.2);
@@ -268,7 +270,7 @@
 	/* Mobile optimization */
 	@media (max-width: 640px) {
 		.checkin-form-screen {
-			padding: 0.5rem;
+			padding: 15px;
 		}
 		
 		.checkin-form {

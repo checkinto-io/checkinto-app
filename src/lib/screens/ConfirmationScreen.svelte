@@ -34,6 +34,9 @@
 	{:else if event}
 		<div class="confirmation-content">
 			<header class="success-header">
+				<div class="logo-container">
+					<img src="/images/meetup-logo.png" alt="Meetup Logo" class="meetup-logo" />
+				</div>
 				<div class="success-icon">
 					<svg width="64" height="64" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2">
 						<path d="M22 11.08V12a10 10 0 1 1-5.93-9.14"/>
@@ -46,10 +49,6 @@
 			<main class="confirmation-main">
 				<div class="event-info">
 					<h2 class="event-name">{event.title}</h2>
-				</div>
-
-				<div class="checked-in-message">
-					<p>{event.checked_in_message}</p>
 				</div>
 
 				<div class="venue-info">
@@ -109,16 +108,6 @@
 						</div>
 					</div>
 				</div>
-
-				<div class="action-section">
-					<Button
-						variant="secondary"
-						size="medium"
-						onclick={handleNewCheckIn}
-					>
-						Check In Another Person
-					</Button>
-				</div>
 			</main>
 		</div>
 	{:else}
@@ -136,23 +125,38 @@
 	.confirmation-screen {
 		min-height: 100vh;
 		background: linear-gradient(135deg, #20c05b 0%, #16a34a 100%);
-		padding: 1rem;
+		padding: 15px;
 		display: flex;
 		flex-direction: column;
-		justify-content: center;
+		justify-content: flex-start;
 		align-items: center;
 		color: white;
+		box-sizing: border-box;
 	}
 
 	.confirmation-content {
 		width: 100%;
-		max-width: 600px;
+		max-width: 500px;
 		margin: 0 auto;
 		text-align: center;
 	}
 
 	.success-header {
 		margin-bottom: 2rem;
+	}
+
+	.logo-container {
+		display: flex;
+		justify-content: center;
+		margin-bottom: 1.5rem;
+	}
+
+	.meetup-logo {
+		width: 100%;
+		max-width: 500px;
+		height: auto;
+		border-radius: 10px;
+		box-shadow: 0 4px 12px rgba(0, 0, 0, 0.2);
 	}
 
 	.success-icon {
@@ -187,20 +191,6 @@
 		opacity: 0.95;
 	}
 
-	.checked-in-message {
-		background: rgba(255, 255, 255, 0.1);
-		border-radius: 1rem;
-		padding: 1.5rem;
-		backdrop-filter: blur(10px);
-		border: 1px solid rgba(255, 255, 255, 0.2);
-	}
-
-	.checked-in-message p {
-		font-size: 1.1rem;
-		line-height: 1.6;
-		margin: 0;
-		opacity: 0.95;
-	}
 
 	.venue-info {
 		background: #e2e2e2;
@@ -256,9 +246,6 @@
 		line-height: 1.4;
 	}
 
-	.action-section {
-		padding-top: 1rem;
-	}
 
 	/* Loading and error states */
 	.loading-state,
@@ -299,7 +286,7 @@
 	/* Mobile optimization */
 	@media (max-width: 640px) {
 		.confirmation-screen {
-			padding: 0.5rem;
+			padding: 15px;
 		}
 		
 		.success-title {
