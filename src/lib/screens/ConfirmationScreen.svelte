@@ -34,9 +34,11 @@
 	{:else if event}
 		<div class="confirmation-content">
 			<header class="success-header">
-				<div class="logo-container">
-					<img src="/images/meetup-logo.png" alt="Meetup Logo" class="meetup-logo" />
-				</div>
+				{#if event.meetup?.logo}
+					<div class="logo-container">
+						<img src="/images/meetup/{event.meetup.logo}" alt={event.meetup.name} class="meetup-logo" />
+					</div>
+				{/if}
 				<div class="success-icon">
 					<svg width="64" height="64" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2">
 						<path d="M22 11.08V12a10 10 0 1 1-5.93-9.14"/>
@@ -52,60 +54,68 @@
 				</div>
 
 				<div class="venue-info">
-					<h3>Venue Information</h3>
+					{#if event.venue}
+						<div class="venue-details">
+							<h3 class="venue-name">{event.venue.name}</h3>
+							<p class="venue-description">{event.venue.description}</p>
+							
+							{#if event.venue.learn_more_link}
+								<div class="venue-link">
+									<a href={event.venue.learn_more_link} target="_blank" rel="noopener noreferrer">Learn more</a>
+								</div>
+							{/if}
+						</div>
+					{/if}
+
 					<div class="info-grid">
-						<div class="info-item">
-							<div class="info-icon">
-								<svg width="20" height="20" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2">
-									<path d="M9 12l2 2 4-4"/>
-									<path d="M21 12c0 4.97-4.03 9-9 9s-9-4.03-9-9 4.03-9 9-9c.83 0 1.64.11 2.4.32"/>
-								</svg>
+						{#if event.venue?.wifi_access}
+							<div class="info-item">
+								<div class="info-icon">
+									<svg width="20" height="20" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="3">
+										<path d="M1 10c6.63-6.63 17.37-6.63 24 0"/>
+										<path d="M5 14c4.42-4.42 11.58-4.42 16 0"/>
+										<path d="M9 18c2.21-2.21 5.79-2.21 8 0"/>
+									</svg>
+								</div>
+								<div class="info-content">
+									<h4>WiFi Access</h4>
+									<p>{event.venue.wifi_access}</p>
+								</div>
 							</div>
-							<div class="info-content">
-								<h4>WiFi Access</h4>
-								<p>Network: EventGuest | Password: welcome2024</p>
-							</div>
-						</div>
+						{/if}
 
-						<div class="info-item">
-							<div class="info-icon">
-								<svg width="20" height="20" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2">
-									<path d="M3 9l9-7 9 7v11a2 2 0 0 1-2 2H5a2 2 0 0 1-2-2z"/>
-									<polyline points="9,22 9,12 15,12 15,22"/>
-								</svg>
+						{#if event.venue?.restroom_details}
+							<div class="info-item">
+								<div class="info-icon">
+									<svg width="20" height="20" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2">
+										<path d="M3 9l9-7 9 7v11a2 2 0 0 1-2 2H5a2 2 0 0 1-2-2z"/>
+										<polyline points="9,22 9,12 15,12 15,22"/>
+									</svg>
+								</div>
+								<div class="info-content">
+									<h4>Restrooms</h4>
+									<p>{event.venue.restroom_details}</p>
+								</div>
 							</div>
-							<div class="info-content">
-								<h4>Restrooms</h4>
-								<p>Located down the hall to your right</p>
-							</div>
-						</div>
+						{/if}
 
-						<div class="info-item">
-							<div class="info-icon">
-								<svg width="20" height="20" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2">
-									<path d="M2 3h6a4 4 0 0 1 4 4v14a3 3 0 0 0-3-3H2z"/>
-									<path d="M22 3h-6a4 4 0 0 0-4 4v14a3 3 0 0 1 3-3h7z"/>
-								</svg>
+						{#if event.venue?.food_details}
+							<div class="info-item">
+								<div class="info-icon">
+									<svg width="20" height="20" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2">
+										<path d="M18 8h1a4 4 0 0 1 0 8h-1"/>
+										<path d="M2 8h16v9a4 4 0 0 1-4 4H6a4 4 0 0 1-4-4V8z"/>
+										<line x1="6" y1="1" x2="6" y2="4"/>
+										<line x1="10" y1="1" x2="10" y2="4"/>
+										<line x1="14" y1="1" x2="14" y2="4"/>
+									</svg>
+								</div>
+								<div class="info-content">
+									<h4>Refreshments</h4>
+									<p>{event.venue.food_details}</p>
+								</div>
 							</div>
-							<div class="info-content">
-								<h4>Schedule</h4>
-								<p>Check the welcome desk for today's agenda</p>
-							</div>
-						</div>
-
-						<div class="info-item">
-							<div class="info-icon">
-								<svg width="20" height="20" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2">
-									<path d="M12 2L2 7l10 5 10-5-10-5z"/>
-									<path d="M2 17l10 5 10-5"/>
-									<path d="M2 12l10 5 10-5"/>
-								</svg>
-							</div>
-							<div class="info-content">
-								<h4>Refreshments</h4>
-								<p>Coffee and snacks available in the lobby</p>
-							</div>
-						</div>
+						{/if}
 					</div>
 				</div>
 			</main>
@@ -201,12 +211,37 @@
 		box-shadow: 0 10px 25px rgba(0, 0, 0, 0.1);
 	}
 
-	.venue-info h3 {
+	.venue-details {
+		margin-bottom: 1.5rem;
+		text-align: center;
+	}
+
+	.venue-name {
 		font-size: 1.25rem;
 		font-weight: bold;
-		margin: 0 0 1.5rem 0;
-		text-align: center;
+		margin: 0 0 0.75rem 0;
 		color: #1f2937;
+	}
+
+	.venue-description {
+		font-size: 0.95rem;
+		color: #6b7280;
+		line-height: 1.5;
+		margin: 0 0 1rem 0;
+	}
+
+	.venue-link {
+		margin-top: 1rem;
+	}
+
+	.venue-link a {
+		color: #059669;
+		text-decoration: underline;
+		font-size: 0.9rem;
+	}
+
+	.venue-link a:hover {
+		color: #047857;
 	}
 
 	.info-grid {
@@ -245,6 +280,7 @@
 		margin: 0;
 		line-height: 1.4;
 	}
+
 
 
 	/* Loading and error states */

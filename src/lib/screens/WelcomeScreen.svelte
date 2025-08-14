@@ -36,9 +36,11 @@
 	{:else if event}
 		<div class="welcome-content">
 			<header class="welcome-header">
-				<div class="logo-container">
-					<img src="/images/meetup-logo.png" alt="Meetup Logo" class="meetup-logo" />
-				</div>
+				{#if event.meetup?.logo}
+					<div class="logo-container">
+						<img src="/images/meetup/{event.meetup.logo}" alt={event.meetup.name} class="meetup-logo" />
+					</div>
+				{/if}
 				<h1 class="event-title">{event.title}</h1>
 			</header>
 

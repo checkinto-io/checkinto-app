@@ -86,9 +86,11 @@
 	{:else if event}
 		<div class="form-container">
 			<header class="form-header">
-				<div class="logo-container">
-					<img src="/images/meetup-logo.png" alt="Meetup Logo" class="meetup-logo" />
-				</div>
+				{#if event.meetup?.logo}
+					<div class="logo-container">
+						<img src="/images/meetup/{event.meetup.logo}" alt={event.meetup.name} class="meetup-logo" />
+					</div>
+				{/if}
 				<h1 class="form-title">Checking Into</h1>
 				<p class="event-name">"{event.title}"</p>
 			</header>
