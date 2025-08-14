@@ -1,4 +1,12 @@
 import { writable } from 'svelte/store';
+import { 
+	storeConfirmationState, 
+	getConfirmationState, 
+	clearConfirmationState, 
+	hasConfirmationState 
+} from '$lib/utils/storage';
+import { validateAndCleanupConfirmationState, canPersistConfirmationState } from '$lib/utils/state-validation';
+import type { Event } from '$lib/types';
 
 export type Screen = 'welcome' | 'checkin' | 'confirmation';
 
@@ -20,15 +28,30 @@ export const navigationStore = writable<NavigationState>(initialState);
 
 // Navigation actions
 export const navigationActions = {
-	// Set the event ID and reset to welcome screen
-	setEvent: (eventId: string) => {
-		navigationStore.update(state => ({
-			...state,
-			eventId,
-			currentScreen: 'welcome',
-			error: null,
-			isLoading: false
-		}));
+	// Set the event ID and check for persistent confirmation state
+	setEvent: (eventId: string, event?: Event | null) => {
+		// First validate and cleanup any existing confirmation state
+		const validatedState = validateAndCleanupConfirmationState(eventId, event || null);
+		
+		// If we have a valid confirmation state, go directly to confirmation
+		if (validatedState && validatedState.isConfirmed) {
+			navigationStore.update(state => ({
+				...state,
+				eventId,
+				currentScreen: 'confirmation',
+				error: null,
+				isLoading: false
+			}));
+		} else {
+			// No valid confirmation state, start at welcome screen
+			navigationStore.update(state => ({
+				...state,
+				eventId,
+				currentScreen: 'welcome',
+				error: null,
+				isLoading: false
+			}));
+		}
 	},
 
 	// Navigate to a specific screen
@@ -50,13 +73,20 @@ export const navigationActions = {
 		}));
 	},
 
-	// Navigate to confirmation screen
-	completeCheckin: () => {
-		navigationStore.update(state => ({
-			...state,
-			currentScreen: 'confirmation',
-			error: null
-		}));
+	// Navigate to confirmation screen and persist state
+	completeCheckin: (event?: Event | null) => {
+		navigationStore.update(state => {
+			// Store confirmation state if persistence is allowed
+			if (event && canPersistConfirmationState(event)) {
+				storeConfirmationState(state.eventId);
+			}
+
+			return {
+				...state,
+				currentScreen: 'confirmation',
+				error: null
+			};
+		});
 	},
 
 	// Set loading state
@@ -76,8 +106,29 @@ export const navigationActions = {
 		}));
 	},
 
-	// Reset to initial state
+	// Reset to initial state and clear persistent confirmation
 	reset: () => {
-		navigationStore.set(initialState);
+		navigationStore.update(state => {
+			// Clear any stored confirmation state for this event
+			if (state.eventId) {
+				clearConfirmationState(state.eventId);
+			}
+			return initialState;
+		});
+	},
+
+	// Check if confirmation state exists for current event
+	hasStoredConfirmation: (eventId: string): boolean => {
+		return hasConfirmationState(eventId);
+	},
+
+	// Clear stored confirmation state for specific event
+	clearStoredConfirmation: (eventId: string) => {
+		clearConfirmationState(eventId);
+	},
+
+	// Validate stored confirmation state for an event
+	validateStoredConfirmation: (eventId: string, event: Event | null) => {
+		return validateAndCleanupConfirmationState(eventId, event);
 	}
 };

@@ -14,7 +14,8 @@
 
 	onMount(() => {
 		if (event) {
-			navigationActions.setEvent(event.url_id);
+			// Pass the event data to setEvent so it can validate stored confirmation state
+			navigationActions.setEvent(event.url_id, event);
 		}
 	});
 </script>

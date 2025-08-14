@@ -53,7 +53,7 @@
 				
 				// Reset form and navigate to confirmation
 				formActions.reset();
-				navigationActions.completeCheckin();
+				navigationActions.completeCheckin(event);
 			} else {
 				// Handle submission error with specific error message
 				const errorMessage = result.error || 'Failed to complete check-in. Please try again.';

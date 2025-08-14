@@ -18,7 +18,7 @@
 
 	const handleCheckInAnother = () => {
 		formActions.reset();
-		navigationActions.goToScreen('checkin');
+		navigationActions.reset(); // This now clears localStorage and resets to initial state
 	};
 </script>
 
