@@ -39,10 +39,11 @@ export interface Event {
 	title: string;
 	welcome_message: string;
 	about_presentation: string | null;
-	about_working_session: string | null;
+	about_workshop: string | null;
 	presenter_id: string;
 	meetup_id: string;
 	venue_id: string;
+	workshop_host_id: string;
 	active: boolean;
 	created_at: string;
 	updated_at: string;
@@ -50,6 +51,7 @@ export interface Event {
 	meetup?: Meetup;
 	venue?: Venue;
 	presenter?: Presenter;
+	workshop_host?: Presenter;
 }
 
 // Type alias for component compatibility
@@ -140,6 +142,13 @@ export interface CheckInFormProps {
 export interface ConfirmationScreenProps {
 	event: Event;
 	attendee: Attendee;
+}
+
+// Persistent State Types
+export interface ConfirmationState {
+	isConfirmed: boolean;
+	timestamp: number;
+	eventId: string;
 }
 
 // Utility Types

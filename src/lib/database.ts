@@ -29,7 +29,8 @@ export class DatabaseService {
 					*,
 					meetup:meetup_id (*),
 					venue:venue_id (*),
-					presenter:presenter_id (*)
+					presenter:presenter_id (*),
+					workshop_host:workshop_host_id (*)
 				`)
 				.eq('url_id', urlId)
 				.eq('active', true)
@@ -48,11 +49,12 @@ export class DatabaseService {
 			}
 
 			// Validate that required relationships exist
-			if (!data.meetup || !data.venue || !data.presenter) {
+			if (!data.meetup || !data.venue || !data.presenter || !data.workshop_host) {
 				console.error(`Event ${urlId} is missing required relationships:`, {
 					hasMeetup: !!data.meetup,
 					hasVenue: !!data.venue,
-					hasPresenter: !!data.presenter
+					hasPresenter: !!data.presenter,
+					hasWorkshopHost: !!data.workshop_host
 				});
 				return null;
 			}

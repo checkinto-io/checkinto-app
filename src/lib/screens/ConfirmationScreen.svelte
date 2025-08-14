@@ -15,6 +15,11 @@
 		formActions.reset();
 		navigationActions.goToScreen('welcome');
 	};
+
+	const handleCheckInAnother = () => {
+		formActions.reset();
+		navigationActions.goToScreen('checkin');
+	};
 </script>
 
 <div class="confirmation-screen">
@@ -39,84 +44,172 @@
 						<img src="/images/meetup/{event.meetup.logo}" alt={event.meetup.name} class="meetup-logo" />
 					</div>
 				{/if}
-				<div class="success-icon">
-					<svg width="64" height="64" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2">
+				<h1 class="success-title">
+					<svg width="48" height="48" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" class="success-icon-inline">
 						<path d="M22 11.08V12a10 10 0 1 1-5.93-9.14"/>
 						<polyline points="22,4 12,14.01 9,11.01"/>
 					</svg>
-				</div>
-				<h1 class="success-title">You're Checked In!</h1>
+					You're checked in!
+				</h1>
 			</header>
 
 			<main class="confirmation-main">
-				<div class="event-info">
-					<h2 class="event-name">{event.title}</h2>
-				</div>
-
-				<div class="venue-info">
-					{#if event.venue}
-						<div class="venue-details">
-							<h3 class="venue-name">{event.venue.name}</h3>
-							<p class="venue-description">{event.venue.description}</p>
-							
-							{#if event.venue.learn_more_link}
-								<div class="venue-link">
-									<a href={event.venue.learn_more_link} target="_blank" rel="noopener noreferrer">Learn more</a>
-								</div>
-							{/if}
+				<div class="event-info-grid">
+					<!-- Meetup -->
+					{#if event.meetup}
+						<div class="info-item">
+							<div class="info-icon">
+								<svg width="20" height="20" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2">
+									<path d="M17 21v-2a4 4 0 0 0-4-4H5a4 4 0 0 0-4 4v2"/>
+									<circle cx="9" cy="7" r="4"/>
+									<path d="m22 2-5 10-5-5z"/>
+								</svg>
+							</div>
+							<div class="info-content">
+								<h4>Meetup</h4>
+								{#if event.meetup.learn_more_link}
+									<p><a href={event.meetup.learn_more_link} target="_blank" rel="noopener noreferrer">{event.meetup.name}</a></p>
+								{:else}
+									<p>{event.meetup.name}</p>
+								{/if}
+							</div>
 						</div>
 					{/if}
 
-					<div class="info-grid">
-						{#if event.venue?.wifi_access}
-							<div class="info-item">
-								<div class="info-icon">
-									<svg width="20" height="20" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="3">
-										<path d="M1 10c6.63-6.63 17.37-6.63 24 0"/>
-										<path d="M5 14c4.42-4.42 11.58-4.42 16 0"/>
-										<path d="M9 18c2.21-2.21 5.79-2.21 8 0"/>
-									</svg>
-								</div>
-								<div class="info-content">
-									<h4>WiFi Access</h4>
-									<p>{event.venue.wifi_access}</p>
-								</div>
-							</div>
-						{/if}
-
-						{#if event.venue?.restroom_details}
-							<div class="info-item">
-								<div class="info-icon">
-									<svg width="20" height="20" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2">
-										<path d="M3 9l9-7 9 7v11a2 2 0 0 1-2 2H5a2 2 0 0 1-2-2z"/>
-										<polyline points="9,22 9,12 15,12 15,22"/>
-									</svg>
-								</div>
-								<div class="info-content">
-									<h4>Restrooms</h4>
-									<p>{event.venue.restroom_details}</p>
-								</div>
-							</div>
-						{/if}
-
-						{#if event.venue?.food_details}
-							<div class="info-item">
-								<div class="info-icon">
-									<svg width="20" height="20" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2">
-										<path d="M18 8h1a4 4 0 0 1 0 8h-1"/>
-										<path d="M2 8h16v9a4 4 0 0 1-4 4H6a4 4 0 0 1-4-4V8z"/>
-										<line x1="6" y1="1" x2="6" y2="4"/>
-										<line x1="10" y1="1" x2="10" y2="4"/>
-										<line x1="14" y1="1" x2="14" y2="4"/>
-									</svg>
-								</div>
-								<div class="info-content">
-									<h4>Refreshments</h4>
-									<p>{event.venue.food_details}</p>
-								</div>
-							</div>
-						{/if}
+					<!-- Event -->
+					<div class="info-item">
+						<div class="info-icon">
+							<svg width="20" height="20" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2">
+								<rect x="3" y="4" width="18" height="18" rx="2" ry="2"/>
+								<line x1="16" y1="2" x2="16" y2="6"/>
+								<line x1="8" y1="2" x2="8" y2="6"/>
+								<line x1="3" y1="10" x2="21" y2="10"/>
+							</svg>
+						</div>
+						<div class="info-content">
+							<h4>Event</h4>
+							<p>{event.title}</p>
+						</div>
 					</div>
+
+					<!-- Presenter -->
+					{#if event.presenter}
+						<div class="info-item">
+							<div class="info-icon">
+								<svg width="20" height="20" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2">
+									<path d="M20 21v-2a4 4 0 0 0-4-4H8a4 4 0 0 0-4 4v2"/>
+									<circle cx="12" cy="7" r="4"/>
+								</svg>
+							</div>
+							<div class="info-content">
+								<h4>Presenter</h4>
+								{#if event.presenter.learn_more_link}
+									<p><a href={event.presenter.learn_more_link} target="_blank" rel="noopener noreferrer">{event.presenter.first_name} {event.presenter.last_name}</a></p>
+								{:else}
+									<p>{event.presenter.first_name} {event.presenter.last_name}</p>
+								{/if}
+							</div>
+						</div>
+					{/if}
+
+					<!-- Workshop Host -->
+					{#if event.workshop_host}
+						<div class="info-item">
+							<div class="info-icon">
+								<svg width="20" height="20" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2">
+									<path d="M20 21v-2a4 4 0 0 0-4-4H8a4 4 0 0 0-4 4v2"/>
+									<circle cx="12" cy="7" r="4"/>
+								</svg>
+							</div>
+							<div class="info-content">
+								<h4>Workshop Host</h4>
+								{#if event.workshop_host.learn_more_link}
+									<p><a href={event.workshop_host.learn_more_link} target="_blank" rel="noopener noreferrer">{event.workshop_host.first_name} {event.workshop_host.last_name}</a></p>
+								{:else}
+									<p>{event.workshop_host.first_name} {event.workshop_host.last_name}</p>
+								{/if}
+							</div>
+						</div>
+					{/if}
+
+					<!-- Venue -->
+					{#if event.venue}
+						<div class="info-item">
+							<div class="info-icon">
+								<svg width="20" height="20" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2">
+									<path d="M3 9l9-7 9 7v11a2 2 0 0 1-2 2H5a2 2 0 0 1-2-2z"/>
+									<polyline points="9,22 9,12 15,12 15,22"/>
+								</svg>
+							</div>
+							<div class="info-content">
+								<h4>Venue</h4>
+								{#if event.venue.learn_more_link}
+									<p class="venue-name"><a href={event.venue.learn_more_link} target="_blank" rel="noopener noreferrer">{event.venue.name}</a></p>
+								{:else}
+									<p class="venue-name">{event.venue.name}</p>
+								{/if}
+								<p class="venue-description">{event.venue.description}</p>
+							</div>
+						</div>
+					{/if}
+
+					<!-- WiFi Access -->
+					{#if event.venue?.wifi_access}
+						<div class="info-item">
+							<div class="info-icon">
+								<svg width="20" height="20" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="3">
+									<path d="M1 10c6.63-6.63 17.37-6.63 24 0"/>
+									<path d="M5 14c4.42-4.42 11.58-4.42 16 0"/>
+									<path d="M9 18c2.21-2.21 5.79-2.21 8 0"/>
+								</svg>
+							</div>
+							<div class="info-content">
+								<h4>WiFi Access</h4>
+								<p>{event.venue.wifi_access}</p>
+							</div>
+						</div>
+					{/if}
+
+					<!-- Restrooms -->
+					{#if event.venue?.restroom_details}
+						<div class="info-item">
+							<div class="info-icon">
+								<svg width="20" height="20" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2">
+									<path d="M3 9l9-7 9 7v11a2 2 0 0 1-2 2H5a2 2 0 0 1-2-2z"/>
+									<polyline points="9,22 9,12 15,12 15,22"/>
+								</svg>
+							</div>
+							<div class="info-content">
+								<h4>Restrooms</h4>
+								<p>{event.venue.restroom_details}</p>
+							</div>
+						</div>
+					{/if}
+
+					<!-- Refreshments -->
+					{#if event.venue?.food_details}
+						<div class="info-item">
+							<div class="info-icon">
+								<svg width="20" height="20" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2">
+									<path d="M18 8h1a4 4 0 0 1 0 8h-1"/>
+									<path d="M2 8h16v9a4 4 0 0 1-4 4H6a4 4 0 0 1-4-4V8z"/>
+									<line x1="6" y1="1" x2="6" y2="4"/>
+									<line x1="10" y1="1" x2="10" y2="4"/>
+									<line x1="14" y1="1" x2="14" y2="4"/>
+								</svg>
+							</div>
+							<div class="info-content">
+								<h4>Refreshments</h4>
+								<p>{event.venue.food_details}</p>
+							</div>
+						</div>
+					{/if}
+				</div>
+
+				<div class="check-in-another">
+					<Button variant="secondary" onclick={handleCheckInAnother}>
+						Check In Another Person
+					</Button>
 				</div>
 			</main>
 		</div>
@@ -169,19 +262,21 @@
 		box-shadow: 0 4px 12px rgba(0, 0, 0, 0.2);
 	}
 
-	.success-icon {
-		margin: 0 auto 1rem;
-		width: 64px;
-		height: 64px;
-		color: white;
-		filter: drop-shadow(0 4px 8px rgba(0, 0, 0, 0.2));
-	}
-
 	.success-title {
 		font-size: 2.5rem;
 		font-weight: bold;
 		margin: 0;
 		text-shadow: 0 2px 4px rgba(0, 0, 0, 0.3);
+		display: flex;
+		align-items: center;
+		justify-content: center;
+		gap: 0.75rem;
+	}
+
+	.success-icon-inline {
+		color: white;
+		filter: drop-shadow(0 4px 8px rgba(0, 0, 0, 0.2));
+		flex-shrink: 0;
 	}
 
 	.confirmation-main {
@@ -190,63 +285,28 @@
 		gap: 2rem;
 	}
 
-	.event-info {
-		margin-bottom: 1rem;
-	}
-
-	.event-name {
-		font-size: 1.5rem;
-		font-weight: 600;
-		margin: 0;
-		opacity: 0.95;
-	}
-
-
-	.venue-info {
+	.event-info-grid {
 		background: #e2e2e2;
 		color: #374151;
 		border-radius: 1rem;
 		padding: 2rem;
 		text-align: left;
 		box-shadow: 0 10px 25px rgba(0, 0, 0, 0.1);
-	}
-
-	.venue-details {
-		margin-bottom: 1.5rem;
-		text-align: center;
+		display: grid;
+		gap: 1.5rem;
 	}
 
 	.venue-name {
-		font-size: 1.25rem;
 		font-weight: bold;
-		margin: 0 0 0.75rem 0;
+		margin: 0 0 0.25rem 0;
 		color: #1f2937;
 	}
 
 	.venue-description {
-		font-size: 0.95rem;
+		font-size: 0.875rem;
 		color: #6b7280;
-		line-height: 1.5;
-		margin: 0 0 1rem 0;
-	}
-
-	.venue-link {
-		margin-top: 1rem;
-	}
-
-	.venue-link a {
-		color: #059669;
-		text-decoration: underline;
-		font-size: 0.9rem;
-	}
-
-	.venue-link a:hover {
-		color: #047857;
-	}
-
-	.info-grid {
-		display: grid;
-		gap: 1.5rem;
+		line-height: 1.4;
+		margin: 0 0 0.5rem 0;
 	}
 
 	.info-item {
@@ -281,7 +341,19 @@
 		line-height: 1.4;
 	}
 
+	.info-content a {
+		color: #059669;
+		text-decoration: underline;
+	}
 
+	.info-content a:hover {
+		color: #047857;
+	}
+
+	.check-in-another {
+		margin-top: 2rem;
+		text-align: center;
+	}
 
 	/* Loading and error states */
 	.loading-state,
@@ -327,13 +399,16 @@
 		
 		.success-title {
 			font-size: 2rem;
+			gap: 0.5rem;
+		}
+
+		.success-icon-inline {
+			width: 36px;
+			height: 36px;
 		}
 		
-		.venue-info {
+		.event-info-grid {
 			padding: 1.5rem;
-		}
-		
-		.info-grid {
 			gap: 1rem;
 		}
 		
@@ -344,7 +419,7 @@
 
 	/* Larger screens - show info grid in 2 columns */
 	@media (min-width: 640px) {
-		.info-grid {
+		.event-info-grid {
 			grid-template-columns: 1fr 1fr;
 		}
 	}
