@@ -60,9 +60,10 @@
 						<div class="info-item">
 							<div class="info-icon">
 								<svg width="20" height="20" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2">
-									<path d="M17 21v-2a4 4 0 0 0-4-4H5a4 4 0 0 0-4 4v2"/>
+									<path d="M16 21v-2a4 4 0 0 0-4-4H6a4 4 0 0 0-4 4v2"/>
 									<circle cx="9" cy="7" r="4"/>
-									<path d="m22 2-5 10-5-5z"/>
+									<path d="M22 21v-2a4 4 0 0 0-3-3.87"/>
+									<path d="M16 3.13a4 4 0 0 1 0 7.75"/>
 								</svg>
 							</div>
 							<div class="info-content">
@@ -137,8 +138,19 @@
 						<div class="info-item">
 							<div class="info-icon">
 								<svg width="20" height="20" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2">
-									<path d="M3 9l9-7 9 7v11a2 2 0 0 1-2 2H5a2 2 0 0 1-2-2z"/>
-									<polyline points="9,22 9,12 15,12 15,22"/>
+									<!-- Building base -->
+									<rect x="4" y="6" width="16" height="16" rx="1"/>
+									<!-- Windows -->
+									<rect x="7" y="9" width="2" height="2"/>
+									<rect x="11" y="9" width="2" height="2"/>
+									<rect x="15" y="9" width="2" height="2"/>
+									<rect x="7" y="13" width="2" height="2"/>
+									<rect x="11" y="13" width="2" height="2"/>
+									<rect x="15" y="13" width="2" height="2"/>
+									<!-- Door -->
+									<rect x="10" y="17" width="4" height="5"/>
+									<!-- Roof -->
+									<path d="M4 6l8-4 8 4"/>
 								</svg>
 							</div>
 							<div class="info-content">
@@ -175,8 +187,16 @@
 						<div class="info-item">
 							<div class="info-icon">
 								<svg width="20" height="20" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2">
-									<path d="M3 9l9-7 9 7v11a2 2 0 0 1-2 2H5a2 2 0 0 1-2-2z"/>
-									<polyline points="9,22 9,12 15,12 15,22"/>
+									<!-- Toilet tank (taller) -->
+									<rect x="7" y="2" width="10" height="8" rx="1"/>
+									<!-- Toilet bowl rim -->
+									<ellipse cx="12" cy="10" rx="8" ry="2.5"/>
+									<!-- Toilet bowl -->
+									<path d="M4 10v8c0 3 3.5 5 8 5s8-2 8-5v-8"/>
+									<!-- Toilet seat (closed) -->
+									<ellipse cx="12" cy="10" rx="6" ry="1.5" fill="none"/>
+									<!-- Tank handle -->
+									<circle cx="16" cy="6" r="1"/>
 								</svg>
 							</div>
 							<div class="info-content">
