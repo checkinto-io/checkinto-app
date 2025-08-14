@@ -143,7 +143,7 @@
 								</svg>
 							</div>
 							<div class="info-content">
-								<h4>Workshop Lead By</h4>
+								<h4>Workshop By</h4>
 								{#if event.workshop_lead.learn_more_link}
 									<p><a href={event.workshop_lead.learn_more_link} target="_blank" rel="noopener noreferrer">{event.workshop_lead.first_name} {event.workshop_lead.last_name}</a></p>
 								{:else}
