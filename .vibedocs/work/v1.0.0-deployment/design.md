@@ -29,7 +29,7 @@ _High-level technical structure that supports all features in this release._
 
 **Target Production Architecture:**
 - **Hosting Platform:** Vercel (replacing originally planned Netlify)
-- **Domain:** meetup.icodewith.ai with custom domain configuration
+- **Domain:** codingwithai.chkin.io with custom domain configuration
 - **Database:** Supabase (already configured and operational)
 - **Edge Functions:** Supabase Edge Functions (for raffle system)
 - **Build Process:** Vercel's automatic Git deployments
@@ -61,7 +61,7 @@ _Shared technical considerations across all features in this release._
 - Check that all dependencies are properly declared
 
 **Domain Configuration:**
-- Configure DNS records for meetup.icodewith.ai through Namecheap.com
+- Configure DNS records for codingwithai.chkin.io through Namecheap.com
 - Set up SSL certificates (automatic with Vercel)
 - Verify domain routing and redirects
 
@@ -91,11 +91,11 @@ _Shared any other technical information that might be relevant to building this 
 ## 5. Open Questions
 _Unresolved technical or product questions affecting this release._
 
-1. **DNS Configuration:** Domain is managed through Namecheap.com. Need to configure DNS records to point to Vercel.
+1. **DNS Configuration:** Domain chkin.io is managed through Namecheap.com. Need to configure DNS records for subdomain codingwithai.chkin.io to point to Vercel.
 
 > Correct!
 
-2. **Domain Verification:** Does the user have access to configure DNS records for the icodewith.ai domain?
+2. **Domain Verification:** Does the user have access to configure DNS records for the chkin.io domain?
 
 > I do!
 
