@@ -56,11 +56,11 @@ This document outlines all the tasks to work on to delivery this particular vers
 
 | ID  | Task             | Description                             | Dependencies | Status | Assigned To |
 |-----|------------------|-----------------------------------------|-------------|----------|--------|
-| P5T1 | Integration testing across all components | Test complete raffle system flow from admin trigger to user display | P4T5, P2T6 | 🔴 Not Started | AGENT |
-| P5T2 | Test multiple raffle rounds scenario | Verify system handles multiple raffle rounds correctly without duplicates | P5T1 | 🔴 Not Started | AGENT |
-| P5T3 | Performance testing under load | Test polling system performance with multiple concurrent users | P5T2 | 🔴 Not Started | AGENT |
-| P5T4 | Edge case testing | Test edge cases: no attendees, all attendees already won, network failures | P5T3 | 🔴 Not Started | AGENT |
-| P5T5 | Cross-browser compatibility testing | Verify raffle system works across different browsers and devices | P5T4 | 🔴 Not Started | AGENT |
+| P5T1 | Integration testing across all components | Test complete raffle system flow from admin trigger to user display | P4T5, P2T6 | 🟢 Completed | AGENT |
+| P5T2 | Test multiple raffle rounds scenario | Verify system handles multiple raffle rounds correctly without duplicates | P5T1 | 🟢 Completed | AGENT |
+| P5T3 | Performance testing under load | Test polling system performance with multiple concurrent users | P5T2 | 🟢 Completed | AGENT |
+| P5T4 | Edge case testing | Test edge cases: no attendees, all attendees already won, network failures | P5T3 | 🟢 Completed | AGENT |
+| P5T5 | Cross-browser compatibility testing | Verify raffle system works across different browsers and devices | P5T4 | 🟢 Completed | AGENT |
 
 
 ## **Phase 6: Documentation and Deployment**
