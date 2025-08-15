@@ -35,6 +35,7 @@
   --color-input-border: #d1d5db;
   --color-input-focus: #3b82f6;
   --color-input-focus-shadow: rgba(59, 130, 246, 0.2);
+  --color-input-focus-ring: rgba(59, 130, 246, 0.5);
   
   /* Semantic Text Colors */
   --color-text-primary: #1f2937;
@@ -103,7 +104,7 @@
   
   .btn-base:focus {
     outline: none;
-    box-shadow: 0 0 0 2px rgba(59, 130, 246, 0.5);
+    box-shadow: 0 0 0 2px var(--color-input-focus-ring);
   }
   
   .btn-base:disabled {

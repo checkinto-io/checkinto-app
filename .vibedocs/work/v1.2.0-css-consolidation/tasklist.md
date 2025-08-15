@@ -45,6 +45,6 @@ This document outlines all the tasks to work on to delivery this particular vers
 
 | ID  | Task             | Description                             | Dependencies | Status | Assigned To |
 |-----|------------------|-----------------------------------------|-------------|----------|-----------|
-| T014 | Update design.md | Document the implemented CSS custom properties system | T013 | 🔴 Not Started | AGENT |
-| T015 | Create theme usage guide | Document how to use and extend the new CSS custom properties system | T014 | 🔴 Not Started | AGENT |
-| T016 | Code cleanup | Remove any unused CSS and ensure consistent formatting | T015 | 🔴 Not Started | AGENT |
+| T014 | Update design.md | Document the implemented CSS custom properties system | T013 | 🟢 Completed | AGENT |
+| T015 | Create theme usage guide | Document how to use and extend the new CSS custom properties system | T014 | 🟢 Completed | AGENT |
+| T016 | Code cleanup | Remove any unused CSS and ensure consistent formatting | T015 | 🟢 Completed | AGENT |

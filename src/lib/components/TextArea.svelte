@@ -69,7 +69,7 @@
 	></textarea>
 	
 	<div class="mt-2 flex justify-between items-center">
-		<div id="{id}-hint" class="text-sm text-gray-500">
+		<div id="{id}-hint" class="text-base text-gray-500">
 			{remainingChars} characters remaining
 		</div>
 		
