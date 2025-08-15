@@ -94,7 +94,7 @@
 						<img src={getImagePath(event.meetup.logo, IMAGE_CATEGORIES.GROUP)} alt={event.meetup.name} class="meetup-logo" />
 					</div>
 				{/if}
-				<h1 class="form-title">Checking In To</h1>
+				<h1 class="form-title">Check In To</h1>
 				<p class="event-name">"{event.title}"</p>
 			</header>
 
