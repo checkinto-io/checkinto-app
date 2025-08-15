@@ -173,7 +173,7 @@
 <style>
 	.checkin-form-screen {
 		min-height: 100vh;
-		background: linear-gradient(135deg, #20c05b 0%, #16a34a 100%);
+		background: linear-gradient(135deg, var(--color-primary-gradient-start) 0%, var(--color-primary-gradient-end) 100%);
 		padding: 15px;
 		display: flex;
 		flex-direction: column;
@@ -207,14 +207,14 @@
 		max-width: 500px;
 		height: auto;
 		border-radius: 10px;
-		box-shadow: 0 4px 12px rgba(0, 0, 0, 0.2);
+		box-shadow: 0 4px 12px var(--shadow-base);
 	}
 
 	.form-title {
 		font-size: 2rem;
 		font-weight: bold;
 		margin: 0 0 0.5rem 0;
-		text-shadow: 0 2px 4px rgba(0, 0, 0, 0.3);
+		text-shadow: 0 2px 4px var(--shadow-text);
 	}
 
 	.event-name {
@@ -230,10 +230,10 @@
 	}
 
 	.checkin-form {
-		background: #e2e2e2;
+		background: var(--color-content-bg);
 		border-radius: 1rem;
 		padding: 2rem;
-		box-shadow: 0 10px 25px rgba(0, 0, 0, 0.1);
+		box-shadow: 0 10px 25px var(--shadow-light);
 		display: flex;
 		flex-direction: column;
 		width: 100%;
@@ -264,7 +264,7 @@
 	.error-state h1 {
 		font-size: 1.5rem;
 		margin: 0;
-		color: #fca5a5;
+		color: var(--color-error-text);
 	}
 
 	.error-state p {

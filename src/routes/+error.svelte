@@ -43,14 +43,14 @@
 		align-items: center;
 		justify-content: center;
 		padding: 1rem;
-		background: linear-gradient(135deg, #ff6b6b 0%, #ee5a6f 100%);
+		background: linear-gradient(135deg, var(--color-error-bg-start) 0%, var(--color-error-bg-end) 100%);
 	}
 
 	.error-card {
-		background: white;
+		background: var(--color-bg-white);
 		border-radius: 1rem;
 		padding: 2rem;
-		box-shadow: 0 10px 25px rgba(0, 0, 0, 0.1);
+		box-shadow: 0 10px 25px var(--shadow-light);
 		text-align: center;
 		max-width: 500px;
 		width: 100%;
@@ -64,19 +64,19 @@
 	.title {
 		font-size: 2rem;
 		font-weight: bold;
-		color: #2d3748;
+		color: var(--color-error-page-text);
 		margin-bottom: 1rem;
 	}
 
 	.message {
 		font-size: 1.1rem;
-		color: #4a5568;
+		color: var(--color-error-page-text-muted);
 		line-height: 1.6;
 		margin-bottom: 2rem;
 	}
 
 	.back-btn {
-		background: linear-gradient(135deg, #ff6b6b 0%, #ee5a6f 100%);
+		background: linear-gradient(135deg, var(--color-error-bg-start) 0%, var(--color-error-bg-end) 100%);
 		color: white;
 		border: none;
 		padding: 1rem 2rem;
@@ -89,7 +89,7 @@
 
 	.back-btn:hover {
 		transform: translateY(-2px);
-		box-shadow: 0 5px 15px rgba(255, 107, 107, 0.3);
+		box-shadow: 0 5px 15px var(--shadow-error-button);
 	}
 
 	.back-btn:active {

@@ -44,7 +44,7 @@
 </script>
 
 <div class="w-full {className}">
-	<label for={id} class="block text-sm font-medium text-gray-700 mb-2">
+	<label for={id} class="block text-base font-medium text-gray-700 mb-2">
 		{label}
 		{#if required}
 			<span class="text-red-500">*</span>

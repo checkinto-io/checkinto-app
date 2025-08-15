@@ -83,7 +83,7 @@
 		justify-content: flex-start;
 		align-items: center;
 		padding: 15px;
-		background: linear-gradient(135deg, #20c05b 0%, #16a34a 100%);
+		background: linear-gradient(135deg, var(--color-primary-gradient-start) 0%, var(--color-primary-gradient-end) 100%);
 		color: white;
 		text-align: center;
 		box-sizing: border-box;
@@ -109,7 +109,7 @@
 		width: 100%;
 		height: auto;
 		border-radius: 10px;
-		box-shadow: 0 4px 12px rgba(0, 0, 0, 0.2);
+		box-shadow: 0 4px 12px var(--shadow-base);
 	}
 
 	.event-title {
@@ -117,7 +117,7 @@
 		font-weight: bold;
 		margin: 0;
 		line-height: 1.2;
-		text-shadow: 0 2px 4px rgba(0, 0, 0, 0.3);
+		text-shadow: 0 2px 4px var(--shadow-text);
 	}
 
 	@media (min-width: 640px) {
@@ -164,7 +164,7 @@
 	.loading-spinner {
 		width: 2rem;
 		height: 2rem;
-		border: 3px solid rgba(255, 255, 255, 0.3);
+		border: 3px solid var(--overlay-white-border);
 		border-top: 3px solid white;
 		border-radius: 50%;
 		animation: spin 1s linear infinite;
@@ -178,7 +178,7 @@
 	.error-state h1 {
 		font-size: 1.5rem;
 		margin: 0 0 1rem 0;
-		color: #fca5a5;
+		color: var(--color-error-text);
 	}
 
 	.error-state p {

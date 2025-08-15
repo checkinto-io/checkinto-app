@@ -332,7 +332,7 @@
 <style>
 	.confirmation-screen {
 		min-height: 100vh;
-		background: linear-gradient(135deg, #20c05b 0%, #16a34a 100%);
+		background: linear-gradient(135deg, var(--color-primary-gradient-start) 0%, var(--color-primary-gradient-end) 100%);
 		padding: 15px;
 		display: flex;
 		flex-direction: column;
@@ -364,14 +364,14 @@
 		max-width: 500px;
 		height: auto;
 		border-radius: 10px;
-		box-shadow: 0 4px 12px rgba(0, 0, 0, 0.2);
+		box-shadow: 0 4px 12px var(--shadow-base);
 	}
 
 	.success-title {
 		font-size: 2.5rem;
 		font-weight: bold;
 		margin: 0;
-		text-shadow: 0 2px 4px rgba(0, 0, 0, 0.3);
+		text-shadow: 0 2px 4px var(--shadow-text);
 		display: flex;
 		align-items: center;
 		justify-content: center;
@@ -380,7 +380,7 @@
 
 	.success-icon-inline {
 		color: white;
-		filter: drop-shadow(0 4px 8px rgba(0, 0, 0, 0.2));
+		filter: drop-shadow(0 4px 8px var(--shadow-base));
 		flex-shrink: 0;
 	}
 
@@ -391,12 +391,12 @@
 	}
 
 	.event-info-grid {
-		background: #e2e2e2;
-		color: #374151;
+		background: var(--color-content-bg);
+		color: var(--color-text-secondary);
 		border-radius: 1rem;
 		padding: 2rem;
 		text-align: left;
-		box-shadow: 0 10px 25px rgba(0, 0, 0, 0.1);
+		box-shadow: 0 10px 25px var(--shadow-light);
 		display: grid;
 		gap: 1.5rem;
 	}
@@ -404,12 +404,12 @@
 	.venue-name {
 		font-weight: bold;
 		margin: 0 0 0.25rem 0;
-		color: #1f2937;
+		color: var(--color-text-primary);
 	}
 
 	.venue-description {
 		font-size: 0.875rem;
-		color: #6b7280;
+		color: var(--color-text-muted);
 		line-height: 1.4;
 		margin: 0 0 0.5rem 0;
 	}
@@ -424,35 +424,35 @@
 		flex-shrink: 0;
 		width: 40px;
 		height: 40px;
-		background: #f3f4f6;
+		background: var(--color-bg-alt);
 		border-radius: 0.5rem;
 		display: flex;
 		align-items: center;
 		justify-content: center;
-		color: #059669;
+		color: var(--color-accent);
 	}
 
 	.info-content h4 {
 		font-size: 1rem;
 		font-weight: 600;
 		margin: 0 0 0.25rem 0;
-		color: #1f2937;
+		color: var(--color-text-primary);
 	}
 
 	.info-content p {
 		font-size: 0.875rem;
-		color: #6b7280;
+		color: var(--color-text-muted);
 		margin: 0;
 		line-height: 1.4;
 	}
 
 	.info-content a {
-		color: #059669;
+		color: var(--color-accent);
 		text-decoration: underline;
 	}
 
 	.info-content a:hover {
-		color: #047857;
+		color: var(--color-accent-dark);
 	}
 
 	.meetup-link {
@@ -492,7 +492,7 @@
 	.loading-spinner {
 		width: 2rem;
 		height: 2rem;
-		border: 3px solid rgba(255, 255, 255, 0.3);
+		border: 3px solid var(--overlay-white-border);
 		border-top: 3px solid white;
 		border-radius: 50%;
 		animation: spin 1s linear infinite;
@@ -506,7 +506,7 @@
 	.error-state h1 {
 		font-size: 1.5rem;
 		margin: 0;
-		color: #fca5a5;
+		color: var(--color-error-text);
 	}
 
 	.error-state p {
@@ -549,12 +549,12 @@
 	
 	/* Raffle Winner Announcement Styles */
 	.raffle-winner-announcement {
-		background: linear-gradient(135deg, #fbbf24 0%, #f59e0b 100%);
+		background: linear-gradient(135deg, var(--color-success-bg-start) 0%, var(--color-success-bg-end) 100%);
 		color: white;
 		border-radius: 1rem;
 		padding: 1.5rem;
 		margin-bottom: 2rem;
-		box-shadow: 0 10px 25px rgba(245, 158, 11, 0.3);
+		box-shadow: 0 10px 25px var(--shadow-success);
 		animation: slideDown 0.5s ease-out;
 		position: relative;
 		overflow: hidden;
@@ -570,7 +570,7 @@
 		background: linear-gradient(
 			45deg,
 			transparent 30%,
-			rgba(255, 255, 255, 0.1) 50%,
+			var(--overlay-white-light) 50%,
 			transparent 70%
 		);
 		animation: shimmer 3s infinite;
@@ -604,7 +604,7 @@
 		align-items: center;
 		justify-content: center;
 		gap: 0.5rem;
-		text-shadow: 0 2px 4px rgba(0, 0, 0, 0.2);
+		text-shadow: 0 2px 4px var(--shadow-base);
 		position: relative;
 		z-index: 1;
 	}
@@ -632,7 +632,7 @@
 	}
 	
 	.winner-item {
-		background: rgba(255, 255, 255, 0.2);
+		background: var(--overlay-white);
 		border-radius: 0.5rem;
 		padding: 1rem;
 		backdrop-filter: blur(10px);
@@ -640,27 +640,27 @@
 	}
 	
 	.winner-item.is-you {
-		background: linear-gradient(135deg, rgba(34, 197, 94, 0.9) 0%, rgba(22, 163, 74, 0.9) 100%);
-		border: 2px solid #10b981;
+		background: linear-gradient(135deg, var(--color-winner-bg-start) 0%, var(--color-winner-bg-end) 100%);
+		border: 2px solid var(--color-winner-border);
 		animation: pulse 2s infinite;
-		box-shadow: 0 4px 20px rgba(34, 197, 94, 0.4);
+		box-shadow: 0 4px 20px var(--shadow-winner);
 	}
 	
 	.winner-item.is-you .winner-place,
 	.winner-item.is-you .winner-name,
 	.winner-item.is-you .winner-message {
 		color: white;
-		text-shadow: 0 1px 3px rgba(0, 0, 0, 0.3);
+		text-shadow: 0 1px 3px var(--shadow-text);
 	}
 	
 	@keyframes pulse {
 		0%, 100% {
 			transform: scale(1);
-			box-shadow: 0 0 0 0 rgba(34, 197, 94, 0.7);
+			box-shadow: 0 0 0 0 var(--shadow-winner-pulse-start);
 		}
 		50% {
 			transform: scale(1.02);
-			box-shadow: 0 0 0 10px rgba(34, 197, 94, 0);
+			box-shadow: 0 0 0 10px var(--shadow-winner-pulse-end);
 		}
 	}
 	
