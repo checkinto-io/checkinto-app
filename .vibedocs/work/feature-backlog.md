@@ -120,3 +120,15 @@ Production deployment with custom domain configuration and final testing validat
 | F022 | Environment Variables | Production environment configuration | High | 🟢 Completed |
 | F023 | Production Testing | End-to-end testing in production | High | 🟢 Completed |
 | F024 | Documentation | User and deployment documentation | Medium | 🟢 Completed |
+
+## v1.1.0-restructure-image-folder - 🔴 Not Started
+Restructure static image folder architecture to support multi-tenant scaling and begin terminology migration from "meetup" to "group".
+
+| ID  | Feature                 | Description                              | Priority | Status |
+|-----|-------------------------|------------------------------------------|----------|--------|
+| F050 | Group-based Folder Structure | Create images/groups/{groupname}/{category}/ hierarchy | High | 🔴 Not Started |
+| F051 | File Migration System | Move existing images to new group-based structure | High | 🔴 Not Started |
+| F052 | Path Alias Configuration | Setup Vite aliases for cleaner image imports | Medium | 🔴 Not Started |
+| F053 | Image Path Utilities | Create centralized utilities for image path construction | Medium | 🔴 Not Started |
+| F054 | Code Reference Updates | Update all components to use new image paths | High | 🔴 Not Started |
+| F055 | Maintenance Improvements | Add environment-based group detection and TypeScript path mapping | Low | 🔴 Not Started |
