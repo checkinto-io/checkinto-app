@@ -23,12 +23,12 @@ This document outlines all the tasks to work on to delivery this particular vers
 
 | ID  | Task             | Description                             | Dependencies | Status | Assigned To |
 |-----|------------------|-----------------------------------------|-------------|----------|--------|
-| P2T1 | Create Supabase Edge Function structure | Set up basic Edge Function framework for raffle winner selection with proper authentication | P1T5 | 🔴 Not Started | AGENT |
-| P2T2 | Implement random winner selection logic | Create algorithm for randomly selecting winners from eligible attendees, excluding existing winners | P2T1 | 🔴 Not Started | AGENT |
-| P2T3 | Add transaction-based race condition protection | Implement database transactions to prevent race conditions during winner selection | P2T2 | 🔴 Not Started | AGENT |
-| P2T4 | Support multiple raffle rounds | Enable selection of winners for different raffle rounds without duplicates | P2T3 | 🔴 Not Started | AGENT |
-| P2T5 | Create raffle winner API endpoint | Expose secure API endpoint for triggering raffle winner selection | P2T4 | 🔴 Not Started | AGENT |
-| P2T6 | Implement error handling and cleanup | Add comprehensive error handling and cleanup mechanisms for failed raffle operations | P2T5 | 🔴 Not Started | AGENT |
+| P2T1 | Create Supabase Edge Function structure | Set up basic Edge Function framework for raffle winner selection with proper authentication | P1T5 | 🟢 Completed | AGENT |
+| P2T2 | Implement random winner selection logic | Create algorithm for randomly selecting winners from eligible attendees, excluding existing winners | P2T1 | 🟢 Completed | AGENT |
+| P2T3 | Add transaction-based race condition protection | Implement database transactions to prevent race conditions during winner selection | P2T2 | 🟢 Completed | AGENT |
+| P2T4 | Support multiple raffle rounds | Enable selection of winners for different raffle rounds without duplicates | P2T3 | 🟢 Completed | AGENT |
+| P2T5 | Create raffle winner API endpoint | Expose secure API endpoint for triggering raffle winner selection | P2T4 | 🟢 Completed | AGENT |
+| P2T6 | Implement error handling and cleanup | Add comprehensive error handling and cleanup mechanisms for failed raffle operations | P2T5 | 🟢 Completed | AGENT |
 
 
 ## **Phase 3: Frontend Polling System**
