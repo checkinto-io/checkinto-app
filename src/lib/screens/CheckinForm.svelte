@@ -2,6 +2,7 @@
 	import { Button, Input, TextArea } from '$lib/components';
 	import { formStore, formActions, navigationActions } from '$lib/stores';
 	import { DatabaseService } from '$lib/database';
+	import { getImagePath, IMAGE_CATEGORIES } from '$lib/utils/imagePaths';
 	import type { MeetupEvent, AttendeeInput } from '$lib/types';
 
 	interface Props {
@@ -90,7 +91,7 @@
 			<header class="form-header">
 				{#if event.meetup?.logo}
 					<div class="logo-container">
-						<img src="/images/meetup/{event.meetup.logo}" alt={event.meetup.name} class="meetup-logo" />
+						<img src={getImagePath(event.meetup.logo, IMAGE_CATEGORIES.GROUP)} alt={event.meetup.name} class="meetup-logo" />
 					</div>
 				{/if}
 				<h1 class="form-title">Checking In To</h1>

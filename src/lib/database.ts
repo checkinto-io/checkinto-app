@@ -242,13 +242,13 @@ export class DatabaseService {
 	static async logoExists(filename: string, type: 'meetup' | 'presenter'): Promise<boolean> {
 		if (!filename) return false;
 		
-		try {
-			const path = `/images/${type}/${filename}`;
-			const response = await fetch(path, { method: 'HEAD' });
-			return response.ok;
-		} catch {
-			return false;
-		}
+		// Import image utilities dynamically to avoid SSR issues
+		const { imageExists, IMAGE_CATEGORIES } = await import('$lib/utils/imagePaths');
+		
+		// Map old types to new categories
+		const category = type === 'meetup' ? IMAGE_CATEGORIES.GROUP : IMAGE_CATEGORIES.TALENT;
+		
+		return await imageExists(filename, category);
 	}
 
 	/**
@@ -257,8 +257,13 @@ export class DatabaseService {
 	static async getLogoPath(filename: string | null, type: 'meetup' | 'presenter'): Promise<string | null> {
 		if (!filename) return null;
 		
-		const exists = await this.logoExists(filename, type);
-		return exists ? `/images/${type}/${filename}` : null;
+		// Import image utilities dynamically to avoid SSR issues
+		const { getImagePathSafe, IMAGE_CATEGORIES } = await import('$lib/utils/imagePaths');
+		
+		// Map old types to new categories
+		const category = type === 'meetup' ? IMAGE_CATEGORIES.GROUP : IMAGE_CATEGORIES.TALENT;
+		
+		return await getImagePathSafe(filename, category);
 	}
 
 	/**

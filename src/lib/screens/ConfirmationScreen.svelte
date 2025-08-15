@@ -3,6 +3,7 @@
 	import { navigationActions, formActions } from '$lib/stores';
 	import { fetchRaffleWinners, getOrdinal, isWinner } from '$lib/utils/raffle';
 	import { getConfirmationState } from '$lib/utils/storage';
+	import { getImagePath, IMAGE_CATEGORIES } from '$lib/utils/imagePaths';
 	import type { MeetupEvent, RaffleWinner } from '$lib/types';
 	import { onMount, onDestroy } from 'svelte';
 
@@ -130,7 +131,7 @@
 			<header class="success-header">
 				{#if event.meetup?.logo}
 					<div class="logo-container">
-						<img src="/images/meetup/{event.meetup.logo}" alt={event.meetup.name} class="meetup-logo" />
+						<img src={getImagePath(event.meetup.logo, IMAGE_CATEGORIES.GROUP)} alt={event.meetup.name} class="meetup-logo" />
 					</div>
 				{/if}
 				<h1 class="success-title">
