@@ -51,9 +51,11 @@
 					console.log('New attendee successfully checked in');
 				}
 				
+				// Store email before reset for raffle winner comparison
+				const checkedInEmail = formState.data.email;
 				// Reset form and navigate to confirmation
 				formActions.reset();
-				navigationActions.completeCheckin(event);
+				navigationActions.completeCheckin(event, checkedInEmail);
 			} else {
 				// Handle submission error with specific error message
 				const errorMessage = result.error || 'Failed to complete check-in. Please try again.';

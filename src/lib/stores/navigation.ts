@@ -74,11 +74,11 @@ export const navigationActions = {
 	},
 
 	// Navigate to confirmation screen and persist state
-	completeCheckin: (event?: Event | null) => {
+	completeCheckin: (event?: Event | null, attendeeEmail?: string) => {
 		navigationStore.update(state => {
 			// Store confirmation state if persistence is allowed
 			if (event && canPersistConfirmationState(event)) {
-				storeConfirmationState(state.eventId);
+				storeConfirmationState(state.eventId, attendeeEmail);
 			}
 
 			return {

@@ -1,10 +1,10 @@
 <script lang="ts">
 	import { Button } from '$lib/components';
-	import { navigationActions, formActions, formStore } from '$lib/stores';
+	import { navigationActions, formActions } from '$lib/stores';
 	import { fetchRaffleWinners, getOrdinal, isWinner } from '$lib/utils/raffle';
+	import { getConfirmationState } from '$lib/utils/storage';
 	import type { MeetupEvent, RaffleWinner } from '$lib/types';
 	import { onMount, onDestroy } from 'svelte';
-	import { get } from 'svelte/store';
 
 	interface Props {
 		event: MeetupEvent | null;
@@ -29,10 +29,15 @@
 		navigationActions.reset(); // This now clears localStorage and resets to initial state
 	};
 	
-	// Get current user's email from form store
+	// Get current user's email from localStorage
 	onMount(() => {
-		const formState = get(formStore);
-		currentUserEmail = formState.data.email;
+		// Get the email from the stored confirmation state
+		if (event?.url_id) {
+			const confirmationState = getConfirmationState(event.url_id);
+			if (confirmationState?.attendeeEmail) {
+				currentUserEmail = confirmationState.attendeeEmail;
+			}
+		}
 		
 		// Start polling for raffle winners if event exists
 		if (event?.id) {
@@ -634,19 +639,27 @@
 	}
 	
 	.winner-item.is-you {
-		background: rgba(255, 255, 255, 0.4);
-		border: 2px solid white;
+		background: linear-gradient(135deg, rgba(34, 197, 94, 0.9) 0%, rgba(22, 163, 74, 0.9) 100%);
+		border: 2px solid #10b981;
 		animation: pulse 2s infinite;
+		box-shadow: 0 4px 20px rgba(34, 197, 94, 0.4);
+	}
+	
+	.winner-item.is-you .winner-place,
+	.winner-item.is-you .winner-name,
+	.winner-item.is-you .winner-message {
+		color: white;
+		text-shadow: 0 1px 3px rgba(0, 0, 0, 0.3);
 	}
 	
 	@keyframes pulse {
 		0%, 100% {
 			transform: scale(1);
-			box-shadow: 0 0 0 0 rgba(255, 255, 255, 0.7);
+			box-shadow: 0 0 0 0 rgba(34, 197, 94, 0.7);
 		}
 		50% {
 			transform: scale(1.02);
-			box-shadow: 0 0 0 10px rgba(255, 255, 255, 0);
+			box-shadow: 0 0 0 10px rgba(34, 197, 94, 0);
 		}
 	}
 	

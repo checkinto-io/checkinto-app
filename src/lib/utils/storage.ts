@@ -7,6 +7,7 @@ export interface ConfirmationState {
 	isConfirmed: boolean;
 	timestamp: number;
 	eventId: string;
+	attendeeEmail?: string;
 }
 
 const STORAGE_KEY_PREFIX = 'meetup-checkin';
@@ -37,14 +38,15 @@ export function isStorageAvailable(): boolean {
 /**
  * Store confirmation state for an event
  */
-export function storeConfirmationState(eventId: string): boolean {
+export function storeConfirmationState(eventId: string, attendeeEmail?: string): boolean {
 	if (!isStorageAvailable()) return false;
 
 	try {
 		const state: ConfirmationState = {
 			isConfirmed: true,
 			timestamp: Date.now(),
-			eventId
+			eventId,
+			attendeeEmail
 		};
 
 		const key = getStorageKey(eventId);
