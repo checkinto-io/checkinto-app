@@ -35,10 +35,10 @@ This document outlines all the tasks to work on to delivery this particular vers
 
 | ID  | Task             | Description                             | Dependencies | Status | Assigned To |
 |-----|------------------|-----------------------------------------|-------------|----------|--------|
-| P3T1 | Implement 5-second polling in ConfirmationScreen | Add automatic polling mechanism to check for raffle winners every 5 seconds | P1T4 | 🔴 Not Started | AGENT |
-| P3T2 | Create raffle data query chain | Implement query: event_attendee → attendee → event → meetup to get raffle configuration and winner data | P3T1 | 🔴 Not Started | AGENT |
-| P3T3 | Add performance optimization for polling | Optimize polling queries to minimize database load and improve response times | P3T2 | 🔴 Not Started | AGENT |
-| P3T4 | Implement polling lifecycle management | Add proper start/stop mechanisms for polling based on component lifecycle | P3T3 | 🔴 Not Started | AGENT |
+| P3T1 | Implement 5-second polling in ConfirmationScreen | Add automatic polling mechanism to check for raffle winners every 5 seconds | P1T4 | 🟢 Completed | AGENT |
+| P3T2 | Create raffle data query chain | Implement query: event_attendee → attendee → event → meetup to get raffle configuration and winner data | P3T1 | 🟢 Completed | AGENT |
+| P3T3 | Add performance optimization for polling | Optimize polling queries to minimize database load and improve response times | P3T2 | 🟢 Completed | AGENT |
+| P3T4 | Implement polling lifecycle management | Add proper start/stop mechanisms for polling based on component lifecycle | P3T3 | 🟢 Completed | AGENT |
 
 
 ## **Phase 4: Winner Announcement UI**

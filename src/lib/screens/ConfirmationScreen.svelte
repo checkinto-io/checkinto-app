@@ -1,7 +1,10 @@
 <script lang="ts">
 	import { Button } from '$lib/components';
-	import { navigationActions, formActions } from '$lib/stores';
-	import type { MeetupEvent } from '$lib/types';
+	import { navigationActions, formActions, formStore } from '$lib/stores';
+	import { fetchRaffleWinners, getOrdinal, isWinner } from '$lib/utils/raffle';
+	import type { MeetupEvent, RaffleWinner } from '$lib/types';
+	import { onMount, onDestroy } from 'svelte';
+	import { get } from 'svelte/store';
 
 	interface Props {
 		event: MeetupEvent | null;
@@ -10,6 +13,11 @@
 	}
 
 	let { event, isLoading = false, error = null }: Props = $props();
+	
+	// Raffle state
+	let raffleWinners = $state<RaffleWinner[]>([]);
+	let currentUserEmail = $state<string>('');
+	let pollingInterval: ReturnType<typeof setInterval> | null = null;
 
 	const handleNewCheckIn = () => {
 		formActions.reset();
@@ -19,6 +27,48 @@
 	const handleCheckInAnother = () => {
 		formActions.reset();
 		navigationActions.reset(); // This now clears localStorage and resets to initial state
+	};
+	
+	// Get current user's email from form store
+	onMount(() => {
+		const formState = get(formStore);
+		currentUserEmail = formState.data.email;
+		
+		// Start polling for raffle winners if event exists
+		if (event?.id) {
+			startPollingForWinners();
+		}
+	});
+	
+	onDestroy(() => {
+		// Clean up polling interval
+		if (pollingInterval) {
+			clearInterval(pollingInterval);
+		}
+	});
+	
+	// Poll for raffle winners every 5 seconds
+	const startPollingForWinners = () => {
+		// Initial check
+		checkForWinners();
+		
+		// Set up polling interval
+		pollingInterval = setInterval(() => {
+			checkForWinners();
+		}, 5000); // 5 seconds
+	};
+	
+	// Check for raffle winners
+	const checkForWinners = async () => {
+		if (!event?.id) return;
+		
+		const winners = await fetchRaffleWinners(event.id);
+		raffleWinners = winners;
+	};
+	
+	// Check if current user is a winner
+	const isCurrentUserWinner = (winner: RaffleWinner): boolean => {
+		return isWinner(winner.email, currentUserEmail);
 	};
 
 	// Helper function to convert newlines to <br> tags
@@ -44,6 +94,34 @@
 		</div>
 	{:else if event}
 		<div class="confirmation-content">
+			{#if raffleWinners.length > 0}
+				<div class="raffle-winner-announcement">
+					<h2 class="raffle-title">
+						<svg width="32" height="32" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2">
+							<path d="M12 2L15.09 8.26L22 9.27L17 14.14L18.18 21.02L12 17.77L5.82 21.02L7 14.14L2 9.27L8.91 8.26L12 2Z"/>
+						</svg>
+						{raffleWinners.length === 1 ? 'Raffle Winner!' : 'Raffle Winners!'}
+						<svg width="32" height="32" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2">
+							<path d="M12 2L15.09 8.26L22 9.27L17 14.14L18.18 21.02L12 17.77L5.82 21.02L7 14.14L2 9.27L8.91 8.26L12 2Z"/>
+						</svg>
+					</h2>
+					<div class="winners-list">
+						{#each raffleWinners as winner, index}
+							<div class="winner-item" class:is-you={isCurrentUserWinner(winner)}>
+								<div class="winner-place">{getOrdinal(raffleWinners.length - index)} Place</div>
+								<div class="winner-name">
+									{winner.first_name} {winner.last_name}
+								</div>
+								{#if isCurrentUserWinner(winner)}
+									<div class="winner-message">
+										🎉 Hey! That's you! You won! 🎉
+									</div>
+								{/if}
+							</div>
+						{/each}
+					</div>
+				</div>
+			{/if}
 			<header class="success-header">
 				{#if event.meetup?.logo}
 					<div class="logo-container">
@@ -460,6 +538,161 @@
 	@media (min-width: 640px) {
 		.event-info-grid {
 			grid-template-columns: 1fr 1fr;
+		}
+	}
+	
+	/* Raffle Winner Announcement Styles */
+	.raffle-winner-announcement {
+		background: linear-gradient(135deg, #fbbf24 0%, #f59e0b 100%);
+		color: white;
+		border-radius: 1rem;
+		padding: 1.5rem;
+		margin-bottom: 2rem;
+		box-shadow: 0 10px 25px rgba(245, 158, 11, 0.3);
+		animation: slideDown 0.5s ease-out;
+		position: relative;
+		overflow: hidden;
+	}
+	
+	.raffle-winner-announcement::before {
+		content: '';
+		position: absolute;
+		top: -50%;
+		left: -50%;
+		width: 200%;
+		height: 200%;
+		background: linear-gradient(
+			45deg,
+			transparent 30%,
+			rgba(255, 255, 255, 0.1) 50%,
+			transparent 70%
+		);
+		animation: shimmer 3s infinite;
+	}
+	
+	@keyframes slideDown {
+		from {
+			transform: translateY(-20px);
+			opacity: 0;
+		}
+		to {
+			transform: translateY(0);
+			opacity: 1;
+		}
+	}
+	
+	@keyframes shimmer {
+		0% {
+			transform: translateX(-100%) translateY(-100%) rotate(45deg);
+		}
+		100% {
+			transform: translateX(100%) translateY(100%) rotate(45deg);
+		}
+	}
+	
+	.raffle-title {
+		font-size: 1.75rem;
+		font-weight: bold;
+		margin: 0 0 1rem 0;
+		display: flex;
+		align-items: center;
+		justify-content: center;
+		gap: 0.5rem;
+		text-shadow: 0 2px 4px rgba(0, 0, 0, 0.2);
+		position: relative;
+		z-index: 1;
+	}
+	
+	.raffle-title svg {
+		fill: white;
+		animation: sparkle 1.5s ease-in-out infinite;
+	}
+	
+	@keyframes sparkle {
+		0%, 100% {
+			transform: scale(1) rotate(0deg);
+		}
+		50% {
+			transform: scale(1.2) rotate(180deg);
+		}
+	}
+	
+	.winners-list {
+		display: flex;
+		flex-direction: column;
+		gap: 0.75rem;
+		position: relative;
+		z-index: 1;
+	}
+	
+	.winner-item {
+		background: rgba(255, 255, 255, 0.2);
+		border-radius: 0.5rem;
+		padding: 1rem;
+		backdrop-filter: blur(10px);
+		transition: all 0.3s ease;
+	}
+	
+	.winner-item.is-you {
+		background: rgba(255, 255, 255, 0.4);
+		border: 2px solid white;
+		animation: pulse 2s infinite;
+	}
+	
+	@keyframes pulse {
+		0%, 100% {
+			transform: scale(1);
+			box-shadow: 0 0 0 0 rgba(255, 255, 255, 0.7);
+		}
+		50% {
+			transform: scale(1.02);
+			box-shadow: 0 0 0 10px rgba(255, 255, 255, 0);
+		}
+	}
+	
+	.winner-place {
+		font-size: 0.875rem;
+		font-weight: 600;
+		opacity: 0.95;
+		margin-bottom: 0.25rem;
+		text-transform: uppercase;
+		letter-spacing: 0.05em;
+	}
+	
+	.winner-name {
+		font-size: 1.25rem;
+		font-weight: bold;
+		margin-bottom: 0.25rem;
+	}
+	
+	.winner-message {
+		font-size: 1rem;
+		margin-top: 0.5rem;
+		font-weight: 600;
+		animation: bounce 1s ease-in-out infinite;
+	}
+	
+	@keyframes bounce {
+		0%, 100% {
+			transform: translateY(0);
+		}
+		50% {
+			transform: translateY(-5px);
+		}
+	}
+	
+	@media (max-width: 640px) {
+		.raffle-title {
+			font-size: 1.5rem;
+		}
+		
+		.raffle-title svg {
+			width: 24px;
+			height: 24px;
+		}
+		
+		.winner-name {
+			font-size: 1.125rem;
 		}
 	}
 </style>
