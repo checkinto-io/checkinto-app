@@ -115,7 +115,7 @@ Production deployment with custom domain configuration and final testing validat
 
 | ID  | Feature                 | Description                              | Priority | Status |
 |-----|-------------------------|------------------------------------------|----------|--------|
-| F020 | Netlify Deployment | Configure production hosting | High | 🔴 Not Started |
+| F020 | Vercel Deployment | Configure production hosting with Vercel | High | 🔴 Not Started |
 | F021 | Custom Domain Setup | Configure meetup.icodewith.ai domain | High | 🔴 Not Started |
 | F022 | Environment Variables | Production environment configuration | High | 🔴 Not Started |
 | F023 | Production Testing | End-to-end testing in production | High | 🔴 Not Started |
