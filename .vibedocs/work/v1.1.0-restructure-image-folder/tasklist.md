@@ -38,16 +38,16 @@ This document outlines all the tasks to work on to delivery this particular vers
 
 | ID  | Task             | Description                             | Dependencies | Status | Assigned To |
 |-----|------------------|-----------------------------------------|-------------|----------|--------|
-| T012 | Test Image Loading | Verify all images load correctly in all three screens | T008, T009, T010 | 🔴 Not Started | AGENT |
-| T013 | Test Mobile Responsiveness | Ensure image display works correctly on mobile devices | T012 | 🔴 Not Started | AGENT |
-| T014 | Update Migration Documentation | Update migration docs to reflect new image folder structure | T012 | 🔴 Not Started | AGENT |
-| T015 | Create Group Setup Guide | Document process for setting up images for new groups | T014 | 🔴 Not Started | AGENT |
+| T012 | Test Image Loading | Verify all images load correctly in all three screens | T008, T009, T010 | 🟢 Completed | USER |
+| T013 | Test Mobile Responsiveness | Ensure image display works correctly on mobile devices | T012 | 🟢 Completed | USER |
+| T014 | Update Migration Documentation | Update migration docs to reflect new image folder structure | T012 | 🟢 Completed | AGENT |
+| ~~T015~~ | ~~Create Group Setup Guide~~ | ~~Document process for setting up images for new groups~~ | ~~T014~~ | ❌ Skipped | ~~AGENT~~ |
 
 ## Phase 5: Maintenance Improvements
 
 | ID  | Task             | Description                             | Dependencies | Status | Assigned To |
 |-----|------------------|-----------------------------------------|-------------|----------|--------|
-| T016 | Environment-based Group Detection | Add utility to detect group from hostname/subdomain | T003 | 🔴 Not Started | AGENT |
-| T017 | Image Path Constants | Create constants/enums for image paths to prevent typos | T003 | 🔴 Not Started | AGENT |
-| T018 | TypeScript Path Mapping | Add TypeScript path mapping in tsconfig.json for better IDE support | T002 | 🔴 Not Started | AGENT |
-| T019 | Performance Optimization | Implement image preloading or lazy loading if beneficial | T012 | 🔴 Not Started | AGENT |
+| T016 | Environment-based Group Detection | Add utility to detect group from hostname/subdomain | T003 | 🟢 Completed | AGENT |
+| T017 | Image Path Constants | Create constants/enums for image paths to prevent typos | T003 | 🟢 Completed | AGENT |
+| T018 | TypeScript Path Mapping | Add TypeScript path mapping in tsconfig.json for better IDE support | T002 | 🟢 Completed | AGENT |
+| T019 | Performance Optimization | Implement image preloading or lazy loading if beneficial | T012 | 🟢 Completed | AGENT |

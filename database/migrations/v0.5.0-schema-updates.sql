@@ -12,7 +12,7 @@ CREATE TABLE IF NOT EXISTS meetup (
     name TEXT NOT NULL,
     description TEXT NOT NULL,
     learn_more_link TEXT,
-    logo TEXT, -- filename only, path will be /static/images/meetup/{logo}
+    logo TEXT, -- filename only, path will be /static/images/groups/{groupname}/group/{logo}
     created_at TIMESTAMPTZ NOT NULL DEFAULT now(),
     updated_at TIMESTAMPTZ NOT NULL DEFAULT now()
 );
@@ -38,7 +38,7 @@ CREATE TABLE IF NOT EXISTS presenter (
     email TEXT NOT NULL,
     learn_more_link TEXT,
     about_presenter TEXT,
-    profile_photo TEXT, -- filename only, path will be /static/images/presenters/{profile_photo}
+    profile_photo TEXT, -- filename only, path will be /static/images/groups/{groupname}/talent/{profile_photo}
     created_at TIMESTAMPTZ NOT NULL DEFAULT now(),
     updated_at TIMESTAMPTZ NOT NULL DEFAULT now()
 );

@@ -1,4 +1,4 @@
-# CheckInto App v1.0
+# CheckInto App v1.1.0
 
 A mobile-first web application that enables seamless self-service check-in for in-person meetup attendees with real-time raffle functionality.
 
@@ -20,7 +20,7 @@ This application streamlines the check-in process for meetup events by providing
    - **Check-In Form** - Provide name, email, and an interesting fact
    - **Confirmation Screen** - View venue details and watch for raffle announcements
 
-**Example:** [https://codingwithai.checkinto.io/082025](https://codingwithai.chkin.io/082025)
+**Example:** [https://codingwithai.checkinto.io/082025](https://codingwithai.checkinto.io/082025)
 
 ## Key Features
 
@@ -93,8 +93,31 @@ PUBLIC_SUPABASE_URL=your_supabase_project_url
 PUBLIC_SUPABASE_ANON_KEY=your_supabase_anon_key
 ```
 
+## Image Asset Organization
+
+Assets are organized in a group-based structure for multi-tenant scaling:
+
+```
+static/images/groups/
+└── {groupname}/
+    ├── group/          # Meetup logos and branding
+    ├── talent/         # Speaker/presenter photos  
+    └── events/         # Event-specific images
+```
+
+**Example:**
+```
+static/images/groups/codingwithai/
+├── group/coding-with-ai-meetup.png
+├── talent/marcelo-lewin.png
+└── events/ (for future event images)
+```
+
+The application automatically detects the group from the subdomain and constructs appropriate image paths at runtime.
+
 ## Version History
 
+- **v1.1.0** - Multi-tenant image folder restructure with group-based organization
 - **v1.0.0** - Production deployment with custom domain and full feature set
 - **v0.8.0** - Real-time raffle system implementation
 - **v0.7.0** - Meetup host integration and talent management

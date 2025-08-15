@@ -8,7 +8,7 @@ export type ImageCategory = 'group' | 'talent' | 'events';
 /**
  * Extract group name from hostname
  * Examples: 
- *   codingwithai.chkin.io -> "codingwithai"
+ *   codingwithai.checkinto.io -> "codingwithai"
  *   localhost:5173 -> "codingwithai" (fallback for development)
  */
 export function getGroupFromHostname(hostname?: string): string {
@@ -16,19 +16,19 @@ export function getGroupFromHostname(hostname?: string): string {
 	const host = hostname || (typeof window !== 'undefined' ? window.location.hostname : 'localhost');
 	
 	// Development fallback
-	if (host === 'localhost' || host.startsWith('127.0.0.1')) {
-		return 'codingwithai';
+	if (DEV_HOSTS.some(devHost => host === devHost || host.startsWith(devHost))) {
+		return GROUPS.DEFAULT;
 	}
 	
 	// Extract subdomain from hostname
-	// codingwithai.chkin.io -> codingwithai
+	// codingwithai.checkinto.io -> codingwithai
 	const parts = host.split('.');
 	if (parts.length >= 3) {
 		return parts[0];
 	}
 	
 	// Fallback if no subdomain detected
-	return 'codingwithai';
+	return GROUPS.DEFAULT;
 }
 
 /**
@@ -84,6 +84,75 @@ export const IMAGE_CATEGORIES = {
 } as const;
 
 /**
+ * Image path constants to prevent typos and centralize path management
+ */
+export const IMAGE_PATHS = {
+	BASE: '/images',
+	GROUPS_BASE: '/images/groups',
+	GROUPS_PATTERN: '/images/groups/{group}/{category}/{filename}'
+} as const;
+
+/**
+ * Group name constants
+ */
+export const GROUPS = {
+	CODING_WITH_AI: 'codingwithai',
+	DEFAULT: 'codingwithai'
+} as const;
+
+/**
  * Default fallback group for development/testing
  */
-export const DEFAULT_GROUP = 'codingwithai';
+export const DEFAULT_GROUP = GROUPS.DEFAULT;
+
+/**
+ * Preload an image to improve performance
+ * @param imagePath - Full path to the image
+ * @returns Promise that resolves when image is loaded
+ */
+export function preloadImage(imagePath: string): Promise<void> {
+	return new Promise((resolve, reject) => {
+		const img = new Image();
+		img.onload = () => resolve();
+		img.onerror = () => reject(new Error(`Failed to preload image: ${imagePath}`));
+		img.src = imagePath;
+	});
+}
+
+/**
+ * Preload image with group-based path construction
+ * @param filename - Just the filename
+ * @param category - Image category
+ * @param group - Optional group override
+ * @returns Promise that resolves when image is loaded
+ */
+export async function preloadGroupImage(filename: string, category: ImageCategory, group?: string): Promise<void> {
+	const imagePath = getImagePath(filename, category, group);
+	return preloadImage(imagePath);
+}
+
+/**
+ * Preload multiple images in parallel
+ * @param imageConfigs - Array of {filename, category, group} objects
+ * @returns Promise that resolves when all images are loaded
+ */
+export async function preloadImages(imageConfigs: Array<{filename: string, category: ImageCategory, group?: string}>): Promise<void> {
+	const preloadPromises = imageConfigs.map(config => 
+		preloadGroupImage(config.filename, config.category, config.group)
+	);
+	
+	await Promise.allSettled(preloadPromises);
+}
+
+/**
+ * Development environment detection constants
+ */
+export const DEV_HOSTS = ['localhost', '127.0.0.1'] as const;
+
+/**
+ * Domain constants for environment detection
+ */
+export const DOMAINS = {
+	PRODUCTION: 'checkinto.io',
+	LEGACY: 'chkin.io' // Support for legacy domain references
+} as const;
