@@ -37,9 +37,11 @@ CREATE TABLE public.event_attendee (
   event_id uuid NOT NULL,
   attendee_id uuid NOT NULL,
   created_at timestamp with time zone NOT NULL DEFAULT now(),
+  raffle_winner boolean NOT NULL DEFAULT false,
+  raffle_round integer CHECK (raffle_round IS NULL OR raffle_round > 0),
   CONSTRAINT event_attendee_pkey PRIMARY KEY (event_id, attendee_id),
-  CONSTRAINT event_attendee_event_id_fkey FOREIGN KEY (event_id) REFERENCES public.event(id),
-  CONSTRAINT event_attendee_attendee_id_fkey FOREIGN KEY (attendee_id) REFERENCES public.attendee(id)
+  CONSTRAINT event_attendee_attendee_id_fkey FOREIGN KEY (attendee_id) REFERENCES public.attendee(id),
+  CONSTRAINT event_attendee_event_id_fkey FOREIGN KEY (event_id) REFERENCES public.event(id)
 );
 CREATE TABLE public.meetup (
   id uuid NOT NULL DEFAULT gen_random_uuid(),
@@ -49,6 +51,7 @@ CREATE TABLE public.meetup (
   logo text CHECK (logo IS NULL OR length(logo) > 0 AND length(logo) <= 255),
   created_at timestamp with time zone NOT NULL DEFAULT now(),
   updated_at timestamp with time zone NOT NULL DEFAULT now(),
+  raffle_winners_to_display integer NOT NULL DEFAULT 1 CHECK (raffle_winners_to_display > 0),
   CONSTRAINT meetup_pkey PRIMARY KEY (id)
 );
 CREATE TABLE public.talent (

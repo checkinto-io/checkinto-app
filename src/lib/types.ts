@@ -5,6 +5,7 @@ export interface Meetup {
 	description: string;
 	learn_more_link: string | null;
 	logo: string | null;
+	raffle_winners_to_display: number;
 	created_at: string;
 	updated_at: string;
 }
@@ -59,6 +60,21 @@ export interface Event {
 // Type alias for component compatibility
 export type MeetupEvent = Event;
 
+// Raffle Winner Types
+export interface RaffleWinner {
+	attendee_id: string;
+	first_name: string;
+	last_name: string;
+	email: string;
+	raffle_round: number;
+}
+
+export interface RaffleAnnouncementData {
+	winners: RaffleWinner[];
+	total_winners_to_display: number;
+	event_id: string;
+}
+
 export interface Attendee {
 	id: string;
 	first_name: string;
@@ -72,6 +88,8 @@ export interface Attendee {
 export interface EventAttendee {
 	event_id: string;
 	attendee_id: string;
+	raffle_winner: boolean;
+	raffle_round: number | null;
 	created_at: string;
 }
 
@@ -94,15 +112,15 @@ export interface CheckInResponse {
 // Database Input Types (for creating records)
 export type MeetupInput = Omit<Meetup, 'id' | 'created_at' | 'updated_at'>;
 export type VenueInput = Omit<Venue, 'id' | 'created_at' | 'updated_at'>;
-export type PresenterInput = Omit<Presenter, 'id' | 'created_at' | 'updated_at'>;
+export type TalentInput = Omit<Talent, 'id' | 'created_at' | 'updated_at'>;
 export type EventInput = Omit<Event, 'id' | 'created_at' | 'updated_at' | 'meetup' | 'venue' | 'presenter'>;
 export type AttendeeInput = Omit<Attendee, 'id' | 'created_at' | 'updated_at'>;
-export type EventAttendeeInput = Omit<EventAttendee, 'created_at'>;
+export type EventAttendeeInput = Omit<EventAttendee, 'created_at' | 'raffle_winner' | 'raffle_round'>;
 
 // Update Types (for updating records)
 export type MeetupUpdate = Partial<Omit<Meetup, 'id' | 'created_at' | 'updated_at'>>;
 export type VenueUpdate = Partial<Omit<Venue, 'id' | 'created_at' | 'updated_at'>>;
-export type PresenterUpdate = Partial<Omit<Presenter, 'id' | 'created_at' | 'updated_at'>>;
+export type TalentUpdate = Partial<Omit<Talent, 'id' | 'created_at' | 'updated_at'>>;
 export type EventUpdate = Partial<Omit<Event, 'id' | 'created_at' | 'updated_at' | 'meetup' | 'venue' | 'presenter'>>;
 export type AttendeeUpdate = Partial<Omit<Attendee, 'id' | 'created_at' | 'updated_at'>>;
 
@@ -185,14 +203,14 @@ export function isVenue(obj: unknown): obj is Venue {
 	);
 }
 
-export function isPresenter(obj: unknown): obj is Presenter {
+export function isTalent(obj: unknown): obj is Talent {
 	return (
 		typeof obj === 'object' &&
 		obj !== null &&
-		typeof (obj as Presenter).id === 'string' &&
-		typeof (obj as Presenter).first_name === 'string' &&
-		typeof (obj as Presenter).last_name === 'string' &&
-		typeof (obj as Presenter).email === 'string'
+		typeof (obj as Talent).id === 'string' &&
+		typeof (obj as Talent).first_name === 'string' &&
+		typeof (obj as Talent).last_name === 'string' &&
+		typeof (obj as Talent).email === 'string'
 	);
 }
 

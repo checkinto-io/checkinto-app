@@ -97,6 +97,19 @@ Refactor talent management system and add meetup host functionality with enhance
 | F041 | Database Migration | Safe migration script for schema changes with data preservation | High | 🟢 Completed |
 | F042 | TypeScript Refactoring | Update all interfaces and types to reflect new talent structure | Medium | 🟢 Completed |
 
+## v0.8.0-raffle-system - 🟡 In Progress
+Implement real-time raffle winner announcement system with admin script for random attendee selection and personalized winner messaging.
+
+| ID  | Feature                 | Description                              | Priority | Status |
+|-----|-------------------------|------------------------------------------|----------|--------|
+| F043 | Database Schema Enhancement | Add raffle_winner, raffle_round to event_attendee table | High | 🔴 Not Started |
+| F044 | Meetup Display Control | Add raffle_winners_to_display field to meetup table | High | 🔴 Not Started |
+| F045 | Winner Selection Script | Supabase Edge Function for secure random winner selection | High | 🔴 Not Started |
+| F046 | Frontend Polling System | 5-second polling for real-time winner announcements | High | 🔴 Not Started |
+| F047 | Personalized Winner UI | Winner announcement section with personalized messaging | High | 🔴 Not Started |
+| F048 | Multiple Winner Support | Support for multiple raffle rounds with ordinal display | Medium | 🔴 Not Started |
+| F049 | Performance Optimization | Composite indexes and query optimization for raffle queries | Medium | 🔴 Not Started |
+
 ## v1.0.0-deployment - 🔴 Not Started
 Production deployment with custom domain configuration and final testing validation.
 
