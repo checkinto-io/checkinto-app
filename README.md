@@ -1,4 +1,4 @@
-# Meetup Check-In v1.0
+# CheckInto App v1.0
 
 A mobile-first web application that enables seamless self-service check-in for in-person meetup attendees with real-time raffle functionality.
 
@@ -14,13 +14,13 @@ This application streamlines the check-in process for meetup events by providing
 ## How It Works
 
 **For Attendees:**
-1. Visit your meetup's custom URL: `https://{meetupname}.chkin.io/{eventId}`
+1. Visit your meetup's custom URL: `https://{meetupname}.checkinto.io/{eventId}`
 2. Complete the simple three-screen flow:
    - **Welcome Screen** - Event-specific landing page with meetup branding
    - **Check-In Form** - Provide name, email, and an interesting fact
    - **Confirmation Screen** - View venue details and watch for raffle announcements
 
-**Example:** [https://codingwithai.chkin.io/082025](https://codingwithai.chkin.io/082025)
+**Example:** [https://codingwithai.checkinto.io/082025](https://codingwithai.chkin.io/082025)
 
 ## Key Features
 
@@ -52,11 +52,9 @@ This application streamlines the check-in process for meetup events by providing
 - **Styling**: Tailwind CSS with mobile-first design
 - **Backend**: Supabase (PostgreSQL database, API, Edge Functions)
 - **Hosting**: Vercel with custom domain routing
-- **Domain**: chkin.io with subdomain architecture
+- **Domain**: Both checkinto.io and chkin.io with subdomain architecture
 
 ## Production Deployment
-
-**Live Application:** [https://codingwithai.chkin.io](https://codingwithai.chkin.io)
 
 The application is deployed on Vercel with:
 - Automatic deployments from main branch
@@ -82,11 +80,11 @@ npm run preview
 
 ## URL Structure
 
-Events are accessed via: `https://{meetupname}.chkin.io/{eventId}`
+Events are accessed via: `https://{meetupname}.checkinto.io/{eventId}`
 
 Examples:
-- `https://codingwithai.chkin.io/082025` - Coding with AI meetup, August 2025 event
-- `https://seattle.chkin.io/090125` - Seattle meetup, September 2025 event
+- `https://codingwithai.checkinto.io/082025` - Coding with AI meetup, August 2025 event
+- `https://seattle.checkinto.io/090125` - Seattle meetup, September 2025 event
 
 ## Environment Variables
 
