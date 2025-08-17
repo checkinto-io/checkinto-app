@@ -9,11 +9,13 @@ CREATE TABLE public.attendee (
   interesting_fact text NOT NULL,
   created_at timestamp with time zone NOT NULL DEFAULT now(),
   updated_at timestamp with time zone NOT NULL DEFAULT now(),
-  CONSTRAINT attendee_pkey PRIMARY KEY (id)
+  group_id uuid NOT NULL,
+  CONSTRAINT attendee_pkey PRIMARY KEY (id),
+  CONSTRAINT fk_attendee_group FOREIGN KEY (group_id) REFERENCES public.group(id)
 );
 CREATE TABLE public.event (
   id uuid NOT NULL DEFAULT gen_random_uuid(),
-  url_id text NOT NULL UNIQUE,
+  url_id text NOT NULL,
   title text NOT NULL,
   welcome_message text NOT NULL,
   active boolean NOT NULL DEFAULT true,
@@ -27,11 +29,12 @@ CREATE TABLE public.event (
   workshop_lead_id uuid NOT NULL,
   group_host_id uuid NOT NULL,
   CONSTRAINT event_pkey PRIMARY KEY (id),
-  CONSTRAINT fk_event_group_host FOREIGN KEY (group_host_id) REFERENCES public.talent(id),
-  CONSTRAINT fk_event_group FOREIGN KEY (group_id) REFERENCES public.group(id),
+  CONSTRAINT event_url_id_group_id_unique UNIQUE (url_id, group_id),
   CONSTRAINT fk_event_workshop_lead FOREIGN KEY (workshop_lead_id) REFERENCES public.talent(id),
+  CONSTRAINT fk_event_venue FOREIGN KEY (venue_id) REFERENCES public.venue(id),
   CONSTRAINT fk_event_presenter FOREIGN KEY (presenter_id) REFERENCES public.talent(id),
-  CONSTRAINT fk_event_venue FOREIGN KEY (venue_id) REFERENCES public.venue(id)
+  CONSTRAINT fk_event_group FOREIGN KEY (group_id) REFERENCES public.group(id),
+  CONSTRAINT fk_event_group_host FOREIGN KEY (group_host_id) REFERENCES public.talent(id)
 );
 CREATE TABLE public.event_attendee (
   event_id uuid NOT NULL,
@@ -40,8 +43,8 @@ CREATE TABLE public.event_attendee (
   raffle_winner boolean NOT NULL DEFAULT false,
   raffle_round integer CHECK (raffle_round IS NULL OR raffle_round > 0),
   CONSTRAINT event_attendee_pkey PRIMARY KEY (event_id, attendee_id),
-  CONSTRAINT event_attendee_attendee_id_fkey FOREIGN KEY (attendee_id) REFERENCES public.attendee(id),
-  CONSTRAINT event_attendee_event_id_fkey FOREIGN KEY (event_id) REFERENCES public.event(id)
+  CONSTRAINT event_attendee_event_id_fkey FOREIGN KEY (event_id) REFERENCES public.event(id),
+  CONSTRAINT event_attendee_attendee_id_fkey FOREIGN KEY (attendee_id) REFERENCES public.attendee(id)
 );
 CREATE TABLE public.group (
   id uuid NOT NULL DEFAULT gen_random_uuid(),
@@ -66,7 +69,9 @@ CREATE TABLE public.talent (
   profile_photo text CHECK (profile_photo IS NULL OR length(profile_photo) > 0 AND length(profile_photo) <= 255),
   created_at timestamp with time zone NOT NULL DEFAULT now(),
   updated_at timestamp with time zone NOT NULL DEFAULT now(),
-  CONSTRAINT talent_pkey PRIMARY KEY (id)
+  group_id uuid NOT NULL,
+  CONSTRAINT talent_pkey PRIMARY KEY (id),
+  CONSTRAINT fk_talent_group FOREIGN KEY (group_id) REFERENCES public.group(id)
 );
 CREATE TABLE public.venue (
   id uuid NOT NULL DEFAULT gen_random_uuid(),
@@ -78,5 +83,7 @@ CREATE TABLE public.venue (
   food_details text,
   created_at timestamp with time zone NOT NULL DEFAULT now(),
   updated_at timestamp with time zone NOT NULL DEFAULT now(),
-  CONSTRAINT venue_pkey PRIMARY KEY (id)
+  group_id uuid NOT NULL,
+  CONSTRAINT venue_pkey PRIMARY KEY (id),
+  CONSTRAINT fk_venue_group FOREIGN KEY (group_id) REFERENCES public.group(id)
 );

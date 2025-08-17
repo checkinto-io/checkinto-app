@@ -151,6 +151,29 @@ export class DatabaseService {
 	}
 
 	/**
+	 * Get event by ID (simple fetch for group_id lookup)
+	 */
+	static async getEventById(eventId: string): Promise<Event | null> {
+		try {
+			const { data, error } = await supabase
+				.from('event')
+				.select('*')
+				.eq('id', eventId)
+				.single();
+
+			if (error) {
+				console.error('Error fetching event by ID:', error);
+				return null;
+			}
+
+			return data as Event;
+		} catch (err) {
+			console.error('Unexpected error fetching event by ID:', err);
+			return null;
+		}
+	}
+
+	/**
 	 * Complete check-in process (upsert attendee + link to event)
 	 */
 	static async checkInAttendee(
@@ -158,11 +181,26 @@ export class DatabaseService {
 		attendeeData: AttendeeInput
 	): Promise<CheckInResponse> {
 		try {
+			// Get event to retrieve group_id
+			const event = await this.getEventById(eventId);
+			if (!event) {
+				return {
+					success: false,
+					error: 'Event not found'
+				};
+			}
+
 			// Check if attendee is already registered for this event
 			const isAlreadyRegistered = await this.isEmailRegisteredForEvent(eventId, attendeeData.email);
 			
+			// Add group_id to attendee data
+			const attendeeDataWithGroup = {
+				...attendeeData,
+				group_id: event.group_id
+			};
+			
 			// First, upsert the attendee
-			const attendee = await this.upsertAttendee(attendeeData);
+			const attendee = await this.upsertAttendee(attendeeDataWithGroup);
 			
 			if (!attendee) {
 				return { 

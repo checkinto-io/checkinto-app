@@ -20,6 +20,7 @@ export interface Venue {
 	wifi_access: string | null;
 	restroom_details: string | null;
 	food_details: string | null;
+	group_id: string;
 	created_at: string;
 	updated_at: string;
 }
@@ -32,6 +33,7 @@ export interface Talent {
 	learn_more_link: string | null;
 	bio: string | null;
 	profile_photo: string | null;
+	group_id: string;
 	created_at: string;
 	updated_at: string;
 }
@@ -84,6 +86,7 @@ export interface Attendee {
 	last_name: string;
 	email: string;
 	interesting_fact: string;
+	group_id: string;
 	created_at: string;
 	updated_at: string;
 }
