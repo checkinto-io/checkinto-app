@@ -1,6 +1,6 @@
-# CheckInto App v1.1.0
+# CheckInto App v1.3.0
 
-A mobile-first web application that enables seamless self-service check-in for in-person group event attendees with real-time raffle functionality.
+A mobile-first web application that enables seamless self-service check-in for in-person group event attendees with real-time raffle functionality and full multi-tenant support.
 
 ## Purpose
 
@@ -37,14 +37,17 @@ This application streamlines the check-in process for group events by providing 
 - Admin-triggered winner selection via Supabase Edge Functions
 
 ### ✅ Multi-Tenant Architecture
-- Subdomain-based organization structure
-- Scalable for multiple group organizers
-- Custom branding per group
+- **Complete data isolation** - Each group maintains separate attendees, venues, and talent
+- **Subdomain-based routing** - Secure event access via `{groupname}.checkinto.io/{eventId}`
+- **Cross-group flexibility** - Same user can participate in multiple groups independently
+- **Scalable design** - Support for unlimited group organizers without conflicts
 
 ### ✅ Data Management
-- Normalized database schema with venues, groups, talent, and attendees
-- Event-specific configuration
-- Real-time polling for live updates
+- **Multi-tenant database design** - All tables isolated by `group_id` for security
+- **Normalized schema** - Clean separation of venues, groups, talent, and attendees
+- **Cross-tenant user support** - Same email can register across different groups
+- **Event-specific configuration** with group-aware validation
+- **Real-time polling** for live raffle updates
 
 ## Tech Stack
 
@@ -78,13 +81,20 @@ npm run build
 npm run preview
 ```
 
-## URL Structure
+## URL Structure & Multi-Tenant Routing
 
 Events are accessed via: `https://{groupname}.checkinto.io/{eventId}`
 
+The application automatically:
+1. **Extracts the group identifier** from the subdomain (`{groupname}`)
+2. **Validates event access** by checking both `eventId` AND `groupname` 
+3. **Ensures data isolation** - groups cannot access each other's events even with same event IDs
+4. **Provides fallback routing** for development environments via URL parameters
+
 Examples:
 - `https://codingwithai.checkinto.io/082025` - Coding with AI group, August 2025 event
-- `https://seattle.checkinto.io/090125` - Seattle group, September 2025 event
+- `https://seattle.checkinto.io/082025` - Seattle group, August 2025 event (same ID, different group - no conflict!)
+- `http://localhost:5173/082025?group=codingwithai` - Development routing
 
 ## Environment Variables
 
@@ -115,8 +125,26 @@ static/images/groups/codingwithai/
 
 The application automatically detects the group from the subdomain and constructs appropriate image paths at runtime.
 
+## Multi-Tenant Support Details
+
+### Data Isolation
+- **Complete tenant separation** - Each group maintains its own attendees, venues, and talent records
+- **Cross-group user support** - Same email address can register for events across different groups
+- **Secure routing** - Events are validated against both event ID and group profile name
+- **Database-level isolation** - All core tables include `group_id` foreign key constraints
+
+### Real-World Example
+A user with email `john@example.com` can:
+1. Register for `codingwithai.checkinto.io/082025` as "John Smith"
+2. Register for `seattle.checkinto.io/082025` as "J. Smith" 
+3. Register for `vancouver.checkinto.io/082025` as "Johnny"
+
+Each group sees them as separate attendees with their own check-in history, while the system maintains proper isolation and prevents conflicts.
+
 ## Version History
 
+- **v1.3.0** - Complete multi-tenant architecture with data isolation and secure routing
+- **v1.2.0** - CSS consolidation and styling improvements
 - **v1.1.0** - Multi-tenant image folder restructure with group-based organization
 - **v1.0.0** - Production deployment with custom domain and full feature set
 - **v0.8.0** - Real-time raffle system implementation
