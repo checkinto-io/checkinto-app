@@ -19,7 +19,46 @@ export const supabase = createClient(env.SUPABASE_URL, env.SUPABASE_ANON_KEY);
 // Database service functions
 export class DatabaseService {
 	/**
-	 * Get event by URL ID with related data
+	 * Get event by URL ID and group profile name with related data
+	 */
+	static async getEventByUrlIdAndProfile(urlId: string, profileName: string): Promise<Event | null> {
+		try {
+			const { data, error } = await supabase
+				.from('event')
+				.select(`
+					*,
+					group:group_id!inner (*),
+					venue:venue_id (*),
+					presenter:presenter_id (*),
+					workshop_lead:workshop_lead_id (*),
+					group_host:group_host_id (*)
+				`)
+				.eq('url_id', urlId)
+				.eq('active', true)
+				.eq('group.profilename', profileName)
+				.single();
+
+			if (error) {
+				// Handle specific error cases
+				if (error.code === 'PGRST116') {
+					console.warn(`Event not found or inactive: ${urlId} for group: ${profileName}`);
+				} else if (error.message?.includes('foreign key')) {
+					console.error(`Foreign key constraint issue for event: ${urlId}`, error);
+				} else {
+					console.error('Error fetching event:', error);
+				}
+				return null;
+			}
+
+			return data as Event;
+		} catch (err) {
+			console.error('Unexpected error fetching event:', err);
+			return null;
+		}
+	}
+
+	/**
+	 * Get event by URL ID with related data (legacy method - use getEventByUrlIdAndProfile instead)
 	 */
 	static async getEventByUrlId(urlId: string): Promise<Event | null> {
 		try {
