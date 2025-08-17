@@ -2,9 +2,6 @@ import { createClient } from '@supabase/supabase-js';
 import { env } from './env.js';
 import type {
 	Event,
-	Group,
-	Venue,
-	Talent,
 	Attendee,
 	AttendeeInput,
 	CheckInResponse,
@@ -108,7 +105,25 @@ export class DatabaseService {
 	}
 
 	/**
-	 * Create or update attendee (upsert)
+	 * Create new attendee (no upsert - security improvement)
+	 */
+	static async createAttendee(attendeeData: AttendeeInput): Promise<Attendee | null> {
+		const { data, error } = await supabase
+			.from('attendee')
+			.insert(attendeeData)
+			.select()
+			.single();
+
+		if (error) {
+			console.error('Error creating attendee:', error);
+			return null;
+		}
+
+		return data;
+	}
+
+	/**
+	 * Create or update attendee (upsert) - DEPRECATED: Use createAttendee for security
 	 */
 	static async upsertAttendee(attendeeData: AttendeeInput): Promise<Attendee | null> {
 		const { data, error } = await supabase
@@ -174,7 +189,7 @@ export class DatabaseService {
 	}
 
 	/**
-	 * Complete check-in process (upsert attendee + link to event)
+	 * Complete check-in process (create attendee + link to event)
 	 */
 	static async checkInAttendee(
 		eventId: string, 
@@ -193,14 +208,21 @@ export class DatabaseService {
 			// Check if attendee is already registered for this event
 			const isAlreadyRegistered = await this.isEmailRegisteredForEvent(eventId, attendeeData.email);
 			
+			if (isAlreadyRegistered) {
+				return {
+					success: true,
+					isExistingAttendee: true
+				};
+			}
+			
 			// Add group_id to attendee data
 			const attendeeDataWithGroup = {
 				...attendeeData,
 				group_id: event.group_id
 			};
 			
-			// First, upsert the attendee
-			const attendee = await this.upsertAttendee(attendeeDataWithGroup);
+			// Create new attendee (no upsert)
+			const attendee = await this.createAttendee(attendeeDataWithGroup);
 			
 			if (!attendee) {
 				return { 
@@ -222,7 +244,7 @@ export class DatabaseService {
 			return { 
 				success: true, 
 				attendee,
-				isExistingAttendee: isAlreadyRegistered
+				isExistingAttendee: false
 			};
 		} catch (error) {
 			console.error('Error in checkInAttendee:', error);
@@ -313,67 +335,5 @@ export class DatabaseService {
 		}
 	}
 
-	/**
-	 * Check if a logo file exists
-	 */
-	static async logoExists(filename: string, type: 'group' | 'presenter', group?: string): Promise<boolean> {
-		if (!filename) return false;
-		
-		// Import image utilities dynamically to avoid SSR issues
-		const { imageExists, IMAGE_CATEGORIES } = await import('$lib/utils/imagePaths');
-		
-		// Map types to categories
-		const category = type === 'group' ? IMAGE_CATEGORIES.GROUP : IMAGE_CATEGORIES.TALENT;
-		
-		return await imageExists(filename, category, group);
-	}
 
-	/**
-	 * Get logo path if file exists, otherwise return null
-	 */
-	static async getLogoPath(filename: string | null, type: 'group' | 'presenter', group?: string): Promise<string | null> {
-		if (!filename) return null;
-		
-		// Import image utilities dynamically to avoid SSR issues
-		const { getImagePathSafe, IMAGE_CATEGORIES } = await import('$lib/utils/imagePaths');
-		
-		// Map types to categories
-		const category = type === 'group' ? IMAGE_CATEGORIES.GROUP : IMAGE_CATEGORIES.TALENT;
-		
-		return await getImagePathSafe(filename, category, group);
-	}
-
-	/**
-	 * Get event with validated asset paths
-	 */
-	static async getEventWithValidatedAssets(urlId: string): Promise<Event | null> {
-		try {
-			const event = await this.getEventByUrlId(urlId);
-			if (!event) return null;
-
-			// Validate group banner if it exists
-			if (event.group?.banner) {
-				const bannerPath = await this.getLogoPath(event.group.banner, 'group', event.group.profilename);
-				if (!bannerPath) {
-					console.warn(`Group banner file not found: ${event.group.banner}`);
-				}
-				event.group.banner = bannerPath ? event.group.banner : null;
-			}
-
-			// Validate presenter profile photo if it exists  
-			if (event.presenter?.profile_photo) {
-				const photoPath = await this.getLogoPath(event.presenter.profile_photo, 'presenter', event.group?.profilename);
-				if (!photoPath) {
-					console.warn(`Presenter profile photo not found: ${event.presenter.profile_photo}`);
-				}
-				event.presenter.profile_photo = photoPath ? event.presenter.profile_photo : null;
-			}
-
-			return event;
-		} catch (err) {
-			console.error('Error validating event assets:', err);
-			// Return event without asset validation if validation fails
-			return await this.getEventByUrlId(urlId);
-		}
-	}
 }
