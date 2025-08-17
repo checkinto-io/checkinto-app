@@ -10,7 +10,7 @@ export interface ConfirmationState {
 	attendeeEmail?: string;
 }
 
-const STORAGE_KEY_PREFIX = 'meetup-checkin';
+const STORAGE_KEY_PREFIX = 'group-checkin';
 
 /**
  * Generate storage key for a specific event

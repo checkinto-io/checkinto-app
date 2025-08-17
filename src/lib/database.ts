@@ -2,7 +2,7 @@ import { createClient } from '@supabase/supabase-js';
 import { env } from './env.js';
 import type {
 	Event,
-	Meetup,
+	Group,
 	Venue,
 	Talent,
 	Attendee,
@@ -27,11 +27,11 @@ export class DatabaseService {
 				.from('event')
 				.select(`
 					*,
-					meetup:meetup_id (*),
+					group:group_id (*),
 					venue:venue_id (*),
 					presenter:presenter_id (*),
 					workshop_lead:workshop_lead_id (*),
-					meetup_host:meetup_host_id (*)
+					group_host:group_host_id (*)
 				`)
 				.eq('url_id', urlId)
 				.eq('active', true)
@@ -50,13 +50,13 @@ export class DatabaseService {
 			}
 
 			// Validate that required relationships exist
-			if (!data.meetup || !data.venue || !data.presenter || !data.workshop_lead || !data.meetup_host) {
+			if (!data.group || !data.venue || !data.presenter || !data.workshop_lead || !data.group_host) {
 				console.error(`Event ${urlId} is missing required relationships:`, {
-					hasMeetup: !!data.meetup,
+					hasGroup: !!data.group,
 					hasVenue: !!data.venue,
 					hasPresenter: !!data.presenter,
 					hasWorkshopLead: !!data.workshop_lead,
-					hasMeetupHost: !!data.meetup_host
+					hasGroupHost: !!data.group_host
 				});
 				return null;
 			}
@@ -239,53 +239,53 @@ export class DatabaseService {
 	/**
 	 * Check if a logo file exists
 	 */
-	static async logoExists(filename: string, type: 'meetup' | 'presenter'): Promise<boolean> {
+	static async logoExists(filename: string, type: 'group' | 'presenter', group?: string): Promise<boolean> {
 		if (!filename) return false;
 		
 		// Import image utilities dynamically to avoid SSR issues
 		const { imageExists, IMAGE_CATEGORIES } = await import('$lib/utils/imagePaths');
 		
-		// Map old types to new categories
-		const category = type === 'meetup' ? IMAGE_CATEGORIES.GROUP : IMAGE_CATEGORIES.TALENT;
+		// Map types to categories
+		const category = type === 'group' ? IMAGE_CATEGORIES.GROUP : IMAGE_CATEGORIES.TALENT;
 		
-		return await imageExists(filename, category);
+		return await imageExists(filename, category, group);
 	}
 
 	/**
 	 * Get logo path if file exists, otherwise return null
 	 */
-	static async getLogoPath(filename: string | null, type: 'meetup' | 'presenter'): Promise<string | null> {
+	static async getLogoPath(filename: string | null, type: 'group' | 'presenter', group?: string): Promise<string | null> {
 		if (!filename) return null;
 		
 		// Import image utilities dynamically to avoid SSR issues
 		const { getImagePathSafe, IMAGE_CATEGORIES } = await import('$lib/utils/imagePaths');
 		
-		// Map old types to new categories
-		const category = type === 'meetup' ? IMAGE_CATEGORIES.GROUP : IMAGE_CATEGORIES.TALENT;
+		// Map types to categories
+		const category = type === 'group' ? IMAGE_CATEGORIES.GROUP : IMAGE_CATEGORIES.TALENT;
 		
-		return await getImagePathSafe(filename, category);
+		return await getImagePathSafe(filename, category, group);
 	}
 
 	/**
-	 * Get event with validated logo paths
+	 * Get event with validated asset paths
 	 */
-	static async getEventWithValidatedLogos(urlId: string): Promise<Event | null> {
+	static async getEventWithValidatedAssets(urlId: string): Promise<Event | null> {
 		try {
 			const event = await this.getEventByUrlId(urlId);
 			if (!event) return null;
 
-			// Validate meetup logo if it exists
-			if (event.meetup?.logo) {
-				const logoPath = await this.getLogoPath(event.meetup.logo, 'meetup');
-				if (!logoPath) {
-					console.warn(`Meetup logo file not found: ${event.meetup.logo}`);
+			// Validate group banner if it exists
+			if (event.group?.banner) {
+				const bannerPath = await this.getLogoPath(event.group.banner, 'group', event.group.profilename);
+				if (!bannerPath) {
+					console.warn(`Group banner file not found: ${event.group.banner}`);
 				}
-				event.meetup.logo = logoPath ? event.meetup.logo : null;
+				event.group.banner = bannerPath ? event.group.banner : null;
 			}
 
 			// Validate presenter profile photo if it exists  
 			if (event.presenter?.profile_photo) {
-				const photoPath = await this.getLogoPath(event.presenter.profile_photo, 'presenter');
+				const photoPath = await this.getLogoPath(event.presenter.profile_photo, 'presenter', event.group?.profilename);
 				if (!photoPath) {
 					console.warn(`Presenter profile photo not found: ${event.presenter.profile_photo}`);
 				}
@@ -294,8 +294,8 @@ export class DatabaseService {
 
 			return event;
 		} catch (err) {
-			console.error('Error validating event logos:', err);
-			// Return event without logo validation if validation fails
+			console.error('Error validating event assets:', err);
+			// Return event without asset validation if validation fails
 			return await this.getEventByUrlId(urlId);
 		}
 	}

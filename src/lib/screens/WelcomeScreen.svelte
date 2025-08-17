@@ -3,10 +3,10 @@
 	import { Button } from '$lib/components';
 	import { navigationActions, formActions } from '$lib/stores';
 	import { getImagePath, IMAGE_CATEGORIES } from '$lib/utils/imagePaths';
-	import type { MeetupEvent } from '$lib/types';
+	import type { Event } from '$lib/types';
 
 	interface Props {
-		event: MeetupEvent | null;
+		event: Event | null;
 		isLoading?: boolean;
 		error?: string | null;
 	}
@@ -43,9 +43,9 @@
 	{:else if event}
 		<div class="welcome-content">
 			<header class="welcome-header">
-				{#if event.meetup?.logo}
+				{#if event.group?.banner}
 					<div class="logo-container">
-						<img src={getImagePath(event.meetup.logo, IMAGE_CATEGORIES.GROUP)} alt={event.meetup.name} class="meetup-logo" />
+						<img src={getImagePath(event.group.banner, IMAGE_CATEGORIES.GROUP, event.group.profilename)} alt={event.group.name} class="group-banner" />
 					</div>
 				{/if}
 				<h1 class="event-title">{@html formatLineBreaks(event.title)}</h1>
@@ -105,7 +105,7 @@
 		margin-bottom: 1.5rem;
 	}
 
-	.meetup-logo {
+	.group-banner {
 		width: 100%;
 		height: auto;
 		border-radius: 10px;

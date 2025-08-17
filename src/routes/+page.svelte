@@ -1,5 +1,5 @@
 <svelte:head>
-	<title>Meetup Check-In</title>
+	<title>Group Check-In</title>
 </svelte:head>
 
 <h1>Welcome to SvelteKit</h1>

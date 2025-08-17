@@ -9,6 +9,7 @@
 		disabled?: boolean;
 		error?: string;
 		autocomplete?: string;
+		name?: string;
 		class?: string;
 		// eslint-disable-next-line no-unused-vars
 		onchange?: (_value: string) => void;
@@ -26,6 +27,7 @@
 		disabled = false,
 		error = '',
 		autocomplete,
+		name,
 		class: className = '',
 		onchange,
 		oninput
@@ -58,12 +60,14 @@
 		{required}
 		{disabled}
 		{value}
+		name={name || id}
 		oninput={handleInput}
 		onchange={handleChange}
 		class="input-field {error ? 'border-red-500 focus:ring-red-500 focus:border-red-500' : ''}"
 		aria-invalid={error ? 'true' : 'false'}
 		aria-describedby={error ? `${id}-error` : undefined}
 		autocomplete={autocomplete as any}
+		data-original-autocomplete={autocomplete}
 	/>
 	
 	{#if error}

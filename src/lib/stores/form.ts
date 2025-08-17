@@ -44,6 +44,7 @@ const initialState: FormState = {
 };
 
 export const formStore = writable<FormState>(initialState);
+export const formResetTrigger = writable<number>(0); // Trigger for forcing form recreation
 
 // Validation helpers
 const validateEmail = (email: string): string => {
@@ -170,6 +171,8 @@ export const formActions = {
 	// Reset form to initial state
 	reset: () => {
 		formStore.set(initialState);
+		// Trigger form recreation to clear browser cache
+		formResetTrigger.update(n => Date.now());
 	},
 
 	// Get current form data (for submission)

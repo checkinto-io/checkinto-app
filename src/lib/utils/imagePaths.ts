@@ -6,7 +6,8 @@
 export type ImageCategory = 'group' | 'talent' | 'events';
 
 /**
- * Extract group name from hostname
+ * Extract group name from hostname (DEPRECATED - use event.group.profilename instead)
+ * @deprecated This function is no longer used. Group identification now uses event.group.profilename
  * Examples: 
  *   codingwithai.checkinto.io -> "codingwithai"
  *   localhost:5173 -> "codingwithai" (fallback for development)
@@ -15,8 +16,13 @@ export function getGroupFromHostname(hostname?: string): string {
 	// Use provided hostname or get from browser
 	const host = hostname || (typeof window !== 'undefined' ? window.location.hostname : 'localhost');
 	
-	// Development fallback
+	// Development fallback - check for localhost, 127.0.0.1, or IP addresses
 	if (DEV_HOSTS.some(devHost => host === devHost || host.startsWith(devHost))) {
+		return GROUPS.DEFAULT;
+	}
+	
+	// Check for IP addresses (any hostname that starts with digits and dots)
+	if (/^\d+\.\d+\.\d+\.\d+$/.test(host)) {
 		return GROUPS.DEFAULT;
 	}
 	
@@ -33,13 +39,13 @@ export function getGroupFromHostname(hostname?: string): string {
 
 /**
  * Construct image path for group-based organization
- * @param filename - Just the filename (e.g., "coding-with-ai-meetup.png")
+ * @param filename - Just the filename (e.g., "coding-with-ai-group.png")
  * @param category - Image category: 'group', 'talent', or 'events'
- * @param group - Optional group override, otherwise detected from hostname
- * @returns Full image path (e.g., "/images/groups/codingwithai/group/coding-with-ai-meetup.png")
+ * @param group - Group identifier (should be provided from event.group.profilename)
+ * @returns Full image path (e.g., "/images/groups/codingwithai/group/coding-with-ai-group.png")
  */
 export function getImagePath(filename: string, category: ImageCategory, group?: string): string {
-	const groupName = group || getGroupFromHostname();
+	const groupName = group || GROUPS.DEFAULT;
 	return `/images/groups/${groupName}/${category}/${filename}`;
 }
 

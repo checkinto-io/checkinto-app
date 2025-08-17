@@ -1,12 +1,12 @@
 <script lang="ts">
 	import { Button, Input, TextArea } from '$lib/components';
-	import { formStore, formActions, navigationActions } from '$lib/stores';
+	import { formStore, formActions, navigationActions, formResetTrigger } from '$lib/stores';
 	import { DatabaseService } from '$lib/database';
 	import { getImagePath, IMAGE_CATEGORIES } from '$lib/utils/imagePaths';
-	import type { MeetupEvent, AttendeeInput } from '$lib/types';
+	import type { Event, AttendeeInput } from '$lib/types';
 
 	interface Props {
-		event: MeetupEvent | null;
+		event: Event | null;
 		isLoading?: boolean;
 		error?: string | null;
 	}
@@ -14,6 +14,8 @@
 	let { event, error = null }: Props = $props();
 	
 	let formState = $derived($formStore);
+	let formKey = $derived($formResetTrigger); // Force form recreation when reset trigger changes
+	let sessionId = $derived(Math.random().toString(36).substring(7) + '-' + formKey); // Unique session identifier that changes with formKey
 
 	const handleFieldChange = (field: 'firstName' | 'lastName' | 'email' | 'interestingFact', value: string) => {
 		// Pass eventId for email uniqueness checking
@@ -73,7 +75,23 @@
 
 	const handleBack = () => {
 		formActions.reset();
+		clearFormInputs();
 		navigationActions.goToScreen('welcome');
+	};
+
+	// Force clear all form inputs to prevent browser autocomplete persistence
+	const clearFormInputs = () => {
+		// More aggressive clearing approach
+		setTimeout(() => {
+			const inputs = document.querySelectorAll('input, textarea') as NodeListOf<HTMLInputElement | HTMLTextAreaElement>;
+			inputs.forEach(input => {
+				input.value = '';
+				input.defaultValue = '';
+				input.setAttribute('autocomplete', 'new-password'); // Force browser to not use cache
+				input.removeAttribute('autocomplete');
+				input.dispatchEvent(new Event('input', { bubbles: true }));
+			});
+		}, 10);
 	};
 </script>
 
@@ -89,9 +107,9 @@
 	{:else if event}
 		<div class="form-container">
 			<header class="form-header">
-				{#if event.meetup?.logo}
+				{#if event.group?.banner}
 					<div class="logo-container">
-						<img src={getImagePath(event.meetup.logo, IMAGE_CATEGORIES.GROUP)} alt={event.meetup.name} class="meetup-logo" />
+						<img src={getImagePath(event.group.banner, IMAGE_CATEGORIES.GROUP, event.group.profilename)} alt={event.group.name} class="group-banner" />
 					</div>
 				{/if}
 				<h1 class="form-title">Check In To</h1>
@@ -99,13 +117,15 @@
 			</header>
 
 			<main class="form-main">
-				<form class="checkin-form" onsubmit={(e) => { e.preventDefault(); handleSubmit(); }}>
+				{#key formKey}
+				<form class="checkin-form" onsubmit={(e) => { e.preventDefault(); handleSubmit(); }} autocomplete="off">
 					<div class="form-fields">
 						<Input
-							id="firstName"
+							id="firstName-{sessionId}-{formKey}"
+							name="firstName-{sessionId}-{formKey}"
 							label="First Name"
 							type="text"
-							autocomplete="given-name"
+							autocomplete="new-password"
 							required
 							bind:value={formState.data.firstName}
 							error={formState.validation.firstName}
@@ -114,10 +134,11 @@
 						/>
 
 						<Input
-							id="lastName"
+							id="lastName-{sessionId}-{formKey}"
+							name="lastName-{sessionId}-{formKey}"
 							label="Last Name"
 							type="text"
-							autocomplete="family-name"
+							autocomplete="new-password"
 							required
 							bind:value={formState.data.lastName}
 							error={formState.validation.lastName}
@@ -126,10 +147,11 @@
 						/>
 
 						<Input
-							id="email"
+							id="email-{sessionId}-{formKey}"
+							name="email-{sessionId}-{formKey}"
 							label="Email Address"
 							type="email"
-							autocomplete="email"
+							autocomplete="new-password"
 							required
 							bind:value={formState.data.email}
 							error={formState.validation.email}
@@ -138,7 +160,7 @@
 						/>
 
 						<TextArea
-							id="interestingFact"
+							id="interestingFact-{sessionId}-{formKey}"
 							label="Share something interesting about yourself"
 							required
 							maxlength={255}
@@ -160,6 +182,7 @@
 						</Button>
 					</div>
 				</form>
+				{/key}
 			</main>
 		</div>
 	{:else}
@@ -202,7 +225,7 @@
 		margin-bottom: 1.5rem;
 	}
 
-	.meetup-logo {
+	.group-banner {
 		width: 100%;
 		max-width: 500px;
 		height: auto;

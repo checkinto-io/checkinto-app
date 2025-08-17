@@ -1,4 +1,4 @@
-<!-- Meetup Check-In Event Page -->
+<!-- Group Check-In Event Page -->
 <script lang="ts">
 	import { onMount } from 'svelte';
 	import type { PageData } from './$types';

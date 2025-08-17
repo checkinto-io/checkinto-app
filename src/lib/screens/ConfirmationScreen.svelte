@@ -1,14 +1,14 @@
 <script lang="ts">
 	import { Button } from '$lib/components';
-	import { navigationActions, formActions } from '$lib/stores';
+	import { navigationActions, formActions, formResetTrigger } from '$lib/stores';
 	import { fetchRaffleWinners, getOrdinal, isWinner } from '$lib/utils/raffle';
 	import { getConfirmationState } from '$lib/utils/storage';
 	import { getImagePath, IMAGE_CATEGORIES } from '$lib/utils/imagePaths';
-	import type { MeetupEvent, RaffleWinner } from '$lib/types';
+	import type { Event, RaffleWinner } from '$lib/types';
 	import { onMount, onDestroy } from 'svelte';
 
 	interface Props {
-		event: MeetupEvent | null;
+		event: Event | null;
 		isLoading?: boolean;
 		error?: string | null;
 	}
@@ -27,7 +27,30 @@
 
 	const handleCheckInAnother = () => {
 		formActions.reset();
+		clearFormInputs();
 		navigationActions.reset(); // This now clears localStorage and resets to initial state
+	};
+
+	// Force clear all form inputs to prevent browser autocomplete persistence
+	const clearFormInputs = () => {
+		// Use a more aggressive approach to clear form state
+		setTimeout(() => {
+			// Clear all inputs on the page
+			const inputs = document.querySelectorAll('input, textarea') as NodeListOf<HTMLInputElement | HTMLTextAreaElement>;
+			inputs.forEach(input => {
+				input.value = '';
+				input.defaultValue = '';
+				// Clear autocomplete and force reset
+				input.setAttribute('autocomplete', 'new-password'); // This tricks browsers into not using cached data
+				input.removeAttribute('autocomplete');
+			});
+			
+			// Force a complete form reset by recreating form elements
+			const forms = document.querySelectorAll('form') as NodeListOf<HTMLFormElement>;
+			forms.forEach(form => {
+				form.reset();
+			});
+		}, 50);
 	};
 	
 	// Get current user's email from localStorage
@@ -129,9 +152,9 @@
 				</div>
 			{/if}
 			<header class="success-header">
-				{#if event.meetup?.logo}
+				{#if event.group?.banner}
 					<div class="logo-container">
-						<img src={getImagePath(event.meetup.logo, IMAGE_CATEGORIES.GROUP)} alt={event.meetup.name} class="meetup-logo" />
+						<img src={getImagePath(event.group.banner, IMAGE_CATEGORIES.GROUP, event.group.profilename)} alt={event.group.name} class="group-banner" />
 					</div>
 				{/if}
 				<h1 class="success-title">
@@ -157,12 +180,12 @@
 						</div>
 						<div class="info-content">
 							<h4>Event</h4>
-							{#if event.meetup}
-								<p class="meetup-link">
-									{#if event.meetup.learn_more_link}
-										<a href={event.meetup.learn_more_link} target="_blank" rel="noopener noreferrer">{event.meetup.name}</a>
+							{#if event.group}
+								<p class="group-link">
+									{#if event.group.learn_more_link}
+										<a href={event.group.learn_more_link} target="_blank" rel="noopener noreferrer">{event.group.name}</a>
 									{:else}
-										{event.meetup.name}
+										{event.group.name}
 									{/if}
 								</p>
 							{/if}
@@ -171,7 +194,7 @@
 					</div>
 
 					<!-- Combined Talent Section -->
-					{#if event.meetup_host || event.presenter || event.workshop_lead}
+					{#if event.group_host || event.presenter || event.workshop_lead}
 						<div class="info-item">
 							<div class="info-icon">
 								<svg width="20" height="20" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2">
@@ -182,13 +205,13 @@
 								</svg>
 							</div>
 							<div class="info-content">
-								{#if event.meetup_host}
+								{#if event.group_host}
 									<div class="talent-section">
 										<h4>Hosted By</h4>
-										{#if event.meetup_host.learn_more_link}
-											<p><a href={event.meetup_host.learn_more_link} target="_blank" rel="noopener noreferrer">{event.meetup_host.first_name} {event.meetup_host.last_name}</a></p>
+										{#if event.group_host.learn_more_link}
+											<p><a href={event.group_host.learn_more_link} target="_blank" rel="noopener noreferrer">{event.group_host.first_name} {event.group_host.last_name}</a></p>
 										{:else}
-											<p>{event.meetup_host.first_name} {event.meetup_host.last_name}</p>
+											<p>{event.group_host.first_name} {event.group_host.last_name}</p>
 										{/if}
 									</div>
 								{/if}
@@ -359,7 +382,7 @@
 		margin-bottom: 1.5rem;
 	}
 
-	.meetup-logo {
+	.group-banner {
 		width: 100%;
 		max-width: 500px;
 		height: auto;
@@ -455,7 +478,7 @@
 		color: var(--color-accent-dark);
 	}
 
-	.meetup-link {
+	.group-link {
 		font-weight: 600;
 		margin-bottom: 0.25rem;
 	}

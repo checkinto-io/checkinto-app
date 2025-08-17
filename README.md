@@ -1,22 +1,22 @@
 # CheckInto App v1.1.0
 
-A mobile-first web application that enables seamless self-service check-in for in-person meetup attendees with real-time raffle functionality.
+A mobile-first web application that enables seamless self-service check-in for in-person group event attendees with real-time raffle functionality.
 
 ## Purpose
 
-This application streamlines the check-in process for meetup events by providing a simple, branded experience that:
+This application streamlines the check-in process for group events by providing a simple, branded experience that:
 - Eliminates manual attendance tracking
 - Collects attendee information digitally
 - Provides venue details to checked-in attendees
 - Enables real-time raffle winner announcements during events
-- Scales to support multiple meetup organizers through subdomain architecture
+- Scales to support multiple group organizers through subdomain architecture
 
 ## How It Works
 
 **For Attendees:**
-1. Visit your meetup's custom URL: `https://{meetupname}.checkinto.io/{eventId}`
+1. Visit your group's custom URL: `https://{groupname}.checkinto.io/{eventId}`
 2. Complete the simple three-screen flow:
-   - **Welcome Screen** - Event-specific landing page with meetup branding
+   - **Welcome Screen** - Event-specific landing page with group branding
    - **Check-In Form** - Provide name, email, and an interesting fact
    - **Confirmation Screen** - View venue details and watch for raffle announcements
 
@@ -38,11 +38,11 @@ This application streamlines the check-in process for meetup events by providing
 
 ### ✅ Multi-Tenant Architecture
 - Subdomain-based organization structure
-- Scalable for multiple meetup organizers
-- Custom branding per meetup group
+- Scalable for multiple group organizers
+- Custom branding per group
 
 ### ✅ Data Management
-- Normalized database schema with venues, meetups, talent, and attendees
+- Normalized database schema with venues, groups, talent, and attendees
 - Event-specific configuration
 - Real-time polling for live updates
 
@@ -80,11 +80,11 @@ npm run preview
 
 ## URL Structure
 
-Events are accessed via: `https://{meetupname}.checkinto.io/{eventId}`
+Events are accessed via: `https://{groupname}.checkinto.io/{eventId}`
 
 Examples:
-- `https://codingwithai.checkinto.io/082025` - Coding with AI meetup, August 2025 event
-- `https://seattle.checkinto.io/090125` - Seattle meetup, September 2025 event
+- `https://codingwithai.checkinto.io/082025` - Coding with AI group, August 2025 event
+- `https://seattle.checkinto.io/090125` - Seattle group, September 2025 event
 
 ## Environment Variables
 
@@ -100,7 +100,7 @@ Assets are organized in a group-based structure for multi-tenant scaling:
 ```
 static/images/groups/
 └── {groupname}/
-    ├── group/          # Meetup logos and branding
+    ├── group/          # Group logos and branding
     ├── talent/         # Speaker/presenter photos  
     └── events/         # Event-specific images
 ```
@@ -108,7 +108,7 @@ static/images/groups/
 **Example:**
 ```
 static/images/groups/codingwithai/
-├── group/coding-with-ai-meetup.png
+├── group/coding-with-ai-group.png
 ├── talent/marcelo-lewin.png
 └── events/ (for future event images)
 ```
@@ -120,7 +120,7 @@ The application automatically detects the group from the subdomain and construct
 - **v1.1.0** - Multi-tenant image folder restructure with group-based organization
 - **v1.0.0** - Production deployment with custom domain and full feature set
 - **v0.8.0** - Real-time raffle system implementation
-- **v0.7.0** - Meetup host integration and talent management
+- **v0.7.0** - Group host integration and talent management
 - **v0.6.0** - Persistent state management for confirmation screens
 - **v0.5.0** - Database schema normalization and optimization
 - **v0.1.0-v0.4.0** - Core functionality development and polish

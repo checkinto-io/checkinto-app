@@ -144,3 +144,20 @@ Consolidate scattered CSS styling into a centralized theming system using CSS cu
 | F059 | Typography Enhancement | Add DM Sans font family and improve form field readability | Medium | 🟢 Completed |
 | F060 | Theme Documentation | Create comprehensive usage guide and design documentation | High | 🟢 Completed |
 | F061 | Visual Regression Testing | Ensure zero visual changes while implementing theme system | High | 🟢 Completed |
+
+## v1.3.0-database-schema-updates - 🟢 Completed
+Comprehensive migration from "meetup" terminology to "group" throughout the application with database schema enhancements for improved group management and subdomain routing.
+
+| ID  | Feature                 | Description                              | Priority | Status |
+|-----|-------------------------|------------------------------------------|----------|--------|
+| F062 | Database Schema Migration | Rename meetup table to group, logo→banner, add profilename and favicon fields | High | 🟢 Completed |
+| F063 | Foreign Key Updates | Update all meetup_id references to group_id and related constraints | High | 🟢 Completed |
+| F072 | Host Field Migration | Update meetup_host_id to group_host_id in event table and constraints | High | 🟢 Completed |
+| F064 | TypeScript Interface Migration | Update all Meetup interfaces to Group throughout codebase | High | 🟢 Completed |
+| F065 | Database Service Refactoring | Update Supabase queries and service methods from meetup to group terminology | High | 🟢 Completed |
+| F066 | Component Terminology Migration | Update all components to use group terminology and new field references | High | 🟢 Completed |
+| F067 | UI Text Standardization | Replace all user-facing "meetup" text with "group" across application | Medium | 🟢 Completed |
+| F068 | Subdomain Routing Support | Add profilename field support for subdomain-based URL routing | High | 🟢 Completed |
+| F069 | Favicon System Enhancement | Database field added - UI implementation deferred to future release | Medium | 🟡 Deferred |
+| F070 | Asset Reference Updates | Update any image paths or config files containing meetup references | Low | 🟢 Completed |
+| F071 | Schema Documentation Update | Update latest-schema.sql to reflect new group table structure | Medium | 🟢 Completed |
