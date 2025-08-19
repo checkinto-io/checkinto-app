@@ -18,13 +18,13 @@ AS $$
 DECLARE
     v_winners_to_display INTEGER;
 BEGIN
-    -- Get the raffle_winners_to_display setting from the group
-    SELECT g.raffle_winners_to_display INTO v_winners_to_display
+    -- Get the raffle_winners_to_display setting from the community
+    SELECT c.raffle_winners_to_display INTO v_winners_to_display
     FROM event e
-    JOIN "group" g ON e.group_id = g.id
+    JOIN community c ON e.community_id = c.id
     WHERE e.id = p_event_id;
     
-    -- If event not found or group not configured, return empty
+    -- If event not found or community not configured, return empty
     IF v_winners_to_display IS NULL THEN
         RETURN;
     END IF;

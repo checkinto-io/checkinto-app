@@ -19,8 +19,8 @@ This document outlines all the tasks to work on to delivery this particular vers
 
 | ID  | Task             | Description                             | Dependencies | Status | Assigned To |
 |-----|------------------|-----------------------------------------|-------------|----------|--------|
-| T004 | Update Database Functions | Update get-raffle-winners.sql to use community table, verify select-raffle-winner.sql | T003 | 🔴 Not Started | AGENT |
-| T005 | Test Database Functions | Execute functions to ensure no PostgreSQL reserved keyword errors | T004 | 🔴 Not Started | USER |
+| T004 | Update Database Functions | Update get-raffle-winners.sql to use community table, verify select-raffle-winner.sql | T003 | 🟢 Completed | AGENT |
+| T005 | Test Database Functions | Execute functions to ensure no PostgreSQL reserved keyword errors | T004 | 🟢 Completed | USER |
 
 ## Phase 3: Frontend Code Updates
 
