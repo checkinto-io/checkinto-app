@@ -1,6 +1,6 @@
 # CheckInto App
 
-[![Version](https://img.shields.io/badge/version-1.3.0-blue.svg)](https://github.com/marcelolewin/checkinto-app)
+[![Version](https://img.shields.io/badge/version-1.3.1-blue.svg)](https://github.com/marcelolewin/checkinto-app)
 [![License](https://img.shields.io/badge/license-Proprietary-red.svg)](LICENSE)
 
 A mobile-first web application that enables seamless self-service check-in for in-person community event attendees with real-time raffle functionality and full multi-tenant support.
@@ -132,6 +132,7 @@ For commercial licensing inquiries: marcelo@icodewith.ai
 
 ## Version History
 
+- **v1.3.1** - DB Schema update for group table to "community" table.
 - **v1.3.0** - Complete multi-tenant architecture with data isolation and secure routing
 - **v1.2.0** - CSS consolidation and styling improvements
 - **v1.1.0** - Multi-tenant image folder restructure with community-based organization

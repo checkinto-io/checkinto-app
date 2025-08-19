@@ -162,14 +162,14 @@ Comprehensive migration from "meetup" terminology to "group" throughout the appl
 | F070 | Asset Reference Updates | Update any image paths or config files containing meetup references | Low | 🟢 Completed |
 | F071 | Schema Documentation Update | Update latest-schema.sql to reflect new group table structure | Medium | 🟢 Completed |
 
-## v1.3.1-rename-group-to-community - 🔴 Not Started
+## v1.3.1-rename-group-to-community - 🟢 Completed
 Resolve PostgreSQL reserved keyword conflicts by renaming "group" table to "community" throughout the application.
 
 | ID  | Feature                 | Description                              | Priority | Status |
 |-----|-------------------------|------------------------------------------|----------|--------|
-| F072 | Database Schema Migration | Rename group table to community and update all foreign key references | High | 🔴 Not Started |
-| F073 | Database Functions Update | Update database functions to use community table without reserved keyword issues | High | 🔴 Not Started |
-| F074 | TypeScript Interface Migration | Change all Group interfaces to Community throughout codebase | High | 🔴 Not Started |
-| F075 | Database Service Refactoring | Update Supabase queries and service methods to use community terminology | High | 🔴 Not Started |
-| F076 | Component Code Updates | Update all components to use Community types and references | Medium | 🔴 Not Started |
-| F077 | PostgreSQL Compatibility | Eliminate reserved keyword conflicts in database functions | High | 🔴 Not Started |
+| F072 | Database Schema Migration | Rename group table to community and update all foreign key references | High | 🟢 Completed |
+| F073 | Database Functions Update | Update database functions to use community table without reserved keyword issues | High | 🟢 Completed |
+| F074 | TypeScript Interface Migration | Change all Group interfaces to Community throughout codebase | High | 🟢 Completed |
+| F075 | Database Service Refactoring | Update Supabase queries and service methods to use community terminology | High | 🟢 Completed |
+| F076 | Component Code Updates | Update all components to use Community types and references | Medium | 🟢 Completed |
+| F077 | PostgreSQL Compatibility | Eliminate reserved keyword conflicts in database functions | High | 🟢 Completed |

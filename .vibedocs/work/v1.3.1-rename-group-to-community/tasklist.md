@@ -44,4 +44,4 @@ This document outlines all the tasks to work on to delivery this particular vers
 | T010 | Update Schema Documentation | Update latest-schema.sql with community table structure | T009 | 🟢 Completed | AGENT |
 | T011 | Final Verification | Project-wide search for any remaining "group" references and fix if found | T010 | 🟢 Completed | AGENT |
 | T011B | Update README.md | Replace group references with community terminology | T011 | 🟢 Completed | AGENT |
-| T012 | Commit Changes | Git commit with all group → community changes | T011B | 🔴 Not Started | USER |
+| T012 | Commit Changes | Git commit with all group → community changes | T011B | 🟢 Completed | USER |
