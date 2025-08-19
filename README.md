@@ -1,4 +1,4 @@
-# CheckInto App v1.3.0
+# CheckInto App
 
 [![Version](https://img.shields.io/badge/version-1.3.0-blue.svg)](https://github.com/marcelolewin/checkinto-app)
 [![License](https://img.shields.io/badge/license-Proprietary-red.svg)](LICENSE)
