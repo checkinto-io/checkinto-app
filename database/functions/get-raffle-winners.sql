@@ -1,6 +1,6 @@
 -- Function: Get Raffle Winners
 -- Version: v0.8.0-raffle-system
--- Description: Retrieves the latest raffle winners for a given event based on meetup display settings
+-- Description: Retrieves the latest raffle winners for a given event based on group display settings
 -- Usage: SELECT * FROM get_raffle_winners('YOUR_EVENT_ID_HERE');
 
 CREATE OR REPLACE FUNCTION get_raffle_winners(p_event_id UUID)
@@ -18,13 +18,13 @@ AS $$
 DECLARE
     v_winners_to_display INTEGER;
 BEGIN
-    -- Get the raffle_winners_to_display setting from the meetup
-    SELECT m.raffle_winners_to_display INTO v_winners_to_display
+    -- Get the raffle_winners_to_display setting from the group
+    SELECT g.raffle_winners_to_display INTO v_winners_to_display
     FROM event e
-    JOIN meetup m ON e.meetup_id = m.id
+    JOIN "group" g ON e.group_id = g.id
     WHERE e.id = p_event_id;
     
-    -- If event not found or meetup not configured, return empty
+    -- If event not found or group not configured, return empty
     IF v_winners_to_display IS NULL THEN
         RETURN;
     END IF;
