@@ -10,7 +10,7 @@ export const load: PageServerLoad<EventPageData> = async ({ params, url }) => {
 		throw error(404, 'Event not found');
 	}
 
-	// Extract group profile name from subdomain
+	// Extract community profile name from subdomain
 	const hostname = url.hostname;
 	let profileName = 'default';
 	
@@ -22,14 +22,14 @@ export const load: PageServerLoad<EventPageData> = async ({ params, url }) => {
 		}
 	} else {
 		// For development/localhost, try to extract from search params or use default
-		profileName = url.searchParams.get('group') || 'codingwithai';
+		profileName = url.searchParams.get('community') || url.searchParams.get('group') || 'codingwithai';
 	}
 
 	// Get event data from database using both URL ID and profile name
 	const event = await DatabaseService.getEventByUrlIdAndProfile(eventId, profileName);
 	
 	if (!event) {
-		throw error(404, `Event '${eventId}' not found for group '${profileName}' or inactive`);
+		throw error(404, `Event '${eventId}' not found for community '${profileName}' or inactive`);
 	}
 
 	return {

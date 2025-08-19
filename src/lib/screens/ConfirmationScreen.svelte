@@ -152,9 +152,9 @@
 				</div>
 			{/if}
 			<header class="success-header">
-				{#if event.group?.banner}
+				{#if event.community?.banner}
 					<div class="logo-container">
-						<img src={getImagePath(event.group.banner, IMAGE_CATEGORIES.GROUP, event.group.profilename)} alt={event.group.name} class="group-banner" />
+						<img src={getImagePath(event.community.banner, IMAGE_CATEGORIES.COMMUNITY, event.community.profilename)} alt={event.community.name} class="community-banner" />
 					</div>
 				{/if}
 				<h1 class="success-title">
@@ -180,12 +180,12 @@
 						</div>
 						<div class="info-content">
 							<h4>Event</h4>
-							{#if event.group}
-								<p class="group-link">
-									{#if event.group.learn_more_link}
-										<a href={event.group.learn_more_link} target="_blank" rel="noopener noreferrer">{event.group.name}</a>
+							{#if event.community}
+								<p class="community-link">
+									{#if event.community.learn_more_link}
+										<a href={event.community.learn_more_link} target="_blank" rel="noopener noreferrer">{event.community.name}</a>
 									{:else}
-										{event.group.name}
+										{event.community.name}
 									{/if}
 								</p>
 							{/if}
@@ -194,7 +194,7 @@
 					</div>
 
 					<!-- Combined Talent Section -->
-					{#if event.group_host || event.presenter || event.workshop_lead}
+					{#if event.community_host || event.presenter || event.workshop_lead}
 						<div class="info-item">
 							<div class="info-icon">
 								<svg width="20" height="20" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2">
@@ -205,13 +205,13 @@
 								</svg>
 							</div>
 							<div class="info-content">
-								{#if event.group_host}
+								{#if event.community_host}
 									<div class="talent-section">
 										<h4>Hosted By</h4>
-										{#if event.group_host.learn_more_link}
-											<p><a href={event.group_host.learn_more_link} target="_blank" rel="noopener noreferrer">{event.group_host.first_name} {event.group_host.last_name}</a></p>
+										{#if event.community_host.learn_more_link}
+											<p><a href={event.community_host.learn_more_link} target="_blank" rel="noopener noreferrer">{event.community_host.first_name} {event.community_host.last_name}</a></p>
 										{:else}
-											<p>{event.group_host.first_name} {event.group_host.last_name}</p>
+											<p>{event.community_host.first_name} {event.community_host.last_name}</p>
 										{/if}
 									</div>
 								{/if}
@@ -382,7 +382,7 @@
 		margin-bottom: 1.5rem;
 	}
 
-	.group-banner {
+	.community-banner {
 		width: 100%;
 		max-width: 500px;
 		height: auto;
@@ -478,7 +478,7 @@
 		color: var(--color-accent-dark);
 	}
 
-	.group-link {
+	.community-link {
 		font-weight: 600;
 		margin-bottom: 0.25rem;
 	}

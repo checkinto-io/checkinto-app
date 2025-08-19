@@ -1,29 +1,29 @@
 /**
- * Image path utilities for group-based image organization
+ * Image path utilities for community-based image organization
  * Handles subdomain detection and dynamic path construction
  */
 
-export type ImageCategory = 'group' | 'talent' | 'events';
+export type ImageCategory = 'community' | 'talent' | 'events';
 
 /**
- * Extract group name from hostname (DEPRECATED - use event.group.profilename instead)
- * @deprecated This function is no longer used. Group identification now uses event.group.profilename
+ * Extract community name from hostname (DEPRECATED - use event.community.profilename instead)
+ * @deprecated This function is no longer used. Community identification now uses event.community.profilename
  * Examples: 
  *   codingwithai.checkinto.io -> "codingwithai"
  *   localhost:5173 -> "codingwithai" (fallback for development)
  */
-export function getGroupFromHostname(hostname?: string): string {
+export function getCommunityFromHostname(hostname?: string): string {
 	// Use provided hostname or get from browser
 	const host = hostname || (typeof window !== 'undefined' ? window.location.hostname : 'localhost');
 	
 	// Development fallback - check for localhost, 127.0.0.1, or IP addresses
 	if (DEV_HOSTS.some(devHost => host === devHost || host.startsWith(devHost))) {
-		return GROUPS.DEFAULT;
+		return COMMUNITIES.DEFAULT;
 	}
 	
 	// Check for IP addresses (any hostname that starts with digits and dots)
 	if (/^\d+\.\d+\.\d+\.\d+$/.test(host)) {
-		return GROUPS.DEFAULT;
+		return COMMUNITIES.DEFAULT;
 	}
 	
 	// Extract subdomain from hostname
@@ -34,30 +34,30 @@ export function getGroupFromHostname(hostname?: string): string {
 	}
 	
 	// Fallback if no subdomain detected
-	return GROUPS.DEFAULT;
+	return COMMUNITIES.DEFAULT;
 }
 
 /**
- * Construct image path for group-based organization
- * @param filename - Just the filename (e.g., "coding-with-ai-group.png")
- * @param category - Image category: 'group', 'talent', or 'events'
- * @param group - Group identifier (should be provided from event.group.profilename)
- * @returns Full image path (e.g., "/images/groups/codingwithai/group/coding-with-ai-group.png")
+ * Construct image path for community-based organization
+ * @param filename - Just the filename (e.g., "coding-with-ai-community.png")
+ * @param category - Image category: 'community', 'talent', or 'events'
+ * @param community - Group identifier (should be provided from event.community.profilename)
+ * @returns Full image path (e.g., "/images/communities/codingwithai/community/coding-with-ai-community.png")
  */
-export function getImagePath(filename: string, category: ImageCategory, group?: string): string {
-	const groupName = group || GROUPS.DEFAULT;
-	return `/images/groups/${groupName}/${category}/${filename}`;
+export function getImagePath(filename: string, category: ImageCategory, community?: string): string {
+	const communityName = community || COMMUNITIES.DEFAULT;
+	return `/images/communities/${communityName}/${category}/${filename}`;
 }
 
 /**
  * Check if image exists at the constructed path
  * @param filename - Just the filename
  * @param category - Image category
- * @param group - Optional group override
+ * @param community - Optional community override
  * @returns Promise<boolean> indicating if image exists
  */
-export async function imageExists(filename: string, category: ImageCategory, group?: string): Promise<boolean> {
-	const imagePath = getImagePath(filename, category, group);
+export async function imageExists(filename: string, category: ImageCategory, community?: string): Promise<boolean> {
+	const imagePath = getImagePath(filename, category, community);
 	
 	try {
 		const response = await fetch(imagePath, { method: 'HEAD' });
@@ -71,12 +71,12 @@ export async function imageExists(filename: string, category: ImageCategory, gro
  * Get image path with existence check fallback
  * @param filename - Just the filename
  * @param category - Image category
- * @param group - Optional group override
+ * @param community - Optional community override
  * @returns Promise<string | null> - Path if exists, null if not found
  */
-export async function getImagePathSafe(filename: string, category: ImageCategory, group?: string): Promise<string | null> {
-	const imagePath = getImagePath(filename, category, group);
-	const exists = await imageExists(filename, category, group);
+export async function getImagePathSafe(filename: string, category: ImageCategory, community?: string): Promise<string | null> {
+	const imagePath = getImagePath(filename, category, community);
+	const exists = await imageExists(filename, category, community);
 	return exists ? imagePath : null;
 }
 
@@ -84,7 +84,7 @@ export async function getImagePathSafe(filename: string, category: ImageCategory
  * Utility constants for common image operations
  */
 export const IMAGE_CATEGORIES = {
-	GROUP: 'group' as const,
+	COMMUNITY: 'community' as const,
 	TALENT: 'talent' as const,
 	EVENTS: 'events' as const
 } as const;
@@ -94,22 +94,22 @@ export const IMAGE_CATEGORIES = {
  */
 export const IMAGE_PATHS = {
 	BASE: '/images',
-	GROUPS_BASE: '/images/groups',
-	GROUPS_PATTERN: '/images/groups/{group}/{category}/{filename}'
+	COMMUNITIES_BASE: '/images/communities',
+	COMMUNITIES_PATTERN: '/images/communities/{community}/{category}/{filename}'
 } as const;
 
 /**
- * Group name constants
+ * Community name constants
  */
-export const GROUPS = {
+export const COMMUNITIES = {
 	CODING_WITH_AI: 'codingwithai',
 	DEFAULT: 'codingwithai'
 } as const;
 
 /**
- * Default fallback group for development/testing
+ * Default fallback community for development/testing
  */
-export const DEFAULT_GROUP = GROUPS.DEFAULT;
+export const DEFAULT_COMMUNITY = COMMUNITIES.DEFAULT;
 
 /**
  * Preload an image to improve performance
@@ -126,25 +126,25 @@ export function preloadImage(imagePath: string): Promise<void> {
 }
 
 /**
- * Preload image with group-based path construction
+ * Preload image with community-based path construction
  * @param filename - Just the filename
  * @param category - Image category
- * @param group - Optional group override
+ * @param community - Optional community override
  * @returns Promise that resolves when image is loaded
  */
-export async function preloadGroupImage(filename: string, category: ImageCategory, group?: string): Promise<void> {
-	const imagePath = getImagePath(filename, category, group);
+export async function preloadCommunityImage(filename: string, category: ImageCategory, community?: string): Promise<void> {
+	const imagePath = getImagePath(filename, category, community);
 	return preloadImage(imagePath);
 }
 
 /**
  * Preload multiple images in parallel
- * @param imageConfigs - Array of {filename, category, group} objects
+ * @param imageConfigs - Array of {filename, category, community} objects
  * @returns Promise that resolves when all images are loaded
  */
-export async function preloadImages(imageConfigs: Array<{filename: string, category: ImageCategory, group?: string}>): Promise<void> {
+export async function preloadImages(imageConfigs: Array<{filename: string, category: ImageCategory, community?: string}>): Promise<void> {
 	const preloadPromises = imageConfigs.map(config => 
-		preloadGroupImage(config.filename, config.category, config.group)
+		preloadCommunityImage(config.filename, config.category, config.community)
 	);
 	
 	await Promise.allSettled(preloadPromises);

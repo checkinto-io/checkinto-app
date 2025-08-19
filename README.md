@@ -3,23 +3,23 @@
 [![Version](https://img.shields.io/badge/version-1.3.0-blue.svg)](https://github.com/marcelolewin/checkinto-app)
 [![License](https://img.shields.io/badge/license-Proprietary-red.svg)](LICENSE)
 
-A mobile-first web application that enables seamless self-service check-in for in-person group event attendees with real-time raffle functionality and full multi-tenant support.
+A mobile-first web application that enables seamless self-service check-in for in-person community event attendees with real-time raffle functionality and full multi-tenant support.
 
 ## Purpose
 
-This application streamlines the check-in process for group events by providing a simple, branded experience that:
+This application streamlines the check-in process for community events by providing a simple, branded experience that:
 - Eliminates manual attendance tracking
 - Collects attendee information digitally
 - Provides venue details to checked-in attendees
 - Enables real-time raffle winner announcements during events
-- Scales to support multiple group organizers through subdomain architecture
+- Scales to support multiple community organizers through subdomain architecture
 
 ## How It Works
 
 **For Attendees:**
-1. Visit your group's custom URL: `https://{groupname}.checkinto.io/{eventId}`
+1. Visit your community's custom URL: `https://{communityname}.checkinto.io/{eventId}`
 2. Complete the simple three-screen flow:
-   - **Welcome Screen** - Event-specific landing page with group branding
+   - **Welcome Screen** - Event-specific landing page with community branding
    - **Check-In Form** - Provide name, email, and an interesting fact
    - **Confirmation Screen** - View venue details and watch for raffle announcements
 
@@ -40,10 +40,10 @@ This application streamlines the check-in process for group events by providing 
 - Admin-triggered winner selection via Supabase Edge Functions
 
 ### ✅ Multi-Tenant Architecture
-- **Complete data isolation** - Each group maintains separate attendees, venues, and talent
-- **Subdomain-based routing** - Secure event access via `{groupname}.checkinto.io/{eventId}`
-- **Cross-group flexibility** - Same user can participate in multiple groups independently
-- **Scalable design** - Support for unlimited group organizers without conflicts
+- **Complete data isolation** - Each community maintains separate attendees, venues, and talent
+- **Subdomain-based routing** - Secure event access via `{communityname}.checkinto.io/{eventId}`
+- **Cross-community flexibility** - Same user can participate in multiple communities independently
+- **Scalable design** - Support for unlimited community organizers without conflicts
 
 ## Tech Stack
 
@@ -63,18 +63,18 @@ The application is deployed on Vercel with:
 
 ## URL Structure & Multi-Tenant Routing
 
-Events are accessed via: `https://{groupname}.checkinto.io/{eventId}`
+Events are accessed via: `https://{communityname}.checkinto.io/{eventId}`
 
 The application automatically:
-1. **Extracts the group identifier** from the subdomain (`{groupname}`)
-2. **Validates event access** by checking both `eventId` AND `groupname` 
-3. **Ensures data isolation** - groups cannot access each other's events even with same event IDs
+1. **Extracts the community identifier** from the subdomain (`{communityname}`)
+2. **Validates event access** by checking both `eventId` AND `communityname` 
+3. **Ensures data isolation** - communities cannot access each other's events even with same event IDs
 4. **Provides fallback routing** for development environments via URL parameters
 
 Examples:
-- `https://codingwithai.checkinto.io/082025` - Coding with AI group, August 2025 event
-- `https://seattle.checkinto.io/082025` - Seattle group, August 2025 event (same ID, different group - no conflict!)
-- `http://localhost:5173/082025?group=codingwithai` - Development routing
+- `https://codingwithai.checkinto.io/082025` - Coding with AI community, August 2025 event
+- `https://seattle.checkinto.io/082025` - Seattle community, August 2025 event (same ID, different community - no conflict!)
+- `http://localhost:5173/082025?community=codingwithai` - Development routing
 
 ## Environment Variables
 
@@ -85,20 +85,20 @@ PUBLIC_SUPABASE_ANON_KEY=your_supabase_anon_key
 
 ## Image Asset Organization
 
-Assets are organized in a group-based structure for multi-tenant scaling:
+Assets are organized in a community-based structure for multi-tenant scaling:
 
 ```
-static/images/groups/
-└── {groupname}/
-    ├── group/          # Group logos and branding
+static/images/communities/
+└── {communityname}/
+    ├── community/      # Community logos and branding
     ├── talent/         # Speaker/presenter photos  
     └── events/         # Event-specific images
 ```
 
 **Example:**
 ```
-static/images/groups/codingwithai/
-├── group/coding-with-ai-group.png
+static/images/communities/codingwithai/
+├── community/codingwithai-banner.png
 ├── talent/marcelo-lewin.png
 └── events/ (for future event images)
 ```
@@ -106,10 +106,10 @@ static/images/groups/codingwithai/
 ## Multi-Tenant Support Details
 
 ### Data Isolation
-- **Complete tenant separation** - Each group maintains its own attendees, venues, and talent records
-- **Cross-group user support** - Same email address can register for events across different groups
-- **Secure routing** - Events are validated against both event ID and group profile name
-- **Database-level isolation** - All core tables include `group_id` foreign key constraints
+- **Complete tenant separation** - Each community maintains its own attendees, venues, and talent records
+- **Cross-community user support** - Same email address can register for events across different communities
+- **Secure routing** - Events are validated against both event ID and community profile name
+- **Database-level isolation** - All core tables include `community_id` foreign key constraints
 
 ### Real-World Example
 A user with email `john@example.com` can:
@@ -117,7 +117,7 @@ A user with email `john@example.com` can:
 2. Register for `seattle.checkinto.io/082025` as "J. Smith" 
 3. Register for `vancouver.checkinto.io/082025` as "Johnny"
 
-Each group sees them as separate attendees with their own check-in history, while the system maintains proper isolation and prevents conflicts.
+Each community sees them as separate attendees with their own check-in history, while the system maintains proper isolation and prevents conflicts.
 
 ## License
 
@@ -134,10 +134,10 @@ For commercial licensing inquiries: marcelo@icodewith.ai
 
 - **v1.3.0** - Complete multi-tenant architecture with data isolation and secure routing
 - **v1.2.0** - CSS consolidation and styling improvements
-- **v1.1.0** - Multi-tenant image folder restructure with group-based organization
+- **v1.1.0** - Multi-tenant image folder restructure with community-based organization
 - **v1.0.0** - Production deployment with custom domain and full feature set
 - **v0.8.0** - Real-time raffle system implementation
-- **v0.7.0** - Group host integration and talent management
+- **v0.7.0** - Community host integration and talent management
 - **v0.6.0** - Persistent state management for confirmation screens
 - **v0.5.0** - Database schema normalization and optimization
 - **v0.1.0-v0.4.0** - Core functionality development and polish

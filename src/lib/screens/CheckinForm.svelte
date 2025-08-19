@@ -107,9 +107,9 @@
 	{:else if event}
 		<div class="form-container">
 			<header class="form-header">
-				{#if event.group?.banner}
+				{#if event.community?.banner}
 					<div class="logo-container">
-						<img src={getImagePath(event.group.banner, IMAGE_CATEGORIES.GROUP, event.group.profilename)} alt={event.group.name} class="group-banner" />
+						<img src={getImagePath(event.community.banner, IMAGE_CATEGORIES.COMMUNITY, event.community.profilename)} alt={event.community.name} class="community-banner" />
 					</div>
 				{/if}
 				<h1 class="form-title">Check In To</h1>
@@ -127,7 +127,7 @@
 							type="text"
 							autocomplete="new-password"
 							required
-							bind:value={formState.data.firstName}
+							value={formState.data.firstName}
 							error={formState.validation.firstName}
 							oninput={(value: string) => handleFieldChange('firstName', value)}
 							disabled={formState.isSubmitting}
@@ -140,7 +140,7 @@
 							type="text"
 							autocomplete="new-password"
 							required
-							bind:value={formState.data.lastName}
+							value={formState.data.lastName}
 							error={formState.validation.lastName}
 							oninput={(value: string) => handleFieldChange('lastName', value)}
 							disabled={formState.isSubmitting}
@@ -153,7 +153,7 @@
 							type="email"
 							autocomplete="new-password"
 							required
-							bind:value={formState.data.email}
+							value={formState.data.email}
 							error={formState.validation.email}
 							oninput={(value: string) => handleFieldChange('email', value)}
 							disabled={formState.isSubmitting}
@@ -165,7 +165,7 @@
 							required
 							maxlength={255}
 							rows={3}
-							bind:value={formState.data.interestingFact}
+							value={formState.data.interestingFact}
 							error={formState.validation.interestingFact}
 							oninput={(value: string) => handleFieldChange('interestingFact', value)}
 							disabled={formState.isSubmitting}
@@ -225,7 +225,7 @@
 		margin-bottom: 1.5rem;
 	}
 
-	.group-banner {
+	.community-banner {
 		width: 100%;
 		max-width: 500px;
 		height: auto;

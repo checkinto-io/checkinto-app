@@ -1,5 +1,5 @@
 // Database Types
-export interface Group {
+export interface Community {
 	id: string;
 	name: string;
 	description: string;
@@ -20,7 +20,7 @@ export interface Venue {
 	wifi_access: string | null;
 	restroom_details: string | null;
 	food_details: string | null;
-	group_id: string;
+	community_id: string;
 	created_at: string;
 	updated_at: string;
 }
@@ -33,7 +33,7 @@ export interface Talent {
 	learn_more_link: string | null;
 	bio: string | null;
 	profile_photo: string | null;
-	group_id: string;
+	community_id: string;
 	created_at: string;
 	updated_at: string;
 }
@@ -46,24 +46,24 @@ export interface Event {
 	about_presentation: string | null;
 	about_workshop: string | null;
 	presenter_id: string;
-	group_id: string;
+	community_id: string;
 	venue_id: string;
 	workshop_lead_id: string;
-	group_host_id: string;
+	community_host_id: string;
 	active: boolean;
 	created_at: string;
 	updated_at: string;
 	// Related data (populated via JOIN queries)
-	group?: Group;
+	community?: Community;
 	venue?: Venue;
 	presenter?: Talent;
 	workshop_lead?: Talent;
-	group_host?: Talent;
+	community_host?: Talent;
 }
 
 // Type alias for component compatibility
 export type MeetupEvent = Event;
-export type GroupEvent = Event;
+export type CommunityEvent = Event;
 
 // Raffle Winner Types
 export interface RaffleWinner {
@@ -86,7 +86,7 @@ export interface Attendee {
 	last_name: string;
 	email: string;
 	interesting_fact: string;
-	group_id: string;
+	community_id: string;
 	created_at: string;
 	updated_at: string;
 }
@@ -116,20 +116,22 @@ export interface CheckInResponse {
 }
 
 // Database Input Types (for creating records)
-export type GroupInput = Omit<Group, 'id' | 'created_at' | 'updated_at'>;
-export type MeetupInput = GroupInput; // Legacy alias
+export type CommunityInput = Omit<Community, 'id' | 'created_at' | 'updated_at'>;
+export type GroupInput = CommunityInput; // Legacy alias
+export type MeetupInput = CommunityInput; // Legacy alias
 export type VenueInput = Omit<Venue, 'id' | 'created_at' | 'updated_at'>;
 export type TalentInput = Omit<Talent, 'id' | 'created_at' | 'updated_at'>;
-export type EventInput = Omit<Event, 'id' | 'created_at' | 'updated_at' | 'group' | 'venue' | 'presenter'>;
+export type EventInput = Omit<Event, 'id' | 'created_at' | 'updated_at' | 'community' | 'venue' | 'presenter'>;
 export type AttendeeInput = Omit<Attendee, 'id' | 'created_at' | 'updated_at'>;
 export type EventAttendeeInput = Omit<EventAttendee, 'created_at' | 'raffle_winner' | 'raffle_round'>;
 
 // Update Types (for updating records)
-export type GroupUpdate = Partial<Omit<Group, 'id' | 'created_at' | 'updated_at'>>;
-export type MeetupUpdate = GroupUpdate; // Legacy alias
+export type CommunityUpdate = Partial<Omit<Community, 'id' | 'created_at' | 'updated_at'>>;
+export type GroupUpdate = CommunityUpdate; // Legacy alias  
+export type MeetupUpdate = CommunityUpdate; // Legacy alias
 export type VenueUpdate = Partial<Omit<Venue, 'id' | 'created_at' | 'updated_at'>>;
 export type TalentUpdate = Partial<Omit<Talent, 'id' | 'created_at' | 'updated_at'>>;
-export type EventUpdate = Partial<Omit<Event, 'id' | 'created_at' | 'updated_at' | 'group' | 'venue' | 'presenter'>>;
+export type EventUpdate = Partial<Omit<Event, 'id' | 'created_at' | 'updated_at' | 'community' | 'venue' | 'presenter'>>;
 export type AttendeeUpdate = Partial<Omit<Attendee, 'id' | 'created_at' | 'updated_at'>>;
 
 // Form Validation Types
@@ -191,18 +193,19 @@ export const VALIDATION_RULES = {
 } as const;
 
 // Type Guards
-export function isGroup(obj: unknown): obj is Group {
+export function isCommunity(obj: unknown): obj is Community {
 	return (
 		typeof obj === 'object' &&
 		obj !== null &&
-		typeof (obj as Group).id === 'string' &&
-		typeof (obj as Group).name === 'string' &&
-		typeof (obj as Group).description === 'string'
+		typeof (obj as Community).id === 'string' &&
+		typeof (obj as Community).name === 'string' &&
+		typeof (obj as Community).description === 'string'
 	);
 }
 
-// Legacy alias for backward compatibility
-export const isMeetup = isGroup;
+// Legacy aliases for backward compatibility
+export const isGroup = isCommunity;
+export const isMeetup = isCommunity;
 
 export function isVenue(obj: unknown): obj is Venue {
 	return (
@@ -234,7 +237,7 @@ export function isEvent(obj: unknown): obj is Event {
 		typeof (obj as Event).title === 'string' &&
 		typeof (obj as Event).welcome_message === 'string' &&
 		typeof (obj as Event).presenter_id === 'string' &&
-		typeof (obj as Event).group_id === 'string' &&
+		typeof (obj as Event).community_id === 'string' &&
 		typeof (obj as Event).venue_id === 'string' &&
 		typeof (obj as Event).active === 'boolean'
 	);

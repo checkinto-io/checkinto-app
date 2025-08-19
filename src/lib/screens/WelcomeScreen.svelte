@@ -43,9 +43,9 @@
 	{:else if event}
 		<div class="welcome-content">
 			<header class="welcome-header">
-				{#if event.group?.banner}
+				{#if event.community?.banner}
 					<div class="logo-container">
-						<img src={getImagePath(event.group.banner, IMAGE_CATEGORIES.GROUP, event.group.profilename)} alt={event.group.name} class="group-banner" />
+						<img src={getImagePath(event.community.banner, IMAGE_CATEGORIES.COMMUNITY, event.community.profilename)} alt={event.community.name} class="community-banner" />
 					</div>
 				{/if}
 				<h1 class="event-title">{@html formatLineBreaks(event.title)}</h1>
@@ -105,7 +105,7 @@
 		margin-bottom: 1.5rem;
 	}
 
-	.group-banner {
+	.community-banner {
 		width: 100%;
 		height: auto;
 		border-radius: 10px;

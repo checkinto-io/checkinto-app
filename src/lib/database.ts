@@ -16,7 +16,7 @@ export const supabase = createClient(env.SUPABASE_URL, env.SUPABASE_ANON_KEY);
 // Database service functions
 export class DatabaseService {
 	/**
-	 * Get event by URL ID and group profile name with related data
+	 * Get event by URL ID and community profile name with related data
 	 */
 	static async getEventByUrlIdAndProfile(urlId: string, profileName: string): Promise<Event | null> {
 		try {
@@ -24,21 +24,21 @@ export class DatabaseService {
 				.from('event')
 				.select(`
 					*,
-					group:group_id!inner (*),
+					community:community_id!inner (*),
 					venue:venue_id (*),
 					presenter:presenter_id (*),
 					workshop_lead:workshop_lead_id (*),
-					group_host:group_host_id (*)
+					community_host:community_host_id (*)
 				`)
 				.eq('url_id', urlId)
 				.eq('active', true)
-				.eq('group.profilename', profileName)
+				.eq('community.profilename', profileName)
 				.single();
 
 			if (error) {
 				// Handle specific error cases
 				if (error.code === 'PGRST116') {
-					console.warn(`Event not found or inactive: ${urlId} for group: ${profileName}`);
+					console.warn(`Event not found or inactive: ${urlId} for community: ${profileName}`);
 				} else if (error.message?.includes('foreign key')) {
 					console.error(`Foreign key constraint issue for event: ${urlId}`, error);
 				} else {
@@ -63,11 +63,11 @@ export class DatabaseService {
 				.from('event')
 				.select(`
 					*,
-					group:group_id (*),
+					community:community_id (*),
 					venue:venue_id (*),
 					presenter:presenter_id (*),
 					workshop_lead:workshop_lead_id (*),
-					group_host:group_host_id (*)
+					community_host:community_host_id (*)
 				`)
 				.eq('url_id', urlId)
 				.eq('active', true)
@@ -86,13 +86,13 @@ export class DatabaseService {
 			}
 
 			// Validate that required relationships exist
-			if (!data.group || !data.venue || !data.presenter || !data.workshop_lead || !data.group_host) {
+			if (!data.community || !data.venue || !data.presenter || !data.workshop_lead || !data.community_host) {
 				console.error(`Event ${urlId} is missing required relationships:`, {
-					hasGroup: !!data.group,
+					hasCommunity: !!data.community,
 					hasVenue: !!data.venue,
 					hasPresenter: !!data.presenter,
 					hasWorkshopLead: !!data.workshop_lead,
-					hasGroupHost: !!data.group_host
+					hasCommunityHost: !!data.community_host
 				});
 				return null;
 			}
@@ -166,7 +166,7 @@ export class DatabaseService {
 	}
 
 	/**
-	 * Get event by ID (simple fetch for group_id lookup)
+	 * Get event by ID (simple fetch for community_id lookup)
 	 */
 	static async getEventById(eventId: string): Promise<Event | null> {
 		try {
@@ -196,7 +196,7 @@ export class DatabaseService {
 		attendeeData: AttendeeInput
 	): Promise<CheckInResponse> {
 		try {
-			// Get event to retrieve group_id
+			// Get event to retrieve community_id
 			const event = await this.getEventById(eventId);
 			if (!event) {
 				return {
@@ -215,14 +215,14 @@ export class DatabaseService {
 				};
 			}
 			
-			// Add group_id to attendee data
-			const attendeeDataWithGroup = {
+			// Add community_id to attendee data
+			const attendeeDataWithCommunity = {
 				...attendeeData,
-				group_id: event.group_id
+				community_id: event.community_id
 			};
 			
 			// Create new attendee (no upsert)
-			const attendee = await this.createAttendee(attendeeDataWithGroup);
+			const attendee = await this.createAttendee(attendeeDataWithCommunity);
 			
 			if (!attendee) {
 				return { 
