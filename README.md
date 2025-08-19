@@ -42,13 +42,6 @@ This application streamlines the check-in process for group events by providing 
 - **Cross-group flexibility** - Same user can participate in multiple groups independently
 - **Scalable design** - Support for unlimited group organizers without conflicts
 
-### ✅ Data Management
-- **Multi-tenant database design** - All tables isolated by `group_id` for security
-- **Normalized schema** - Clean separation of venues, groups, talent, and attendees
-- **Cross-tenant user support** - Same email can register across different groups
-- **Event-specific configuration** with group-aware validation
-- **Real-time polling** for live raffle updates
-
 ## Tech Stack
 
 - **Frontend**: SvelteKit with TypeScript
@@ -64,22 +57,6 @@ The application is deployed on Vercel with:
 - Custom domain configuration through Namecheap
 - SSL certificates automatically managed
 - Environment variables securely configured
-
-## Development
-
-```sh
-# Install dependencies
-npm install
-
-# Start development server
-npm run dev
-
-# Build for production
-npm run build
-
-# Preview production build
-npm run preview
-```
 
 ## URL Structure & Multi-Tenant Routing
 
@@ -123,8 +100,6 @@ static/images/groups/codingwithai/
 └── events/ (for future event images)
 ```
 
-The application automatically detects the group from the subdomain and constructs appropriate image paths at runtime.
-
 ## Multi-Tenant Support Details
 
 ### Data Isolation
@@ -140,6 +115,17 @@ A user with email `john@example.com` can:
 3. Register for `vancouver.checkinto.io/082025` as "Johnny"
 
 Each group sees them as separate attendees with their own check-in history, while the system maintains proper isolation and prevents conflicts.
+
+## License
+
+This software is licensed under a **Commercial License**. 
+
+- ✅ **Permitted**: Use for its intended purpose, viewing source code, educational study
+- ❌ **Prohibited**: Modification, redistribution, derivative works, commercial redistribution
+
+The source code is publicly available for transparency and educational purposes only. See the [LICENSE](LICENSE) file for complete terms and conditions.
+
+For commercial licensing inquiries: marcelo@icodewith.ai
 
 ## Version History
 
