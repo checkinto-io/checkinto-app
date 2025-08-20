@@ -5,32 +5,63 @@ description: Refreshes the memory about the current project of the AI AGENT and 
 
 - Do not display any details of what you are doing unless sepecifically asked by the instructions below.
 
-# ********************
-# REFRESHING MY MEMORY
-# ********************
 
+# REFRESHING MY MEMORY
+- Tell the USER:
+    ````
+    *********************
+    Refreshing my memory.
+    *********************
+    ````
 - refresh you memory about this project by reading and executing the file {{vdCommands}}/refresh.md
 
-# ******************
-# UPDATING DOCUMENTS
-# ******************
-- next, read the following documents:
-    - {{vdPlanPhase}}/plan.md.
-    - {{vdPlanPhase}}/prd.md
-- If either of the documents you just read need to be updated:
-    - create a copy of the document
-    - add "_mmddyyyy" to the filename (e.g plan_08012023.md" if you updated plan.md on August 1, 2023 )
-    - save the new copy in the same folder.
-    - update the document in the following manner
-        - Add new information you learned about the project.
-        - Remove any outdated content no longer true for the project (e.g. we deleted a table.  We can remove that table from the documentation)
-        - Make sure the entire document is fully factual and accurate with the current project.
 
-# *************
-# OLD DOCUMENTS
-# *************
-- If you created / updated any new documents in {{vdPlanPhase}}, do the following:
-    - Create a folder named "old", if it does not exists in {{vdPlanPhase}}
-    - Move the old files to that folder.
-- List the new documents and ask the USER to check them.
-- If you have questions for the updates, ask the USER.
+# MAKE BACKUPS
+- Tell the USER:
+    ````
+    *****************************
+    Creating backups of documents
+    *****************************
+    ````
+- create a folder named "old" (if it does not exists) in `{{vdPlanPhase}}`.
+- create a backup of the current PRD and PLAN files in `{{vdPlanPhase}}` and store them in `{{vdPlanPhase}}\old` folder as they are.
+
+
+# UPDATING PRD
+- Tell the USER:
+    ````
+    **************************************
+    Reading and updating the PRD document.
+    **************************************
+    ````
+- Find the PRD file in `{{vdPlanPhase}}` root folder.
+- Read that file completely and thoroughly.   
+- Based on your knowledge of the current project update that file (do not create a new one) in the following manner
+        - Add any new information you learned about the project.
+        - Remove any outdated information. (e.g. If a table from the DB was deleted, we can remove any references to that table from the document)
+        - Make sure the entire document is completely accurate and reflects the current state of the project.
+
+# UPDATING PLAN
+- Tell the USER:
+    ````
+    ***************************************
+    Reading and updating the PLAN document.
+    ***************************************
+    ````
+- Find the PLAN file in `{{vdPlanPhase}}` root folder.
+- Read that file completely and thoroughly.   
+- Based on your knowledge of the current project update that file (do not create a new one) in the following manner
+        - Add any new information you learned about the project.
+        - Remove any outdated information. (e.g. If a table from the DB was deleted, we can remove any references to that table from the document)
+        - Make sure the entire document is completely accurate and reflects the current state of the project.
+
+# Finish
+- Tell the USER:
+    ````
+    *****************************
+    Refresh and Update completed!
+    *****************************
+    ````
+- Tell the USER you have completed the memory refresh.
+- Tell the USER what documents you updated.
+- Tell the USER to review the updates and to provide feedback.
