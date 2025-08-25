@@ -39,7 +39,7 @@ This document outlines all the tasks to work on to deliver this particular versi
 | T010 | Supabase Organization Rename | Update Supabase organization display name to "Check Into App" | None | 🟢 Completed | USER |
 | T011 | Vercel Username Update | Change Vercel personal username from icodewithai to bymarcelolewin | T005 | 🟢 Completed | USER |
 | T012 | Vercel Team Update | Update team name to CheckInto Projects and team URL to checkinto-projects | T011 | 🟢 Completed | USER |
-| T013 | Vercel Deployment Reconnection | Ensure deployment points to new GitHub repository | T012 | 🟢 Completed | AGENT |
+| T013 | Vercel Deployment Reconnection | Ensure deployment points to new GitHub repository | T012 | 🟢 Completed | USER |
 
 ## Phase 5: Documentation and Reference Updates
 
@@ -53,7 +53,7 @@ This document outlines all the tasks to work on to deliver this particular versi
 
 | ID  | Task             | Description                             | Dependencies | Status | Assigned To |
 |-----|------------------|-----------------------------------------|-------------|--------|---------|
-| T017 | Test Deployment Pipeline | Trigger new deployment and verify it works with new configuration | T013 | 🔴 Not Started | AGENT |
+| T017 | Test Deployment Pipeline | Trigger new deployment and verify it works with new configuration | T013 | 🟢 Completed | USER |
 | T018 | Verify Domain Routing | Test that checkinto.io subdomain routing still works correctly | T017 | 🔴 Not Started | AGENT |
 | T019 | Test Application Functionality | Complete end-to-end test of check-in flow | T018 | 🔴 Not Started | AGENT |
 | T020 | Verify Raffle System | Test that Supabase Edge Functions still work properly | T019 | 🔴 Not Started | AGENT |
