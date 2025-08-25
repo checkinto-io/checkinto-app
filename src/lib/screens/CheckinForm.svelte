@@ -112,7 +112,7 @@
 						<img src={getImagePath(event.community.banner, IMAGE_CATEGORIES.COMMUNITY, event.community.profilename)} alt={event.community.name} class="community-banner" />
 					</div>
 				{/if}
-				<h1 class="form-title">Check In To</h1>
+				<h1 class="form-title">Check In</h1>
 				<p class="event-name">"{event.title}"</p>
 			</header>
 
