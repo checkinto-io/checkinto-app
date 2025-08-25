@@ -1,6 +1,6 @@
 # CheckInto App
 
-[![Version](https://img.shields.io/badge/version-1.3.1-blue.svg)](https://github.com/marcelolewin/checkinto-app)
+[![Version](https://img.shields.io/badge/version-1.3.2-blue.svg)](https://github.com/checkinto-io/checkinto-app)
 [![License](https://img.shields.io/badge/license-Proprietary-red.svg)](LICENSE)
 
 A mobile-first web application that enables seamless self-service check-in for in-person community event attendees with real-time raffle functionality and full multi-tenant support.
@@ -128,7 +128,7 @@ This software is licensed under a **Commercial License**.
 
 The source code is publicly available for transparency and educational purposes only. See the [LICENSE](LICENSE) file for complete terms and conditions.
 
-For commercial licensing inquiries: marcelo@icodewith.ai
+For commercial licensing inquiries: marcelo@redpillbluepillstudios.com
 
 ## Version History
 

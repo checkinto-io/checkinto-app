@@ -173,3 +173,14 @@ Resolve PostgreSQL reserved keyword conflicts by renaming "group" table to "comm
 | F075 | Database Service Refactoring | Update Supabase queries and service methods to use community terminology | High | 🟢 Completed |
 | F076 | Component Code Updates | Update all components to use Community types and references | Medium | 🟢 Completed |
 | F077 | PostgreSQL Compatibility | Eliminate reserved keyword conflicts in database functions | High | 🟢 Completed |
+
+## v1.3.2-migrate-to-new-github-org - 🔴 Not Started
+Comprehensive migration of CheckInto project from `icodewith-ai` organization to `checkinto-io` organization with service account consolidation.
+
+| ID  | Feature                 | Description                              | Priority | Status |
+|-----|-------------------------|------------------------------------------|----------|--------|
+| F078 | GitHub Repository Migration | Transfer checkinto-app from icodewith-ai to checkinto-io organization | High | 🔴 Not Started |
+| F079 | Service Account Updates | Update Vercel username to bymarcelolewin and team to checkintoapp-projects | High | 🔴 Not Started |
+| F080 | Supabase Organization Rename | Update Supabase organization display name to "Check Into App" | Medium | 🔴 Not Started |
+| F081 | Documentation Updates | Update all repository references and contact information | Medium | 🔴 Not Started |
+| F082 | Deployment Verification | Ensure all services continue working with new configuration | High | 🔴 Not Started |
