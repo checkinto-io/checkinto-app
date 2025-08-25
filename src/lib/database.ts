@@ -189,7 +189,7 @@ export class DatabaseService {
 	}
 
 	/**
-	 * Complete check-in process (create attendee + link to event)
+	 * Complete check-in process (create or find attendee + link to event)
 	 */
 	static async checkInAttendee(
 		eventId: string, 
@@ -215,23 +215,43 @@ export class DatabaseService {
 				};
 			}
 			
-			// Add community_id to attendee data
-			const attendeeDataWithCommunity = {
-				...attendeeData,
-				community_id: event.community_id
-			};
-			
-			// Create new attendee (no upsert)
-			const attendee = await this.createAttendee(attendeeDataWithCommunity);
+			// Check if attendee already exists globally (by email)
+			let attendee = await this.getAttendeeByEmail(attendeeData.email);
+			let isExistingAttendee = !!attendee;
 			
 			if (!attendee) {
-				return { 
-					success: false, 
-					error: 'Failed to save attendee information'
+				// Add community_id to attendee data
+				const attendeeDataWithCommunity = {
+					...attendeeData,
+					community_id: event.community_id
 				};
+				
+				// Create new attendee
+				attendee = await this.createAttendee(attendeeDataWithCommunity);
+				
+				if (!attendee) {
+					return { 
+						success: false, 
+						error: 'Failed to save attendee information'
+					};
+				}
+			} else {
+				// Update existing attendee's information with new data
+				attendee = await this.updateAttendee(attendee.id, {
+					first_name: attendeeData.first_name,
+					last_name: attendeeData.last_name,
+					interesting_fact: attendeeData.interesting_fact
+				});
+				
+				if (!attendee) {
+					return { 
+						success: false, 
+						error: 'Failed to update attendee information'
+					};
+				}
 			}
 
-			// Then link to event
+			// Link attendee to this event
 			const linked = await this.linkAttendeeToEvent(eventId, attendee.id);
 			
 			if (!linked) {
@@ -244,7 +264,7 @@ export class DatabaseService {
 			return { 
 				success: true, 
 				attendee,
-				isExistingAttendee: false
+				isExistingAttendee
 			};
 		} catch (error) {
 			console.error('Error in checkInAttendee:', error);
@@ -252,6 +272,60 @@ export class DatabaseService {
 				success: false, 
 				error: 'An unexpected error occurred during check-in'
 			};
+		}
+	}
+
+	/**
+	 * Get attendee by email address
+	 */
+	static async getAttendeeByEmail(email: string): Promise<Attendee | null> {
+		try {
+			const { data, error } = await supabase
+				.from('attendee')
+				.select('*')
+				.eq('email', email)
+				.single();
+
+			if (error) {
+				// If not found, that's expected behavior
+				if (error.code === 'PGRST116') {
+					return null;
+				}
+				console.error('Error fetching attendee by email:', error);
+				return null;
+			}
+
+			return data as Attendee;
+		} catch (err) {
+			console.error('Unexpected error fetching attendee by email:', err);
+			return null;
+		}
+	}
+
+	/**
+	 * Update existing attendee information
+	 */
+	static async updateAttendee(
+		attendeeId: string, 
+		updateData: Partial<AttendeeInput>
+	): Promise<Attendee | null> {
+		try {
+			const { data, error } = await supabase
+				.from('attendee')
+				.update(updateData)
+				.eq('id', attendeeId)
+				.select()
+				.single();
+
+			if (error) {
+				console.error('Error updating attendee:', error);
+				return null;
+			}
+
+			return data as Attendee;
+		} catch (err) {
+			console.error('Unexpected error updating attendee:', err);
+			return null;
 		}
 	}
 
